@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/cabecera.php");
+include_once(dirname(__FILE__) . "/../../cabecera.php");
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -19,6 +19,6 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
-    
+    estas en pruebas
 <?php
 }
