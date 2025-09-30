@@ -37,7 +37,7 @@ of your domain and delete these references -->
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <link rel="stylesheet" type="text/css"
-            href="/styles/base.css">
+            href="/style/base.css">
     <?php
 }
 function finCabecera()
@@ -65,7 +65,7 @@ function inicioCuerpo(string $cabecera)
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
                     <li><a href="/aplicacion/tests/index.php">Pruebas</a></li>
-                    <li><a href="/ejercicios/index.php">Ejercicios</a></li>
+                    <li><a href="/aplicacion/relacion1/index.php">Relacion 1</a></li>
                 </ul>
             </div>
 
