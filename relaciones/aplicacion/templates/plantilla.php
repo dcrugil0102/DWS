@@ -52,41 +52,38 @@ function inicioCuerpo(string $cabecera)
 ?>
 
     <body>
-        <div id="documento">
-
-            <header>
-                <h1 id="titulo"><?php echo $cabecera; ?></h1>
-            </header>
+        <header>
+            <h1 id="titulo"><?php echo $cabecera; ?></h1>
 
             <div id="barraLogin">
 
             </div>
-            <div id="barraMenu">
+            <nav id="barraMenu">
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
                     <li><a href="/aplicacion/tests/index.php">Pruebas</a></li>
                     <li><a href="/aplicacion/relacion1/index.php">Relacion 1</a></li>
                 </ul>
-            </div>
+            </nav>
+        </header>
 
+    <?php
+}
+function finCuerpo()
+{
+    ?>
+        <br />
+        <br />
+        </div>
+        <footer>
+            <hr width="90%" />
             <div>
-            <?php
-        }
-        function finCuerpo()
-        {
-            ?>
-                <br />
-                <br />
+                &copy; Copyright by Damián Cruz Gil
             </div>
-            <footer>
-                <hr width="90%" />
-                <div>
-                    &copy; Copyright by Damián Cruz Gil
-                </div>
-            </footer>
+        </footer>
         </div>
     </body>
 
     </html>
 <?php
-        }
+}

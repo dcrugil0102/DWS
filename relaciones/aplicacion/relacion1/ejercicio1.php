@@ -72,6 +72,5 @@ echo "17 = " . octdec(17) . "<br>";
 <h3>Hexadecimal a decimal</h3>
 <?php
 echo "FF = " . hexdec("FF") . "<br>";
-?>
 }
 

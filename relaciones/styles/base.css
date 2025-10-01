@@ -1,6 +1,6 @@
 @charset "UTF-8";
 body {
-    background: lightblue;
+    background: lightgray;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
     color: #333;
@@ -8,40 +8,26 @@ body {
     padding: 0;
 }
 
-#documento {
-    margin: 30px auto;
+header {
+    padding: 15px;
     background-color: white;
-    width: 85%;
-    padding: 30px;
-    border-radius: 16px;
-    overflow: hidden;
-    /* border: 1px solid #fc575e; */
 }
 
-#cabecera {
-    padding: 18px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    box-shadow: 0 2px 12px rgba(255, 81, 47, 0.18);
+/* Menú ------------------------------------------------------------------------------------------ */
+
+#barraMenu ul {
+    list-style: none;
+    border: 1px solid black;
 }
 
-#cabecera #logo {
-    width: 80px;
-    height: 54px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 8px #dd2476cc);
+#barraMenu li {
+    display: inline;
 }
 
-#cabecera #titulo {
-    font-size: 1.8em;
-    font-style: italic;
-    font-weight: bold;
-    color: #fff;
-    text-align: center;
-    text-shadow: 0 2px 12px #ff512f99;
-    letter-spacing: 1px;
+#barraMenu a {
+    text-decoration: none;
+    color: black;
+    margin: 30px;
 }
 
 .boton {
