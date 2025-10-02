@@ -66,24 +66,24 @@ function inicioCuerpo(string $cabecera)
                 </ul>
             </nav>
         </header>
-
-    <?php
-}
-function finCuerpo()
-{
-    ?>
-        <br />
-        <br />
-        </div>
+        <main>
+        <?php
+    }
+    function finCuerpo()
+    {
+        ?>
+            <br />
+            <br />
+        </main>
         <footer>
             <hr width="90%" />
-            <div>
+            <p>
                 &copy; Copyright by Damián Cruz Gil
-            </div>
+            </p>
         </footer>
         </div>
     </body>
 
     </html>
 <?php
-}
+    }
