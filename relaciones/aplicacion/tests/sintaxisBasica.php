@@ -9,7 +9,7 @@ if (isset($var)) {
 
     unset($var);
 
-    $var = mt_rand(1, 10);
+    $num = mt_rand(1, 10);
     $nombre = "profesor";
     $apellido = "2daw";
     $var = "nombre";

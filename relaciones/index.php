@@ -19,6 +19,6 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
-    
+    <p>Estas en el inicio.</p>
 <?php
 }
