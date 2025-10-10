@@ -49,6 +49,8 @@ function finCabecera()
 function inicioCuerpo(string $cabecera)
 {
     global $acceso;
+
+    $barraUbi = [];
 ?>
 
     <body>
@@ -67,6 +69,25 @@ function inicioCuerpo(string $cabecera)
                 </ul>
             </nav>
         </header>
+        <div id="barraUbicacion">
+            <?php
+            if ($barraUbi) {
+                foreach ($barraUbi as $elemento) {
+                    if (isset($elemento["TEXTO"]) && ($elemento["LINK"])) {
+                        if ($elemento["LINK"]) {
+                            echo "<a href=\"{$elemento["LINK"]}\">";
+                            echo $elemento["TEXTO"];
+                        }
+                        if ($elemento["LINK"]) {
+                            echo "<a href=\"{$elemento["LINK"]}\">";
+                            echo "</a>";
+                            echo "➤ ";
+                        }
+                    }
+                }
+            }
+            ?>
+        </div>
         <main>
         <?php
     }

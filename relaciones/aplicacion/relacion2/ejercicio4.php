@@ -1,12 +1,25 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Relacion2",
+        "LINK" => "/aplicacion/relacion2"
+    ],
+    [
+        "TEXTO" => "Ejercicio4",
+        "LINK" => "/aplicacion/relacion2/ejercicio4.php"
+    ]
+];
+
 // *****************CONTROLADOR**************************
 
 $valor1 = 17.5;
 $valor2 = 379987.24;
-
-
 
 $datos = ['valor1' => $valor1, 'valor2' => $valor2];
 

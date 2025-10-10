@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Relacion1",
+        "LINK" => "/aplicacion/relacion1"
+    ],
+    [
+        "TEXTO" => "Ejercicio2",
+        "LINK" => "/aplicacion/relacion1/ejercicio2.php"
+    ]
+];
+
 inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();

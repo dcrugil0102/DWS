@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Relacion1",
+        "LINK" => "/aplicacion/relacion1"
+    ],
+    [
+        "TEXTO" => "Ejercicio4",
+        "LINK" => "/aplicacion/relacion1/ejercicio4.php"
+    ]
+];
+
 define("FILAS", 5);
 
 $numeros = [];

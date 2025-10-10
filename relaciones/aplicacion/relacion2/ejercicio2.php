@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Relacion2",
+        "LINK" => "/aplicacion/relacion2"
+    ],
+    [
+        "TEXTO" => "Ejercicio2",
+        "LINK" => "/aplicacion/relacion2/ejercicio2.php"
+    ]
+];
+
 // *********CONTROLADOR************
 
 $cadena = "Está la niña en casa";

@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Relacion1",
+        "LINK" => "/aplicacion/relacion1"
+    ],
+    [
+        "TEXTO" => "Ejercicio5",
+        "LINK" => "/aplicacion/relacion1/ejercicio5.php"
+    ]
+];
+
 $vector = array();
 $vector[1] = "esto es una cadena";
 $vector["posi1"] = 25.67;

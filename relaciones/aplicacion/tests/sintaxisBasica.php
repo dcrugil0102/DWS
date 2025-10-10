@@ -1,6 +1,20 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Pruebas",
+        "LINK" => "/aplicacion/tests"
+    ],
+    [
+        "TEXTO" => "Sintaxis Básica",
+        "LINK" => "/aplicacion/tests/sintaxisBasica"
+    ]
+];
 
 $var = 12;
 

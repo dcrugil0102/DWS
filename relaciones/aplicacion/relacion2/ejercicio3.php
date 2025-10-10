@@ -1,6 +1,21 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Relacion2",
+        "LINK" => "/aplicacion/relacion2"
+    ],
+    [
+        "TEXTO" => "Ejercicio3",
+        "LINK" => "/aplicacion/relacion2/ejercicio3.php"
+    ]
+];
+
 // *****************CONTROLADOR**************************
 
 $caracteres = str_split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
