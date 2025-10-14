@@ -43,7 +43,7 @@ inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
-inicioCuerpo("2DAW APLICACION");
+inicioCuerpo("2DAW APLICACION", $barraUbi);
 cuerpo($datos);
 finCuerpo();
 
@@ -60,7 +60,7 @@ function cuerpo($datos)
 
     echo $datos[0];
     echo "<br>";
-    echo $datos[1];
+    echo $datos[1] . PHP_EOL;
     echo $datos[2];
     echo $datos[3];
 }

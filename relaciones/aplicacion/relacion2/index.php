@@ -7,12 +7,8 @@ $barraUbi = [
         "LINK" => "/index.php"
     ],
     [
-        "TEXTO" => "Relacion1",
-        "LINK" => "/aplicacion/relacion1"
-    ],
-    [
-        "TEXTO" => "Ejercicio1",
-        "LINK" => "/aplicacion/relacion2/index.php"
+        "TEXTO" => "Relacion2",
+        "LINK" => "/aplicacion/relacion2"
     ]
 ];
 
@@ -20,7 +16,7 @@ inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
-inicioCuerpo("2DAW APLICACION");
+inicioCuerpo("2DAW APLICACION", $barraUbi);
 cuerpo();
 finCuerpo();
 

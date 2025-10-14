@@ -24,12 +24,10 @@ $texto = <<<HTML
 <div>ejemplo@mail.com o prueba@empresa.es</div>
 HTML;
 
-// Patrones
-$patronEtiquetas = "/<[^>]+>/";
+$patronEtiquetas = "/<[>]+>/";
 $patronNumeros   = "/\b\d+\b/";
 $patronEmail     = "/[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}/";
 
-// Resultados (sin imprimir nada aún)
 preg_match_all($patronEtiquetas, $texto, $etiquetas, PREG_OFFSET_CAPTURE);
 preg_match_all($patronNumeros, $texto, $numeros, PREG_OFFSET_CAPTURE);
 preg_match_all($patronEmail, $texto, $emails, PREG_OFFSET_CAPTURE);

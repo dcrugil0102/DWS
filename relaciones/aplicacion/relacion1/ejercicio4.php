@@ -48,7 +48,7 @@ inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
-inicioCuerpo("2DAW APLICACION");
+inicioCuerpo("2DAW APLICACION", $barraUbi);
 cuerpo($numeros);
 finCuerpo();
 ?>

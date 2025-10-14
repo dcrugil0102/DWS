@@ -46,7 +46,7 @@ function finCabecera()
     </head>
 <?php
 }
-function inicioCuerpo(string $cabecera)
+function inicioCuerpo(string $cabecera, array $barraUbi = [])
 {
     global $acceso;
 
