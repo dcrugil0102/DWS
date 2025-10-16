@@ -37,7 +37,7 @@ of your domain and delete these references -->
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <link rel="stylesheet" type="text/css"
-            href="/styles/base.css">
+            href="/styles/bases.css">
     <?php
 }
 function finCabecera()
@@ -71,21 +71,23 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
         <div id="barraUbicacion">
             <?php
             if ($barraUbi) {
+                $ultimo = end($barraUbi);
                 foreach ($barraUbi as $elemento) {
-                    if (isset($elemento["TEXTO"]) && ($elemento["LINK"])) {
-                        if ($elemento["LINK"]) {
-                            echo "<a href=\"{$elemento["LINK"]}\">";
-                            echo $elemento["TEXTO"];
+                    if (!empty($elemento["TEXTO"])) {
+                        if (!empty($elemento["LINK"])) {
+                            echo "<a href=\"{$elemento["LINK"]}\">{$elemento["TEXTO"]}</a>";
+                        } else {
+                            echo "<span>{$elemento["TEXTO"]}</span>";
                         }
-                        if ($elemento["LINK"]) {
-                            echo "<a href=\"{$elemento["LINK"]}\">";
-                            echo "</a> ➤ ";
+                        if ($elemento !== $ultimo) {
+                            echo " <span>➤</span> ";
                         }
                     }
                 }
             }
             ?>
         </div>
+
         <main>
         <?php
     }
