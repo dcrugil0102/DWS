@@ -24,8 +24,8 @@ $texto = <<<HTML
 <div>ejemplo@mail.com o prueba@empresa.es</div>
 HTML;
 
-$patronEtiquetas = "/<[>]+>/";
-$patronNumeros   = "/\b\d+\b/";
+$patronEtiquetas = "/<\.+>/";
+$patronNumeros   = "/\d+/";
 $patronEmail     = "/[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}/";
 
 preg_match_all($patronEtiquetas, $texto, $etiquetas, PREG_OFFSET_CAPTURE);
@@ -38,7 +38,7 @@ inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
-inicioCuerpo("2DAW APLICACION");
+inicioCuerpo("2DAW APLICACION", $barraUbi);
 cuerpo($texto, $etiquetas, $numeros, $emails);
 finCuerpo();
 
