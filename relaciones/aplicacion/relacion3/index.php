@@ -74,7 +74,7 @@ function cuerpo()
 
     <h3>Ejercicio 4:</h3>
 
-<?php
+    <?php
     $valor = 2;
     $resultado = devuelve($valor, 3, 5);
     echo "<p>Con los tres parámetros: Valor = $valor, Resultado = $resultado</p>";
@@ -90,4 +90,49 @@ function cuerpo()
     $valor = 3;
     $resultado = devuelve(valor: $valor, n2: 7);
     echo "<p>Primer y tercer parámetro: Valor = $valor, Resultado = $resultado</p>";
+
+    ?>
+
+    <h3>Ejercicio 5:</h3>
+
+    <?php
+
+    echo hacerOperacion("resta", 3, 1);
+
+    ?>
+
+    <h3>Ejercicio 6:</h3>
+
+    <?php
+
+    echo "<p>Con funciones flecha:</p>";
+    echo "<p>Suma: " . llamadaAFuncion(1, 2, fn($a, $b) => $a + $b) . "</p>";
+    echo "<p>Resta: " . llamadaAFuncion(5, 3, fn($a, $b) => $a - $b) . "</p>";
+    echo "<p>Multiplicación: " . llamadaAFuncion(4, 6, fn($a, $b) => $a * $b) . "</p>";
+
+    // --- Con funciones anónimas ---
+    echo "<p>Con funciones anónimas:</p>";
+    $suma = function ($a, $b) {
+        return $a + $b;
+    };
+    $resta = function ($a, $b) {
+        return $a - $b;
+    };
+    $multi = function ($a, $b) {
+        return $a * $b;
+    };
+
+    echo "<p>Suma: " . llamadaAFuncion(1, 2, $suma) . "</p>";
+    echo "<p>Resta: " . llamadaAFuncion(5, 3, $resta) . "</p>";
+    echo "<p>Multiplicación: " . llamadaAFuncion(4, 6, $multi) . "</p>";
+
+    ?>
+
+    <h3>Ejercicio 7:</h3>
+
+<?php
+
+    $vector = array("uno", "grande", "caminos", "a");
+    ordenar($vector); //el vector debe quedar (“caminos”,”grande”,”uno”,”a”) 
+    print_r($vector);
 }
