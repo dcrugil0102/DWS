@@ -10,7 +10,7 @@ class InstrumentoViento extends InstrumentoBase
 
     function __construct($material, $edad = 15)
     {
-        parent::__construct($edad);
+        parent::__construct($descripcion = "instrumento de viento", $edad);
         $this->_material = $material;
     }
 
@@ -28,6 +28,6 @@ class InstrumentoViento extends InstrumentoBase
 
     function __toString()
     {
-        return "Instrumento de material $_material";
+        return "Instrumento de material $this->_material";
     }
 }
