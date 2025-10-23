@@ -97,5 +97,5 @@ function cuerpo($datos)
 
     $persona = $datos['persona'];
 
-    echo "<p><strong>Persona: </strong>" . $persona . "</p>";
+    echo "<p><strong>Personaa: </strong>" . $persona . "</p>";
 }
