@@ -28,6 +28,6 @@ class InstrumentoViento extends InstrumentoBase
 
     function __toString()
     {
-        return "Instrumento de material $this->_material";
+        return "Instrumento de material $this->_material, instancia $this->instancia de un total de " . self::$_numInstancias . ". Tiene {$this->getEdad()} años. La clase es " . get_class($this);
     }
 }

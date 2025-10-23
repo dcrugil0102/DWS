@@ -7,8 +7,8 @@ abstract class InstrumentoBase
 
     private $_descripcion = "";
     protected $_edad = 10;
-    protected static $_contador = 0;
-    public $ordenCreacion = 0;
+    protected static $_numInstancias = 0;
+    public $instancia = 0;
 
     // CONSTRUCTOR *******************
 
@@ -16,8 +16,8 @@ abstract class InstrumentoBase
     {
         $this->_descripcion = $_descripcion;
         $this->_edad = $edad;
-        self::$_contador++;
-        $this->ordenCreacion = self::$_contador;
+        self::$_numInstancias++;
+        $this->instancia = self::$_numInstancias;
     }
 
     // METODOS *********************
@@ -40,7 +40,7 @@ abstract class InstrumentoBase
 
     public function __toString()
     {
-        return "Instrumento con descripcion {$this->getDescripcion()}, instancia $this->ordenCreacion de un total de " . self::$_contador . ". Tiene {$this->getEdad()} años. La clase es " . get_class($this);
+        return "Instrumento con descripcion {$this->getDescripcion()}, instancia $this->instancia de un total de " . self::$_numInstancias . ". Tiene {$this->getEdad()} años. La clase es " . get_class($this);
     }
 
     // GETTERS Y SETTERS **********************

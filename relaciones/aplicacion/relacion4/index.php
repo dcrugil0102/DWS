@@ -22,9 +22,19 @@ $barraUbi = [
 // $guitarra5 = new InstrumentoBase("Esto es una guitarra", 3);
 
 // EJERCICIO 3
-$flauta1 = new InstrumentoViento("metal", 5);
+$instrViento = new InstrumentoViento("metal", 5);
 
-$datos = ['flauta1' => $flauta1];
+// EJERCICIO 4
+
+$flauta = Flauta::crearDesdeArray(['material' => 'plastico', 'edad' => 1]);
+
+// EJERCICIO 5
+
+$estados = EstadoCivil::casos();
+
+$persona = Persona::registrarPersona("Damián", "01/02/2006", "calle alhambra de granada", "antequera", $estados[rand(0, count($estados) - 1)]);
+
+$datos = ['instrViento' => $instrViento, 'flauta' => $flauta, 'persona' => $persona];
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -57,16 +67,35 @@ function cuerpo($datos)
     ?>
     <h3>EJERCICIO 3:</h3>
 
+    <?php
+
+    $instrViento = $datos['instrViento'];
+    echo "<p><strong>Descripción:</strong> " . $instrViento . ", " . $instrViento->getDescripcion() . ".</p>";
+
+    echo "<p><strong>Edad:</strong> " . $instrViento->getEdad() . " años</p>";
+    $instrViento->envejecer();
+    echo "<p><strong>Edad:</strong> " . $instrViento->getEdad() . " años</p>";
+
+    echo "<pre>" . $instrViento->afinar() . "</pre>";
+
+    echo "<p>" . $instrViento->sonido() . "</p>";
+
+    ?>
+    <h3>EJERCICIO 4:</h3>
+    <?php
+
+    $flauta = $datos['flauta'];
+    echo "<p>" . $flauta . "</p>";
+    $flauta2 = $flauta->clonacion();
+    echo "<p>" . $flauta2 . "</p>";
+
+    echo "<p><strong>Método recilado: </strong>" . $flauta2->metodoReciclado() . "</p>";
+
+    ?>
+    <h3>EJERCICIO 5:</h3>
 <?php
 
-    $flauta1 = $datos['flauta1'];
-    echo "<p><strong>Descripción:</strong> " . $flauta1 . ", " . $flauta1->getDescripcion() . ".</p>";
+    $persona = $datos['persona'];
 
-    echo "<p><strong>Edad:</strong> " . $flauta1->getEdad() . " años</p>";
-    $flauta1->envejecer();
-    echo "<p><strong>Edad:</strong> " . $flauta1->getEdad() . " años</p>";
-
-    echo "<pre>" . $flauta1->afinar() . "</pre>";
-
-    echo "<p>" . $flauta1->sonido() . "</p>";
+    echo "<p><strong>Persona: </strong>" . $persona . "</p>";
 }
