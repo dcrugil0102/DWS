@@ -133,6 +133,6 @@ function cuerpo()
 <?php
 
     $vector = array("uno", "grande", "caminos", "a");
-    ordenar($vector); //el vector debe quedar (“caminos”,”grande”,”uno”,”a”) 
+    ordenar($vector);
     print_r($vector);
 }

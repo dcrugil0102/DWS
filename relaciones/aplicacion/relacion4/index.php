@@ -34,7 +34,11 @@ $estados = EstadoCivil::casos();
 
 $persona = Persona::registrarPersona("Damián", "01/02/2006", "calle alhambra de granada", "antequera", $estados[rand(0, count($estados) - 1)]);
 
-$datos = ['instrViento' => $instrViento, 'flauta' => $flauta, 'persona' => $persona];
+// EJERCICIO 6
+$serie = new SerieFibonacci(10);
+$generador = SerieFibonacci::fFibonacci(10);
+
+$datos = ['instrViento' => $instrViento, 'flauta' => $flauta, 'persona' => $persona, 'serie' => $serie, 'generador' => $generador];
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -93,9 +97,28 @@ function cuerpo($datos)
 
     ?>
     <h3>EJERCICIO 5:</h3>
-<?php
+    <?php
 
     $persona = $datos['persona'];
 
     echo "<p><strong>Personaa: </strong>" . $persona . "</p>";
+
+    ?>
+    <h3>EJERCICIO 6:</h3>
+<?php
+
+    $serie = $datos['serie'];
+    $generador = $datos['generador'];
+
+    echo "<p><strong>Serie con Iterator:</strong><br>";
+    foreach ($serie as $valor) {
+        echo "$valor ";
+    }
+    echo "</p>";
+
+    echo "<p><strong>Serie con Generador:</strong><br>";
+    foreach ($generador as $valor) {
+        echo "$valor ";
+    }
+    echo "</p>";
 }
