@@ -38,7 +38,15 @@ $persona = Persona::registrarPersona("Damián", "01/02/2006", "calle alhambra de
 $serie = new SerieFibonacci(10);
 $generador = SerieFibonacci::fFibonacci(10);
 
-$datos = ['instrViento' => $instrViento, 'flauta' => $flauta, 'persona' => $persona, 'serie' => $serie, 'generador' => $generador];
+// EJERCICIO 7
+
+$objProp = new ClaseMisPropiedades();
+$objProp->propPublica = "valor público";
+$objProp->propiedad1 = 123;
+$objProp->propiedad2 = "cadena de prueba";
+
+
+$datos = ['instrViento' => $instrViento, 'flauta' => $flauta, 'persona' => $persona, 'serie' => $serie, 'generador' => $generador, 'objProp' => $objProp];
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -105,7 +113,7 @@ function cuerpo($datos)
 
     ?>
     <h3>EJERCICIO 6:</h3>
-<?php
+    <?php
 
     $serie = $datos['serie'];
     $generador = $datos['generador'];
@@ -121,4 +129,27 @@ function cuerpo($datos)
         echo "$valor ";
     }
     echo "</p>";
+
+
+    ?>
+
+    <h3>EJERCICIO 7:</h3>
+<?php
+    $objProp = $datos['objProp'];
+
+    try {
+        echo "<p>Propiedades iterables del objeto:</p>";
+        foreach ($objProp as $clave => $valor) {
+            echo "$clave => $valor<br>";
+        }
+
+        // Intento de acceder a una propiedad dinámica no definida
+        // $valorInexistente = $objProp->propiedadInexistente;
+
+        // Intento de modificar _propPrivada
+        // $objProp->_propPrivada = 99;
+
+    } catch (Exception $e) {
+        echo "<p style='color:red;'>Error: " . $e->getMessage() . "</p>";
+    }
 }

@@ -1,5 +1,4 @@
 <?php
-
 class SerieFibonacci implements Iterator
 {
 
@@ -13,7 +12,6 @@ class SerieFibonacci implements Iterator
 
     public function rewind(): void
     {
-        // Volvemos al inicio
         $this->_claveActual = 0;
     }
 
@@ -55,8 +53,4 @@ class SerieFibonacci implements Iterator
             $b = $temp;
         }
     }
-}
-
-foreach (new SerieFibonacci(10) as $valor) {
-    echo "$valor ";
 }

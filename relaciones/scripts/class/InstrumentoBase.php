@@ -43,6 +43,27 @@ abstract class InstrumentoBase
         return "Instrumento con descripcion {$this->getDescripcion()}, instancia $this->instancia de un total de " . self::$_numInstancias . ". Tiene {$this->getEdad()} años. La clase es " . get_class($this);
     }
 
+    public function __set($nombre, $valor)
+    {
+        throw new Exception("No se permite crear o modificar propiedades dinámicas: '$nombre'");
+    }
+
+    public function __get($nombre)
+    {
+        throw new Exception("No se permite acceder a propiedades no definidas: '$nombre'");
+    }
+
+    public function __isset($nombre)
+    {
+        throw new Exception("No se permite comprobar propiedades no definidas: '$nombre'");
+    }
+
+    public function __unset($nombre)
+    {
+        throw new Exception("No se permite eliminar propiedades no definidas: '$nombre'");
+    }
+
+
     // GETTERS Y SETTERS **********************
 
     public function setDescripcion($nuevaDescripcion)
