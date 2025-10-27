@@ -12,7 +12,7 @@ abstract class InstrumentoBase
 
     // CONSTRUCTOR *******************
 
-    function __construct($_descripcion, $edad)
+    function __construct($_descripcion, $edad = 10)
     {
         $this->_descripcion = $_descripcion;
         $this->_edad = $edad;

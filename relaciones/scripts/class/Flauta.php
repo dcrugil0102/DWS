@@ -15,7 +15,7 @@ final class Flauta extends InstrumentoViento implements IFabricante
 
     function clonacion()
     {
-        return $nuevaFlauta = new Flauta($this->_material, 0);
+        return new Flauta($this->_material, 0);
     }
 
     function metodoFabricacion()

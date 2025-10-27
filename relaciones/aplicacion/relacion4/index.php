@@ -4,12 +4,12 @@ include_once(dirname(__FILE__) . "/../../cabecera.php");
 $barraUbi = [
     [
         "TEXTO" => "Inicio",
-        "LINK" => "/index.php"
+        "LINK"  => "/index.php",
     ],
     [
         "TEXTO" => "Relacion 4",
-        "LINK" => "/aplicacion/relacion4"
-    ]
+        "LINK"  => "/aplicacion/relacion4",
+    ],
 ];
 
 // *************** CONTROLADOR *********************
@@ -42,8 +42,8 @@ $generador = SerieFibonacci::fFibonacci(10);
 
 $objProp = new ClaseMisPropiedades();
 $objProp->propPublica = "valor público";
-$objProp->propiedad1 = 123;
-$objProp->propiedad2 = "cadena de prueba";
+$objProp->propiedad1  = 123;
+$objProp->propiedad2  = "cadena de prueba";
 
 
 $datos = ['instrViento' => $instrViento, 'flauta' => $flauta, 'persona' => $persona, 'serie' => $serie, 'generador' => $generador, 'objProp' => $objProp];
@@ -115,7 +115,7 @@ function cuerpo($datos)
     <h3>EJERCICIO 6:</h3>
     <?php
 
-    $serie = $datos['serie'];
+    $serie     = $datos['serie'];
     $generador = $datos['generador'];
 
     echo "<p><strong>Serie con Iterator:</strong><br>";
