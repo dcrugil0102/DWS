@@ -37,7 +37,7 @@ function VALFILTER_validaFecha(string &$var, string $defecto):bool{
             return true;
         } else{
             $var = $defecto;
-            return false;
+            return true;
         }
     } else{
         $var = $defecto;
