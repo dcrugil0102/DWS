@@ -37,14 +37,13 @@ function cuerpo()
 
     <h3>Sin filter</h3>
 <?php
-        $var = "32/2/2006";
-        $def = "01/01/2000";
-        $array = [1 => 'jose', 2 => 'carlos', 3 => 'maria', 4=>'gonzalo'];
-        $tipo = 2;
-        
-        if (VALFILTER_validaFecha($var, $def)) 
-            echo "<p style='color:green;font-weight:bold;'>true : $var</p>";
-        else
-            echo "<p style='color:red;font-weight:bold;'>false : $var</p>";
-        
+    $var = "0:5:1";
+    $def = "00:00:00";
+    $array = [1 => 'jose', 2 => 'carlos', 3 => 'maria', 4 => 'gonzalo'];
+    $tipo = 2;
+
+    if (VALFILTER_validaHora($var, $def))
+        echo "<p style='color:green;font-weight:bold;'>true : $var</p>";
+    else
+        echo "<p style='color:red;font-weight:bold;'>false : $var</p>";
 }
