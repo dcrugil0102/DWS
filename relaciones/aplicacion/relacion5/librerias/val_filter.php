@@ -26,5 +26,20 @@ function VALFILTER_validaReal(float &$var, float $min, float $max, float $defect
 }
 
 function validaFecha(string &$var, string $defecto):bool{
-    $var = filter_var($var, FILTER_SANITIZE_STRING);
+    if(filter_var($var, FILTER_VALIDATE_REGEXP, ['regexp' => '/^\d{1,2}\/\d{1,2}\/\d{4}$/'])){
+        $temp = explode("/", $var);
+        $dia = $temp[0];
+        $mes = $temp[1];
+        $anio = $temp[2];
+
+        if(checkdate($mes, $dia, $anio)){
+
+        } else{
+            $var = $defecto;
+            return false;
+        }
+    } else{
+        $var = $defecto;
+        return false;
+    }
 }
