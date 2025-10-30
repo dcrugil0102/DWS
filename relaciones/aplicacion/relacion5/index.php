@@ -37,13 +37,14 @@ function cuerpo()
 
     <h3>Sin filter</h3>
 <?php
-        $var = 3;
+        $var = "32/2/2006";
+        $def = "01/01/2000";
         $array = [1 => 'jose', 2 => 'carlos', 3 => 'maria', 4=>'gonzalo'];
         $tipo = 2;
         
-        if (VALNORMAL_validaRango($var,$array,$tipo)) 
-            echo "<p style='color:green;font-weight:bold;'>true : </p>";
+        if (VALFILTER_validaFecha($var, $def)) 
+            echo "<p style='color:green;font-weight:bold;'>true : $var</p>";
         else
-            echo "<p style='color:red;font-weight:bold;'>false : </p>";
+            echo "<p style='color:red;font-weight:bold;'>false : $var</p>";
         
 }

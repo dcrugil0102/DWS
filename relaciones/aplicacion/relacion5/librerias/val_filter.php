@@ -25,15 +25,16 @@ function VALFILTER_validaReal(float &$var, float $min, float $max, float $defect
     }
 }
 
-function validaFecha(string &$var, string $defecto):bool{
-    if(filter_var($var, FILTER_VALIDATE_REGEXP, ['regexp' => '/^\d{1,2}\/\d{1,2}\/\d{4}$/'])){
+function VALFILTER_validaFecha(string &$var, string $defecto):bool{
+    if(filter_var($var, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^\d{1,2}\/\d{1,2}\/\d{4}$/']])){
         $temp = explode("/", $var);
-        $dia = $temp[0];
-        $mes = $temp[1];
-        $anio = $temp[2];
+        $dia = (int)$temp[0];
+        $mes = (int)$temp[1];
+        $anio = (int)$temp[2];
 
         if(checkdate($mes, $dia, $anio)){
-
+            $var = DateTime::createFromFormat("d/m/Y", $var)->format("d/m/Y");
+            return true;
         } else{
             $var = $defecto;
             return false;

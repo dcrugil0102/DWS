@@ -25,7 +25,12 @@ function VALNORMAL_validaFecha(string &$var, string $defecto): bool
     $formato = "d/m/Y";
     $valida = DateTime::createFromFormat($formato, $var);
 
-    if ($valida) {
+    $temp = explode("/", $var);
+        $dia = (int)$temp[0];
+        $mes = (int)$temp[1];
+        $anio = (int)$temp[2];
+
+    if ($valida && checkdate($mes, $dia, $anio)) {
         $var = $valida->format($formato);
         return true;
     } else {
