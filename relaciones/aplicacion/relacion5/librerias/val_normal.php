@@ -36,21 +36,33 @@ function VALNORMAL_validaFecha(string &$var, string $defecto): bool
 
 function VALNORMAL_validaHora(string &$var, string $defecto): bool
 {
-    $formato = "H:i:s";
-    $valida = DateTime::createFromFormat($formato, $var);
 
-    if ($valida && $valida->format($formato) === $var) {
-        $var = $valida->format($formato);
-        return true;
-    } else {
+    $partes = explode(":", $var);
+
+    if (count($partes) === 3) {
+        $hora = str_pad($partes[0], 2, '0', STR_PAD_LEFT);
+        $minuto = str_pad($partes[1], 2, '0', STR_PAD_LEFT);
+        $segundo = str_pad($partes[2], 2, '0', STR_PAD_LEFT);
+
+        $var = "$hora:$minuto:$segundo";
+    }
+
+        $formato = "H:i:s";
+        $valida = DateTime::createFromFormat($formato, $var);
+
+        if ($valida) {
+            $var = $valida->format($formato);
+            return true;
+        }else {
         $var = $defecto;
         return false;
     }
 }
 
+
 function VALNORMAL_validaEmail(string &$var, string $defecto): bool
 {
-    $patron = "/^[\w.-]+@[\w.-]\.[a-zA-Z]{2,}$/";
+    $patron = "/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/";
 
     if (preg_match($patron, $var))
         return true;
