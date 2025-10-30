@@ -37,10 +37,14 @@ function cuerpo()
 
     <h3>Sin filter</h3>
 <?php
-        $var = 3;   
+        $var = "01/2/206";   
         $min = 1;
         $max = 5;
-        $def = 2;
-        echo VALFILTER_validaReal($var, $min, $max, $def);
-        echo "<br/>".$var;
+        $def = "01/01/2000";
+        
+        if (VALNORMAL_validaFecha($var, $def)) 
+            echo "<p style='color:green;font-weight:bold;'>true : $var</p>";
+        else
+            echo "<p style='color:red;font-weight:bold;'>false : $def</p>";
+        
 }

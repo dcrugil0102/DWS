@@ -15,9 +15,9 @@ function VALFILTER_validaEntero(int &$var, int $min, int $max, int $defecto): bo
 }
 
 function VALFILTER_validaReal(float &$var, float $min, float $max, float $defecto):bool{
-        $var = (float)filter_var($var, FILTER_SANITIZE_NUMBER_FLOAT);
+        $var = (float)filter_var($var, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
-    if (filter_var($var, FILTER_VALIDATE_FLOAT, ['options' => ['min_range' => $min, 'max_range' => $max]]) !== false) {
+    if (filter_var($var, FILTER_VALIDATE_FLOAT) !== false && $var >= $min && $var <= $max) {
         return true;
     } else {
         $var = $defecto;
