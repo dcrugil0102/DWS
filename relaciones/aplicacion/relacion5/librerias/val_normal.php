@@ -98,12 +98,16 @@ function VALNORMAL_validaRango(mixed $var, array $posibles, int $tipo = 1): bool
     switch ($tipo) {
         case 1:
             foreach ($posibles as $key => $value) {
-                $sh = $var == $value;
+                if ($var === $value) {
+                    $sh = true;
+                }
             }
             break;
         case 2:
             foreach ($posibles as $key => $value) {
-                $sh = $var == $key;
+                if ($var === $key) {
+                    $sh = true;
+                }
             }
             break;
     }

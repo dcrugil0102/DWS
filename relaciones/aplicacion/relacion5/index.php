@@ -37,9 +37,9 @@ function cuerpo()
 
     <h3>Sin filter</h3>
 <?php
-        $var = "maria";
-        $array = [1 => 'jose', 2 => 'carlos', 3 => 'maria'];
-        $tipo = 1;
+        $var = 3;
+        $array = [1 => 'jose', 2 => 'carlos', 3 => 'maria', 4=>'gonzalo'];
+        $tipo = 2;
         
         if (VALNORMAL_validaRango($var,$array,$tipo)) 
             echo "<p style='color:green;font-weight:bold;'>true : </p>";

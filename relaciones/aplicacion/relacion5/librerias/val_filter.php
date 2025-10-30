@@ -24,3 +24,7 @@ function VALFILTER_validaReal(float &$var, float $min, float $max, float $defect
         return false;
     }
 }
+
+function validaFecha(string &$var, string $defecto):bool{
+    $var = filter_var($var, FILTER_SANITIZE_STRING);
+}
