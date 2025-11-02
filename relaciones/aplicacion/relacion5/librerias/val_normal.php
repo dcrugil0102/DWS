@@ -1,6 +1,10 @@
 <?php
 
-function VALNORMAL_validaEntero(int &$var, int $min, int $max, int $defecto): bool
+namespace VALNORMAL;
+
+use \DateTime;
+
+function validaEntero(int &$var, int $min, int $max, int $defecto): bool
 {
     if (is_int($var) && $var >= $min && $var <= $max) {
         return true;
@@ -10,7 +14,7 @@ function VALNORMAL_validaEntero(int &$var, int $min, int $max, int $defecto): bo
     }
 }
 
-function VALNORMAL_validaReal(float &$var, float $min, float $max, float $defecto): bool
+function validaReal(float &$var, float $min, float $max, float $defecto): bool
 {
     if (is_numeric($var) && $var >= $min && $var <= $max) {
         return true;
@@ -20,15 +24,15 @@ function VALNORMAL_validaReal(float &$var, float $min, float $max, float $defect
     }
 }
 
-function VALNORMAL_validaFecha(string &$var, string $defecto): bool
+function validaFecha(string &$var, string $defecto): bool
 {
     $formato = "d/m/Y";
     $valida = DateTime::createFromFormat($formato, $var);
 
     $temp = explode("/", $var);
-        $dia = (int)$temp[0];
-        $mes = (int)$temp[1];
-        $anio = (int)$temp[2];
+    $dia = (int)$temp[0];
+    $mes = (int)$temp[1];
+    $anio = (int)$temp[2];
 
     if ($valida && checkdate($mes, $dia, $anio)) {
         $var = $valida->format($formato);
@@ -39,7 +43,7 @@ function VALNORMAL_validaFecha(string &$var, string $defecto): bool
     }
 }
 
-function VALNORMAL_validaHora(string &$var, string $defecto): bool
+function validaHora(string &$var, string $defecto): bool
 {
 
     $partes = explode(":", $var);
@@ -52,20 +56,20 @@ function VALNORMAL_validaHora(string &$var, string $defecto): bool
         $var = "$hora:$minuto:$segundo";
     }
 
-        $formato = "H:i:s";
-        $valida = DateTime::createFromFormat($formato, $var);
+    $formato = "H:i:s";
+    $valida = DateTime::createFromFormat($formato, $var);
 
-        if ($valida) {
-            $var = $valida->format($formato);
-            return true;
-        }else {
+    if ($valida) {
+        $var = $valida->format($formato);
+        return true;
+    } else {
         $var = $defecto;
         return false;
     }
 }
 
 
-function VALNORMAL_validaEmail(string &$var, string $defecto): bool
+function validaEmail(string &$var, string $defecto): bool
 {
     $patron = "/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/";
 
@@ -77,7 +81,7 @@ function VALNORMAL_validaEmail(string &$var, string $defecto): bool
     }
 }
 
-function VALNORMAL_validaCadena(string &$var, int $longitud, string $defecto): bool
+function validaCadena(string &$var, int $longitud, string $defecto): bool
 {
     if (strlen($var) > $longitud) {
         $var = $defecto;
@@ -86,7 +90,7 @@ function VALNORMAL_validaCadena(string &$var, int $longitud, string $defecto): b
         return true;
 }
 
-function VALNORMAL_validaExpresion(string &$var, string $expresion, string $defecto): bool
+function validaExpresion(string &$var, string $expresion, string $defecto): bool
 {
     if (preg_match($expresion, $var)) {
         return true;
@@ -96,7 +100,7 @@ function VALNORMAL_validaExpresion(string &$var, string $expresion, string $defe
     }
 }
 
-function VALNORMAL_validaRango(mixed $var, array $posibles, int $tipo = 1): bool
+function validaRango(mixed $var, array $posibles, int $tipo = 1): bool
 {
     $sh = false;
 
