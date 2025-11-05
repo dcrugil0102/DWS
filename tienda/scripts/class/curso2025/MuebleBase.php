@@ -42,7 +42,7 @@ abstract class MuebleBase
     public function setNombre(string $nombre): void
     {
         if(!validaCadena($nombre, 40, $nombre) || $nombre == ""){
-            throw new Exception("El nombre tiene que tener entre 1 y 40 carácteres");
+            throw new Exception("El nombre debe tener entre 1 y 40 carácteres");
         } else{
             $this->nombre = mb_strtoupper($nombre);
         }
@@ -61,7 +61,15 @@ abstract class MuebleBase
      */
     public function setFabricante(string $fabricante): void
     {
-        $this->fabricante = $fabricante;
+        if (validaCadena($fabricante, 30, "FMu: ") && $fabricante != "") {
+            $original = $fabricante;
+            if (validaExpresion($fabricante, "/^FMu:/", "FMu: ")) {
+                $this->fabricante = $fabricante;
+            } else{
+                $this->fabricante = "FMu: " . $original;
+            }
+        } else throw new Exception("El fabricante debe tener entre 1 y 30 carácteres");
+        
     }
 
     /**
@@ -77,7 +85,7 @@ abstract class MuebleBase
      */
     public function setPais(string $pais): void
     {
-        $this->pais = $pais;
+        $this->pais = validaCadena($pais, 20, "ESPAÑA") ? $pais : $pais;
     }
 
     /**
