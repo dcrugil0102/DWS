@@ -2,7 +2,7 @@
 
 abstract class MuebleBase
 {
-    // VARIABLES ***********************
+    // PROPIEDADES ***********************
 
     public const MATERIALES_POSIBLES = [
     1 => 'madera', 
@@ -115,7 +115,7 @@ abstract class MuebleBase
 
     public function __toString()
     {
-        return "MUEBLE de clase " . get_class($this) . "con nombre {$this->getNombre()} fabricado en {$this->getFabricante()}";
+        return "MUEBLE de clase " . get_class($this) . "con nombre {$this->getNombre()}, fabricante {$this->getFabricante()}, fabricado en {$this->getPais()} a partir del año {$this->getAnio()}, vendido desde {$this->getFechaIniVenta()}, hasta {$this->getFechaFinVenta()}, precio {$this->getPrecio()} de material {$this->getMaterialDescripcion()}";
     }
 
     // GETTERS Y SETTERS *********************
@@ -302,7 +302,7 @@ abstract class MuebleBase
 
     public function getMaterialDescripcion(): string
     {
-        return "Material del mueble: " . self::MATERIALES_POSIBLES[$this->getMaterialPrincipal()];
+        return self::MATERIALES_POSIBLES[$this->getMaterialPrincipal()];
     }
 
     public function __get(string $name)
