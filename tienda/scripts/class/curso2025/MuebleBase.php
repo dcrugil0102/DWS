@@ -39,12 +39,13 @@ abstract class MuebleBase
     /**
      * @param string $nombre
      */
-    public function setNombre(string $nombre): void
+    public function setNombre(string $nombre): bool
     {
         if(!validaCadena($nombre, 40, $nombre) || $nombre == ""){
-            throw new Exception("El nombre debe tener entre 1 y 40 carácteres");
+            return false;
         } else{
             $this->nombre = mb_strtoupper($nombre);
+            return true;
         }
     }
 
@@ -59,7 +60,7 @@ abstract class MuebleBase
     /**
      * @param string $fabricante
      */
-    public function setFabricante(string $fabricante): void
+    public function setFabricante(string $fabricante): bool
     {
         if (validaCadena($fabricante, 30, "FMu: ") && $fabricante != "") {
             $original = $fabricante;
@@ -68,7 +69,8 @@ abstract class MuebleBase
             } else{
                 $this->fabricante = "FMu: " . $original;
             }
-        } else throw new Exception("El fabricante debe tener entre 1 y 30 carácteres");
+            return true;
+        } else return false;
         
     }
 
@@ -83,9 +85,13 @@ abstract class MuebleBase
     /**
      * @param string $pais
      */
-    public function setPais(string $pais): void
+    public function setPais(string $pais): bool
     {
-        $this->pais = validaCadena($pais, 20, "ESPAÑA") ? $pais : $pais;
+        if(validaCadena($pais, 20, "ESPAÑA")){
+            $this->pais = $pais;
+            return true;
+        } else return false;
+        
     }
 
     /**
@@ -99,9 +105,19 @@ abstract class MuebleBase
     /**
      * @param int $anio
      */
-    public function setAnio(int $anio): void
+    public function setAnio(int $anio): bool
     {
-        $this->anio = $anio;
+        $anioActual = (new DateTime())->format("yyyy");
+
+        if (validaFecha($anio, 2020)) {
+            if ($anio >= 2020 && $anio <=$anioActual) {
+                $this->anio = $anio;
+                return true;
+            } else {
+                return false;
+            }
+        } else
+            return false;
     }
 
     /**

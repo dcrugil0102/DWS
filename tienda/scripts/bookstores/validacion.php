@@ -24,6 +24,17 @@ function validaReal(float &$var, float $min, float $max, float $defecto): bool
     }
 }
 
+/**
+ * Valida si una cadena representa una fecha válida en formato "d/m/Y".
+ *
+ * La función verifica si la cadena cumple con el formato "día/mes/año" (por ejemplo, "31/12/2024").
+ * Si la fecha es válida, normaliza el formato y actualiza la variable por referencia.
+ * Si la fecha no es válida, asigna el valor por defecto a la variable y retorna false.
+ *
+ * @param string &$var     Cadena que representa la fecha a validar. Se actualiza por referencia.
+ * @param string $defecto  Valor por defecto que se asigna si la fecha no es válida.
+ * @return bool            true si la fecha es válida y se ha normalizado; false en caso contrario.
+ */
 function validaFecha(string &$var, string $defecto): bool
 {
     if (filter_var($var, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^\d{1,2}\/\d{1,2}\/\d{4}$/']])) {
