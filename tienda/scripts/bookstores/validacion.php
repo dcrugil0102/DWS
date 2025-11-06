@@ -83,6 +83,14 @@ function validaEmail(string &$var, string $defecto): bool
     }
 }
 
+/**
+ * Valida la longitud máxima de una cadena (en bytes). Si la supera, asigna $defecto.
+ *
+ * @param string &$var   Cadena a validar (por referencia).
+ * @param int    $longitud Longitud máxima permitida (bytes).
+ * @param string $defecto  Valor por defecto si falla la validación.
+ * @return bool True si cumple la longitud; false y $var = $defecto si no.
+ */
 function validaCadena(string &$var, int $longitud, string $defecto): bool
 {
 
@@ -96,6 +104,14 @@ function validaCadena(string &$var, int $longitud, string $defecto): bool
     }
 }
 
+/**
+ * Valida si una variable cumple con una expresión regular dada.
+ *
+ * @param string &$var      Variable a validar por referencia. Si no cumple la expresión, se asigna el valor por defecto.
+ * @param string $expresion Expresión regular a utilizar para la validación.
+ * @param string $defecto   Valor por defecto a asignar a la variable si no cumple la expresión.
+ * @return bool             Devuelve true si la variable cumple la expresión regular, false en caso contrario.
+ */
 function validaExpresion(string &$var, string $expresion, string $defecto): bool
 {
     if (filter_var($var, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => $expresion]])) {
