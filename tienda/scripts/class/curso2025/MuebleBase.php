@@ -109,13 +109,9 @@ abstract class MuebleBase
     {
         $anioActual = (new DateTime())->format("yyyy");
 
-        if (validaFecha($anio, 2020)) {
-            if ($anio >= 2020 && $anio <=$anioActual) {
-                $this->anio = $anio;
-                return true;
-            } else {
-                return false;
-            }
+        if (validaEntero($anio, 2020, $anioActual, 2020)) {
+            $this->anio = $anio;
+            return true;
         } else
             return false;
     }
@@ -131,9 +127,20 @@ abstract class MuebleBase
     /**
      * @param string $fechaIniVenta
      */
-    public function setFechaIniVenta(string $fechaIniVenta): void
+    public function setFechaIniVenta(string $fechaIniVenta): bool
     {
-        $this->fechaIniVenta = $fechaIniVenta;
+        if (validaFecha($fechaIniVenta, '01/01/2020')) {
+
+        $anioFab = new DateTime("01/01/".$this->getAnio());
+        $fechaIniVenta = DateTime::createFromFormat('d/m/Y', $fechaIniVenta);
+
+            if ($fechaIniVenta >= $anioFab) {
+                $this->fechaIniVenta = $fechaIniVenta;
+                return true;
+            } else
+                return false;
+        } else
+            return false;
     }
 
     /**
@@ -147,9 +154,18 @@ abstract class MuebleBase
     /**
      * @param string $fechaFinVenta
      */
-    public function setFechaFinVenta(string $fechaFinVenta): void
+    public function setFechaFinVenta(string $fechaFinVenta): bool
     {
-        $this->fechaFinVenta = $fechaFinVenta;
+        if (validaFecha($fechaFinVenta, "31/12/2040")) {
+            $fechaIni = new DateTime($this->getFechaIniVenta());
+            $fechaFinVenta2 = new DateTime($fechaFinVenta);
+
+            if ($fechaFinVenta2 > $fechaIni) {
+                $this->fechaFinVenta = $fechaFinVenta;
+                return true;
+            } else
+                return false;
+        } else return false;
     }
 
     /**
@@ -163,9 +179,13 @@ abstract class MuebleBase
     /**
      * @param int $MaterialPrincipal
      */
-    public function setMaterialPrincipal(int $MaterialPrincipal): void
+    public function setMaterialPrincipal(int $MaterialPrincipal): bool
     {
-        $this->MaterialPrincipal = $MaterialPrincipal;
+        if (validaRango($MaterialPrincipal, self::MATERIALES_POSIBLES, 2)) {
+            $this->MaterialPrincipal = $MaterialPrincipal;
+            return true;
+        } else
+            return false;
     }
 
     /**
@@ -179,8 +199,16 @@ abstract class MuebleBase
     /**
      * @param float $Precio
      */
-    public function setPrecio(float $Precio): void
+    public function setPrecio(float $Precio): bool
     {
-        $this->Precio = $Precio;
+        if(validaReal($Precio, 30, 999999,30)){
+            $this->Precio = $Precio;
+            return true;
+        } else
+            return false;
+    }
+
+    public function getMaterialDescripcion(): string{
+        
     }
 }

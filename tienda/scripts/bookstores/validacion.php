@@ -133,6 +133,17 @@ function validaExpresion(string &$var, string $expresion, string $defecto): bool
     }
 }
 
+/**
+ * Valida si una variable existe dentro de un rango de valores o claves posibles.
+ *
+ * @param mixed $var Variable a validar.
+ * @param array $posibles Arreglo de valores o claves posibles.
+ * @param int $tipo Tipo de validación:
+ *                  - 1: Verifica si $var es igual a algún valor en $posibles.
+ *                  - 2: Verifica si $var es igual a alguna clave en $posibles.
+ *                  Por defecto es 1.
+ * @return bool Retorna true si $var se encuentra según el tipo especificado, false en caso contrario.
+ */
 function validaRango(mixed $var, array $posibles, int $tipo = 1): bool
 {
     $sh = false;
