@@ -14,7 +14,6 @@ abstract class MuebleBase
     public const MAXIMO_MUEBLES = 5;
 
     private static $_mueblesCreados = 0;
-    public $id = 0;
 
     public string $nombre;
     public string $fabricante = "FMu";
@@ -25,6 +24,62 @@ abstract class MuebleBase
     public int $MaterialPrincipal;
     public float $Precio = 30;
 
+    // CONSTRUCTOR ***************************
+
+    public function __construct(string $nombre, ?string $fabricante = "FMu",
+    ?string $pais = "ESPAÑA", ?int $anio = 2020, ?string $fechaIniVenta = "01/01/2020",
+    ?string $fechaFinVenta = "31/12/2040", ?int $MaterialPrincipal,
+    ?float $Precio = 30){
+
+        if (!$this->setNombre($nombre)) {
+            throw new Exception("Error al asignar el nombre");
+        }
+        if ($fabricante !== null) {
+            $this->setFabricante($fabricante);
+        }
+        if ($pais !== null) {
+            $this->setPais($pais);
+        }
+        if ($anio !== null) {
+            $this->setAnio($anio);
+        }
+        if ($fechaIniVenta !== null) {
+            $this->setFechaIniVenta($fechaIniVenta);
+        }
+        if ($fechaFinVenta !== null) {
+            $this->setFechaFinVenta($fechaFinVenta);
+        }
+        if ($MaterialPrincipal !== null) {
+            $this->setMaterialPrincipal($MaterialPrincipal);
+        }
+        if ($Precio !== null) {
+            $this->setPrecio($Precio);
+        }
+
+        $this->_mueblesCreados++;
+        if ($this->_mueblesCreados > self::$_mueblesCreados) {
+            throw new Exception("Se ha llegado al tope de muebles");
+        }
+    }
+
+    // MÉTODOS *******************************
+
+    public function dameListaPropiedades(){
+        return [
+            'nombre' => $this->getNombre(),
+            'fabricante' => $this->getFabricante(),
+            'pais' => $this->getPais(),
+            'anio' => $this->getAnio(),
+            'fechaIniVenta' => $this->getFechaIniVenta(),
+            'fechaFinVenta' => $this->getFechaFinVenta(),
+            'MaterialPrincipal' => $this->getMaterialPrincipal(),
+            'Precio' => $this->getPrecio(),
+        ];
+    }
+
+    public function damePropiedad(string $cadena, int $modo, $res):bool {
+
+    }
 
     // GETTERS Y SETTERS *********************
 
@@ -208,7 +263,28 @@ abstract class MuebleBase
             return false;
     }
 
-    public function getMaterialDescripcion(): string{
-        
+    public function getMaterialDescripcion(): string
+    {
+        return "Material del mueble: " . self::MATERIALES_POSIBLES[$this->getMaterialPrincipal()];
+    }
+
+    public function __get(string $name)
+    {
+        throw new Exception("Propiedad '$name' no permitida");
+    }
+
+    public function __set(string $name, $value)
+    {
+        throw new Exception("Propiedad '$name' no permitida");
+    }
+
+    public function __isset(string $name): bool
+    {
+        return false;
+    }
+
+    public function __unset(string $name)
+    {
+        throw new Exception("Propiedad '$name' no permitida");
     }
 }
