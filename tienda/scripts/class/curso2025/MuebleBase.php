@@ -57,7 +57,7 @@ abstract class MuebleBase
         }
 
         $this->_mueblesCreados++;
-        if ($this->_mueblesCreados > self::$_mueblesCreados) {
+        if ($this->_mueblesCreados > self::MAXIMO_MUEBLES) {
             throw new Exception("Se ha llegado al tope de muebles");
         }
     }
@@ -77,8 +77,45 @@ abstract class MuebleBase
         ];
     }
 
-    public function damePropiedad(string $cadena, int $modo, $res):bool {
+    public function damePropiedad(string $propiedad, int $modo, &$res):bool {
+        switch ($modo) {
+            case 1:
+                $propiedades = $this->dameListaPropiedades();
+                if (validaRango($propiedad, $propiedades, 2)) {
+                    $res = $propiedades[$propiedad];
+                    return true;
+                } else
+                    return false;
+            case 2:
+                if (property_exists($this, $propiedad)) {
+                    $res = $this->$propiedad;
+                    return true;
+                } else{
+                    $metodo = "get" . ucfirst($propiedad);
+                    if (method_exists($this, $metodo)) {
+                        $res = $metodo();
+                        return true;
+                    } else return false;
+                } 
+            default:
+                throw new Exception("El modo debe de ser 1 o 2");
+                
+        }
+    }
 
+    public function puedeCrear(&$numero):bool {
+        if ($this->_mueblesCreados < self::MAXIMO_MUEBLES) {
+            $numero = self::MAXIMO_MUEBLES - $this->_mueblesCreados;
+            return true;
+        } else{
+            $numero = 0;
+            return false;
+        }
+    }
+
+    public function __toString()
+    {
+        return "MUEBLE de clase " . get_class($this) . "con nombre {$this->getNombre()} fabricado en {$this->getFabricante()}";
     }
 
     // GETTERS Y SETTERS *********************
