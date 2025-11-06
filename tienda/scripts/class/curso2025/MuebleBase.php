@@ -5,31 +5,38 @@ abstract class MuebleBase
     // PROPIEDADES ***********************
 
     public const MATERIALES_POSIBLES = [
-    1 => 'madera', 
-    2 => 'metal',
-    3 => 'plástico',
-    4 => 'vidrio',
-    5 => 'cerámica'];
+        1 => 'madera',
+        2 => 'metal',
+        3 => 'plástico',
+        4 => 'vidrio',
+        5 => 'cerámica'
+    ];
 
     public const MAXIMO_MUEBLES = 5;
+    private static int $_mueblesCreados = 0;
+    private string $nombre;
+    private string $fabricante = "FMu";
+    private string $pais = "ESPAÑA";
+    private int $anio = 2020;
+    private string $fechaIniVenta = "01/01/2020";
+    private string $fechaFinVenta = "31/12/2040";
+    private int $MaterialPrincipal;
+    private float $Precio = 30;
 
-    private static $_mueblesCreados = 0;
-
-    public string $nombre;
-    public string $fabricante = "FMu";
-    public string $pais = "ESPAÑA";
-    public int $anio = 2020;
-    public string $fechaIniVenta = "01/01/2020";
-    public string $fechaFinVenta = "31/12/2040";
-    public int $MaterialPrincipal;
-    public float $Precio = 30;
+    private Caracteristicas $caracteristicas;
 
     // CONSTRUCTOR ***************************
 
-    public function __construct(string $nombre, ?string $fabricante = "FMu",
-    ?string $pais = "ESPAÑA", ?int $anio = 2020, ?string $fechaIniVenta = "01/01/2020",
-    ?string $fechaFinVenta = "31/12/2040", ?int $MaterialPrincipal,
-    ?float $Precio = 30){
+    public function __construct(
+        string $nombre,
+        ?int $MaterialPrincipal,
+        ?string $fabricante = "FMu",
+        ?string $pais = "ESPAÑA",
+        ?int $anio = 2020,
+        ?string $fechaIniVenta = "01/01/2020",
+        ?string $fechaFinVenta = "31/12/2040",
+        ?float $Precio = 30
+    ) {
 
         if (!$this->setNombre($nombre)) {
             throw new Exception("Error al asignar el nombre");
@@ -56,15 +63,18 @@ abstract class MuebleBase
             $this->setPrecio($Precio);
         }
 
-        $this->_mueblesCreados++;
-        if ($this->_mueblesCreados > self::MAXIMO_MUEBLES) {
+        self::$_mueblesCreados++;
+        if (self::$_mueblesCreados > self::MAXIMO_MUEBLES) {
             throw new Exception("Se ha llegado al tope de muebles");
         }
+
+        $this->caracteristicas = new Caracteristicas();
     }
 
     // MÉTODOS *******************************
 
-    public function dameListaPropiedades(){
+    public function dameListaPropiedades()
+    {
         return [
             'nombre' => $this->getNombre(),
             'fabricante' => $this->getFabricante(),
@@ -77,7 +87,8 @@ abstract class MuebleBase
         ];
     }
 
-    public function damePropiedad(string $propiedad, int $modo, &$res):bool {
+    public function damePropiedad(string $propiedad, int $modo, &$res): bool
+    {
         switch ($modo) {
             case 1:
                 $propiedades = $this->dameListaPropiedades();
@@ -90,32 +101,54 @@ abstract class MuebleBase
                 if (property_exists($this, $propiedad)) {
                     $res = $this->$propiedad;
                     return true;
-                } else{
+                } else {
                     $metodo = "get" . ucfirst($propiedad);
                     if (method_exists($this, $metodo)) {
                         $res = $metodo();
                         return true;
                     } else return false;
-                } 
+                }
             default:
                 throw new Exception("El modo debe de ser 1 o 2");
-                
         }
     }
 
-    public function puedeCrear(&$numero):bool {
-        if ($this->_mueblesCreados < self::MAXIMO_MUEBLES) {
-            $numero = self::MAXIMO_MUEBLES - $this->_mueblesCreados;
+    public function puedeCrear(&$numero): bool
+    {
+        if (self::$_mueblesCreados < self::MAXIMO_MUEBLES) {
+            $numero = self::MAXIMO_MUEBLES - self::$_mueblesCreados;
             return true;
-        } else{
+        } else {
             $numero = 0;
             return false;
         }
     }
 
+    public function añadir(...$args)
+    {
+        $carac = "";
+        $valor = "";
+
+        for ($i = 0; $i < count($args) - 1; $i += 2) {
+            $carac = $args[$i];
+            $valor = $args[$i + 1];
+
+            $this->caracteristicas->__set($carac, $valor);
+        }
+    }
+
+    public function exportarCaracteristicas(): string
+    {
+        $cadena = "";
+        foreach ($this->caracteristicas as $car => $valor) {
+            $cadena .= "$car:$valor\n";
+        }
+        return $cadena;
+    }
+
     public function __toString()
     {
-        return "MUEBLE de clase " . get_class($this) . "con nombre {$this->getNombre()}, fabricante {$this->getFabricante()}, fabricado en {$this->getPais()} a partir del año {$this->getAnio()}, vendido desde {$this->getFechaIniVenta()}, hasta {$this->getFechaFinVenta()}, precio {$this->getPrecio()} de material {$this->getMaterialDescripcion()}";
+        return "MUEBLE de clase " . get_class($this) . "con nombre {$this->getNombre()}, fabricante {$this->getFabricante()}, fabricado en {$this->getPais()} a partir del año {$this->getAnio()}, vendido desde {$this->getFechaIniVenta()}, hasta {$this->getFechaFinVenta()}, precio {$this->getPrecio()} de material {$this->getMaterialDescripcion()} \nCaracterísticas:\n {$this->exportarCaracteristicas()}";
     }
 
     // GETTERS Y SETTERS *********************
@@ -133,9 +166,9 @@ abstract class MuebleBase
      */
     public function setNombre(string $nombre): bool
     {
-        if(!validaCadena($nombre, 40, $nombre) || $nombre == ""){
+        if (!validaCadena($nombre, 40, $nombre) || $nombre == "") {
             return false;
-        } else{
+        } else {
             $this->nombre = mb_strtoupper($nombre);
             return true;
         }
@@ -158,12 +191,11 @@ abstract class MuebleBase
             $original = $fabricante;
             if (validaExpresion($fabricante, "/^FMu:/", "FMu: ")) {
                 $this->fabricante = $fabricante;
-            } else{
+            } else {
                 $this->fabricante = "FMu: " . $original;
             }
             return true;
         } else return false;
-        
     }
 
     /**
@@ -179,11 +211,10 @@ abstract class MuebleBase
      */
     public function setPais(string $pais): bool
     {
-        if(validaCadena($pais, 20, "ESPAÑA")){
+        if (validaCadena($pais, 20, "ESPAÑA")) {
             $this->pais = $pais;
             return true;
         } else return false;
-        
     }
 
     /**
@@ -223,17 +254,20 @@ abstract class MuebleBase
     {
         if (validaFecha($fechaIniVenta, '01/01/2020')) {
 
-        $anioFab = new DateTime("01/01/".$this->getAnio());
-        $fechaIniVenta = DateTime::createFromFormat('d/m/Y', $fechaIniVenta);
+            $anioFab = new DateTime("01/01/" . $this->getAnio());
+            $fechaIni = DateTime::createFromFormat('d/m/Y', $fechaIniVenta);
 
-            if ($fechaIniVenta >= $anioFab) {
-                $this->fechaIniVenta = $fechaIniVenta;
+            if ($fechaIni >= $anioFab) {
+                $this->fechaIniVenta = $fechaIni->format('d/m/Y');
                 return true;
-            } else
+            } else {
                 return false;
-        } else
+            }
+        } else {
             return false;
+        }
     }
+
 
     /**
      * @return string
@@ -293,7 +327,7 @@ abstract class MuebleBase
      */
     public function setPrecio(float $Precio): bool
     {
-        if(validaReal($Precio, 30, 999999,30)){
+        if (validaReal($Precio, 30, 999999, 30)) {
             $this->Precio = $Precio;
             return true;
         } else

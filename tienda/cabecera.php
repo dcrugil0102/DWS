@@ -9,16 +9,19 @@ else
     error_reporting(E_ALL);
 
 
+require_once(RUTABASE . "/scripts/bookstores/validacion.php");
+
 spl_autoload_register(function ($clase) {
-    $ruta = RUTABASE . "/scripts/class/";
-    $fichero = $ruta . "$clase.php";
+    $ruta = RUTABASE . "/scripts/class/curso2025/";
+    $fichero = $ruta . $clase . ".php";
 
     if (file_exists($fichero)) {
         require_once($fichero);
     } else {
-        throw new Exception("La clase $clase no se ha encontrado.");
+        throw new Exception("La clase $clase no se ha encontrado en $fichero");
     }
 });
+
 
 include(RUTABASE . "/aplicacion/templates/plantilla.php");
 include(RUTABASE . "/aplicacion/config/acceso_bd.php");

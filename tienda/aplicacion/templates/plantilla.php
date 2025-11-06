@@ -61,12 +61,8 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
             <nav id="barraMenu">
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
-                    <li><a href="/aplicacion/tests/index.php">Pruebas</a></li>
-                    <li><a href="/aplicacion/relacion1/index.php">Relacion 1</a></li>
-                    <li><a href="/aplicacion/relacion2/index.php">Relacion 2</a></li>
-                    <li><a href="/aplicacion/relacion3/index.php">Relacion 3</a></li>
-                    <li><a href="/aplicacion/relacion4/index.php">Relacion 4</a></li>
-                    <li><a href="/aplicacion/relacion5/index.php">Relacion 5</a></li>
+                    <li><a href="/aplicacion/principal/pruebas.php">Pruebas</a></li>
+
                 </ul>
             </nav>
         </header>
