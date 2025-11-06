@@ -1,6 +1,6 @@
 <?php
 
-class MuebleReciclado extends MuebleBase
+final class MuebleReciclado extends MuebleBase
 {
     // PROPIEDADES **********************
 
