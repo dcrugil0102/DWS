@@ -17,6 +17,15 @@ class Caracteristicas implements IteratorAggregate
 
     // METODOS DINAMICOS *****************************
 
+    public function __set(string $nombre, $valor): void
+    {
+        if (validaRango('ningunamas', $this->caracteristicas, 2) && !$this->__isset($nombre)) {
+            throw new Exception("No se pueden añadir mas caracteristicas.");
+        } else if (in_array($nombre, ['largo', 'alto', 'ancho']) && !is_int($valor)) {
+            throw new Exception("Las propiedades de tamaño deben de ser numeros enteros.");
+        } else $this->caracteristicas[$nombre] = $valor;
+    }
+
     public function __get(string $nombre)
     {
         return $this->caracteristicas[$nombre] ?? null;
@@ -39,12 +48,4 @@ class Caracteristicas implements IteratorAggregate
         return new ArrayIterator($this->caracteristicas);
     }
 
-    public function __set(string $nombre, $valor): void
-    {
-        if (validaRango('ningunamas', $this->caracteristicas, 2) && !$this->__isset($nombre)) {
-            throw new Exception("No se pueden añadir mas caracteristicas.");
-        } else if (in_array($nombre, ['largo', 'alto', 'ancho']) && !is_int($valor)) {
-            throw new Exception("Las propiedades de tamaño deben de ser numeros enteros.");
-        } else $this->caracteristicas[$nombre] = $valor;
-    }
 }
