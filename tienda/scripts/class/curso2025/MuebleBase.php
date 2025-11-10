@@ -12,15 +12,15 @@ abstract class MuebleBase
         5 => 'cerámica'
     ];
 
-    public const MAXIMO_MUEBLES = 5;
-    private static int $_mueblesCreados = 0;
+    public const MAXIMO_MUEBLES = 20;
+    protected static int $_mueblesCreados = 0;
     private string $nombre;
     private string $fabricante = "FMu";
     private string $pais = "ESPAÑA";
     private int $anio = 2020;
     private string $fechaIniVenta = "01/01/2020";
     private string $fechaFinVenta = "31/12/2040";
-    private int $MaterialPrincipal;
+    private int $MaterialPrincipal = 1;
     private float $Precio = 30;
 
     private Caracteristicas $caracteristicas;
@@ -284,7 +284,7 @@ abstract class MuebleBase
     {
         if (validaFecha($fechaFinVenta, "31/12/2040")) {
             $fechaIni = new DateTime($this->getFechaIniVenta());
-            $fechaFinVenta2 = new DateTime($fechaFinVenta);
+            $fechaFinVenta2 = DateTime::createFromFormat('d/m/Y', $fechaFinVenta);
 
             if ($fechaFinVenta2 > $fechaIni) {
                 $this->fechaFinVenta = $fechaFinVenta;

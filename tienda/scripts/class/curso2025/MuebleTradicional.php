@@ -31,16 +31,11 @@ final class MuebleTradicional extends MuebleBase
 
     public function __toString()
     {
-        $lista = $this->dameListaPropiedades();
-
-        $cadena = "";
-
-        foreach ($lista as $key => $value) {
-            $cadena .= "\n$key: $value";
-        }
-
+        $cadena = parent::__toString();
+        $cadena .= "Peso: {$this->getPeso()} kg\nSerie: {$this->getSerie()}\n";
         return $cadena;
     }
+
 
     // GETTERS Y SETTERS ****************
 

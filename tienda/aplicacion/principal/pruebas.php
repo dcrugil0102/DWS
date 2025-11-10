@@ -13,58 +13,51 @@ $barraUbi = [
     ]
 ];
 
+
 // ----- CONTROLADOR -----
 
-$muebles = [];
-$errores = [];
+$datos = [];
 
 try {
+    // Crear muebles tradicionales
+    $m1 = new MuebleTradicional("Silla elegante", 1, 120.5, 20, "S02");
+    $m1->añadir("color", "marrón", "altura", 100, "ancho", 500);
+    $m1->añadir("material", "roble");
+    $datos[] = $m1;
 
-    $m1 = new MuebleTradicional(
-        "Mesa de Roble",
-        1,
-        120.50,
-        25.5,
-        "S12",
-        "FMu: Roble",
-        "España",
-        2022,
-        "01/02/2022",
-        "01/02/2030"
-    );
+    $m2 = new MuebleTradicional("Mesa comedor", 2, 350.75, 80, "S05");
+    $m2->añadir("color", "negro", "capacidad", "6 personas");
+    $datos[] = $m2;
 
-    $m1->añadir("color", "marrón", "pesoExtra", 10);
-    $muebles[] = $m1;
+    // Crear muebles reciclados
+    $m3 = new MuebleReciclado("Banco reciclado", 3, 50, 'Fabricante1', 'ESPAÑA', 2022, '01/11/2021', '31/12/2035', 100.5);
+    $m3->añadir("color", "verde", "resistencia", "alta");
+    $datos[] = $m3;
 
+    $m4 = new MuebleReciclado("Lámpara eco", 5, 85, 'FMu: Fabricante 2', 'ESPAÑA', 2021, '01/01/2020', '31/12/2040', 60.9);
+    $m4->añadir("voltaje", "220V", "ningunamas", true);
+    $datos[] = $m4;
 
-    $m2 = new MuebleReciclado(
-        "Silla Eco",
-        60,
-        2,
-        "FMu: Verde",
-        "España",
-        2023,
-        "01/03/2023",
-        "01/03/2035",
-        80.75
-    );
+    // Probar método puedeCrear
+    $m5 = null;
+    $restantes = 0;
+    $puede = $m4->puedeCrear($restantes);
+    $datos['puedeCrear'] = [
+        'resultado' => $puede ? 'Sí' : 'No',
+        'restantes' => $restantes
+    ];
 
-    $m2->añadir("color", "verde", "peso", 12);
-    $muebles[] = $m2;
-
-    // Probar “ningunamas”
-    $carac = new Caracteristicas();
-    $carac->__set("ningunamas", true);
-    try {
-        $carac->__set("nuevo", 123);
-    } catch (Exception $e) {
-        $errores[] = $e->getMessage();
+    // Prueba de damePropiedad
+    $valor = "";
+    if ($m1->damePropiedad("nombre", 1, $valor)) {
+        $datos['propiedad'] = "Nombre de m1: " . $valor;
     }
 } catch (Exception $e) {
-    $errores[] = $e->getMessage();
+    $datos['error'] = $e->getMessage();
 }
 
-$datos = ['muebles' => $muebles, "errores" => $errores];
+
+// ----- VISTA -----
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -75,33 +68,47 @@ cuerpo($datos);
 finCuerpo();
 
 
-
 // **********************************************************
 
 function cabecera() {}
 
-
 function cuerpo($datos)
 {
-    $muebles = $datos['muebles'];
-    $errores = $datos['errores'];
 ?>
     <h2>Pruebas de Muebles</h2>
 
+    <?php
+    if (isset($datos['error'])) {
+        echo '<p style="color:red;">Error: ' . $datos['error'] . '</p>';
+    }
+    ?>
+
+    <h3>Objetos creados:</h3>
+    <pre>
 <?php
-    if (!empty($errores)) {
-        echo '<div style="color:red">';
-        echo '<h3>Errores:</h3><ul>';
-        foreach ($errores as $e) {
-            echo "<li>$e</li>";
+    foreach ($datos as $d) {
+        if ($d instanceof MuebleBase) {
+            echo $d->__toString() . "\n---------------------\n";
         }
-        echo '</ul></div>';
+    }
+?>
+    </pre>
+
+    <h3>Resultados adicionales:</h3>
+    <pre>
+<?php
+    if (isset($datos['puedeCrear'])) {
+        echo "¿Se pueden crear más muebles? " . $datos['puedeCrear']['resultado'] . "\n";
+        echo "Restantes: " . $datos['puedeCrear']['restantes'] . "\n";
     }
 
-    foreach ($muebles as $mueble) {
-        echo '<div style="border:1px solid #aaa; padding:10px; margin:10px; border-radius:8px;">';
-        echo '<h3>' . get_class($mueble) . '</h3>';
-        echo '<pre>' . $mueble . '</pre>';
-        echo '</div>';
+    if (isset($datos['propiedad'])) {
+        echo $datos['propiedad'] . "\n";
     }
+
+
+?>
+    </pre>
+
+<?php
 }
