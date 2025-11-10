@@ -111,12 +111,9 @@ footer {
 }
 
 .error {
-    background: linear-gradient(90deg, #fc575e 0%, #ffe259 100%);
-    color: #fff;
-    border: 2px solid #dd2476;
-    box-shadow: 0 2px 12px #fc575e55;
-    padding: 10px;
-    border-radius: 10px;
-    font-weight: 500;
-    margin: 10px 0;
+    color: red;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+    display: inline-block;
 }

@@ -4,7 +4,7 @@ define("RUTABASE", dirname(__FILE__));
 define("MODO_TRABAJO", "desarrollo"); //en "produccion o en desarrollo
 
 spl_autoload_register(function ($nombreClase) {
-    include __DIR__ . "/scripts/class/" . $nombreClase . ".php";
+    include __DIR__ . "/scripts/bookstores/" . $nombreClase . ".php";
 });
 
 
