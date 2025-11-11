@@ -1,5 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
+include_once(dirname(__FILE__) . "./puntos.php");
 
 $barraUbi = [
     [
@@ -44,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($valores['grosor'] == "") {
         $errores['grosor'] = 'Debes seleccionar un grosor.';
-    }
+    }    
+    
 }
 
 
