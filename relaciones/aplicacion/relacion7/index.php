@@ -1,6 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-// include_once(dirname(__FILE__) . "/../../scripts/bookstores/validacion.php");
+
 $barraUbi = [
     [
         "TEXTO" => "Inicio",
@@ -79,20 +79,26 @@ function cuerpo($valores, $errores)
 
         <label for="color">Escoge el color:</label>
         <select name="color">
-
+            <option value="" disabled selected>Escoge color</option>
+            <?php
+                foreach (Punto::COLORES as $key => $value) {
+                    $selected = ($valores['color'] ?? '') == $value ? 'selected' : '';
+                echo "<option value='$value' $selected>$value</option>";
+                } 
+             ?>
         </select>
         <span class="error"><?= $errores['color'] ?? '' ?></span><br>
 
         <label for="grosor">Escoge el grosor</label>
 
-        <input type="radio" name="grosor" id="fino" <?= ($valores['grosor'] ?? '') == 'fino' ? 'checked' : '' ?>>
-        <label for="grosor">Fino</label>
+        <input type="radio" name="grosor" id="fino" value="fino" <?= ($valores['grosor'] ?? '') == 'fino' ? 'checked' : '' ?>>
+        <label for="fino">Fino</label>
 
-        <input type="radio" name="grosor" id="medio" <?= ($valores['grosor'] ?? '') == 'medio' ? 'checked' : '' ?>>
-        <label for="grosor">Medio</label>
+        <input type="radio" name="grosor" id="medio" value="medio" <?= ($valores['grosor'] ?? '') == 'medio' ? 'checked' : '' ?>>
+        <label for="medio">Medio</label>
 
-        <input type="radio" name="grosor" id="gordo" <?= ($valores['grosor'] ?? '') == 'gordo' ? 'checked' : '' ?>>
-        <label for="grosor">Gordo</label>
+        <input type="radio" name="grosor" id="gordo" value="gordo" <?= ($valores['grosor'] ?? '') == 'gordo' ? 'checked' : '' ?>>
+        <label for="gordo">Gordo</label>
 
         <span class="error"><?= $errores['grosor'] ?? '' ?></span><br>
 
