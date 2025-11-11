@@ -3,26 +3,26 @@ define("RUTABASE", dirname(__FILE__));
 //define("MODO_TRABAJO","produccion"); //en "produccion o en desarrollo
 define("MODO_TRABAJO", "desarrollo"); //en "produccion o en desarrollo
 
-spl_autoload_register(function ($nombreClase) {
-    include __DIR__ . "/scripts/bookstores/" . $nombreClase . ".php";
-});
-
-
 if (MODO_TRABAJO == "produccion")
     error_reporting(0);
 else
     error_reporting(E_ALL);
 
-
 spl_autoload_register(function ($clase) {
-    $ruta = RUTABASE . "/scripts/class/";
-    $fichero = $ruta . "$clase.php";
+    $rutas = [
+        RUTABASE . "/scripts/class/",
+        RUTABASE . "/scripts/bookstores/"
+    ];
 
-    if (file_exists($fichero)) {
-        require_once($fichero);
-    } else {
-        throw new Exception("La clase $clase no se ha encontrado.");
+    foreach ($rutas as $ruta) {
+        $fichero = $ruta . "$clase.php";
+        if (file_exists($fichero)) {
+            require_once $fichero;
+            return;
+        }
     }
+
+    throw new Exception("La clase $clase no se ha encontrado en las rutas especificadas.");
 });
 
 include(RUTABASE . "/aplicacion/templates/plantilla.php");

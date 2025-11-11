@@ -1,7 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-include_once(dirname(__FILE__) . "/../../scripts/bookstores/validacion.php");
-
+// include_once(dirname(__FILE__) . "/../../scripts/bookstores/validacion.php");
 $barraUbi = [
     [
         "TEXTO" => "Inicio",
