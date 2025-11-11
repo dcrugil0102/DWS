@@ -24,13 +24,22 @@ class Punto
 
     // CONSTRUCTOR *********************
 
-    public function __construct(int $x, ?int $y)
+    public function __construct(int $x, int $y, string $color, int $grosor)
         {
-            $this->setX($x);
+            if (!$this->setX($x)) {
+                throw new Exception("X debe ser entre 0 y 20000");
+            }
             
+            if (!$this->setY($y)) {
+                throw new Exception("Y debe ser entre 0 y 20000");
+            }
 
-            if ($y !== null) {
-            $this->setY($y);
+            if (!$this->setColor($color)) {
+                throw new Exception("Color inválido");
+            }
+
+            if (!$this->setGrosor($grosor)) {
+                throw new Exception("Grosor inválido");
             }
         }
 
@@ -109,8 +118,34 @@ public function setX(int $x): bool
     /**
      * @param int $grosor
      */
-    public function setGrosor(int $grosor): void
+    public function setGrosor(int $grosor): bool
     {
-        $this->_grosor = $grosor;
+        if(validaRango($grosor, Punto::GROSORES, 2)){
+            $this->_grosor = $grosor;
+            return true;
+        } else
+            return false;
+    }
+
+    // PROPIEDADES DINAMICAS *****************
+
+    public function __set($name, $value)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function __get($name)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function __isset($name)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function __unset($name)
+    {
+        throw new \Exception('Not implemented');
     }
 }

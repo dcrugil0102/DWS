@@ -28,7 +28,10 @@ class Caracteristicas implements IteratorAggregate
 
     public function __get(string $nombre)
     {
-        return $this->caracteristicas[$nombre] ?? null;
+        if ($this->__isset($nombre)) {
+            return $this->caracteristicas['nombre'];
+        } else throw new Exception("La propiedad $nombre no existe.");
+        
     }
 
     public function __isset(string $nombre): bool
