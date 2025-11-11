@@ -17,18 +17,17 @@ class Punto
         3 => 'grueso'
     ];
 
-    private int $x = 0;
-    private int $y = 0;
-    private string $color = "";
-    private int $grosor = 1;
+    private int $_x = 0;
+    private int $_y = 0;
+    private string $_color = "";
+    private int $_grosor = 1;
 
     // CONSTRUCTOR *********************
 
-    public function __construct(int $x, int $y)
+    public function __construct(int $x, ?int $y)
         {
-            if ($x !== null) {
             $this->setX($x);
-            }
+            
 
             if ($y !== null) {
             $this->setY($y);
@@ -42,26 +41,29 @@ class Punto
      */
     public function getX(): int
     {
-        return $this->x;
+        return $this->_x;
     }
 
     /**
      * @param int $x
      */
-    public function setX(int $x): bool
-    {
-        if (validaEntero($x, 0, 20000, 0)) {
-            $this->x = $x;
-            return true;
-        } else return false;
+public function setX(int $x): bool
+{
+    if (validaEntero($x, 0, 20000, 0)) {
+        $this->_x = $x;
+        return true;
+    } else {
+        return false;
     }
+}
+
 
     /**
      * @return int
      */
     public function getY(): int
     {
-        return $this->y;
+        return $this->_y;
     }
 
     /**
@@ -70,7 +72,7 @@ class Punto
     public function setY(int $y): bool
     {
         if (validaEntero($y, 0, 20000, 0)) {
-            $this->y = $y;
+            $this->_y = $y;
             return true;
         } else
             return false;
@@ -81,15 +83,19 @@ class Punto
      */
     public function getColor(): string
     {
-        return $this->color;
+        return $this->_color;
     }
 
     /**
      * @param string $color
      */
-    public function setColor(string $color): void
+    public function setColor(string $color): bool
     {
-        $this->color = $color;
+        if(validaRango($color, Punto::COLORES, 2)){
+            $this->_color = $color;
+            return true;
+        } else
+            return false;
     }
 
     /**
@@ -97,7 +103,7 @@ class Punto
      */
     public function getGrosor(): int
     {
-        return $this->grosor;
+        return $this->_grosor;
     }
 
     /**
@@ -105,6 +111,6 @@ class Punto
      */
     public function setGrosor(int $grosor): void
     {
-        $this->grosor = $grosor;
+        $this->_grosor = $grosor;
     }
 }
