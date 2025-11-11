@@ -1,6 +1,5 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-include_once(dirname(__FILE__) . "./puntos.php");
 
 $barraUbi = [
     [
@@ -19,6 +18,7 @@ $valores = [
 ];
 
 $errores = [];
+$arrayPuntos = [];
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -45,7 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($valores['grosor'] == "") {
         $errores['grosor'] = 'Debes seleccionar un grosor.';
-    }    
+    }
+    
+    // Crear punto y añadirlo al array
+
+    if (empty($errores)) {
+       try {
+        $arrayPuntos[] = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
+    } catch (Exception $err) {
+        $errores['error'] = $err->getMessage();
+    }
     
 }
 
@@ -55,7 +64,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($valores, $errores);
+cuerpo($valores, $errores, $arrayPuntos);
 finCuerpo();
 
 
@@ -65,7 +74,7 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($valores, $errores)
+function cuerpo($valores, $errores, $arrayPuntos)
 {
 ?>
     <h1>Relacion 7:</h1>
@@ -106,5 +115,8 @@ function cuerpo($valores, $errores)
 
         <button type="submit">Guardar</button>
     </form>
+
 <?php
+                // print_r($arrayPuntos);
+}
 }
