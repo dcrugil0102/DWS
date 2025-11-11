@@ -81,9 +81,9 @@ function cuerpo($valores, $errores)
         <select name="color">
             <option value="" disabled selected>Escoge color</option>
             <?php
-                foreach (Punto::COLORES as $key => $value) {
-                    $selected = ($valores['color'] ?? '') == $value ? 'selected' : '';
-                echo "<option value='$value' $selected>$value</option>";
+                foreach (Punto::COLORES as $colorIngles => $color) {
+                        $selected = ($valores['color'] ?? '') == $color['nombre'] ? 'selected' : '';
+                echo "<option value='{$color['nombre']}' $selected>{$color['nombre']}</option>";
                 } 
              ?>
         </select>
