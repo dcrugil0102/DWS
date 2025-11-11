@@ -16,6 +16,7 @@ spl_autoload_register(function ($clase) {
 
     foreach ($rutas as $ruta) {
         $fichero = $ruta . "$clase.php";
+        var_dump($fichero);
         if (file_exists($fichero)) {
             require_once $fichero;
             return;
