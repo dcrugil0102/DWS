@@ -1,6 +1,9 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-$archivoPuntos = 'puntos.txt';
+
+$archivoPuntos = __DIR__ . '/puntos.txt';
+
+echo $_SERVER['HTTP_USER_AGENT'];
 
 $barraUbi = [
     [
@@ -21,12 +24,28 @@ $errores = [];
 // Sacar IP del cliente
 
 $ip = getenv("REMOTE_ADDR");
+$navegador = "";
+
+$navegadores = [
+    '/chrome/i' => 'CHROME',
+    '/firefox/i' => 'FIREFOX',
+    '/safari/i' => 'SAFARI',
+    '/edge/i' => 'EDGE',
+    '/opera/i' => 'OPERA'
+];
+
+foreach ($navegadores as $patron => $value) {
+    $navegador = preg_match($patron, $_SERVER['HTTP_USER_AGENT']) ? $value : $navegador;
+}
+
 $nombreImg = "";
-$rutaImg = __DIR__ . "/imagenes/puntos";
+$rutaImg = __DIR__ . "/imagenes/puntos/";
 
 foreach (explode(".", $ip) as $n) {
     $nombreImg .= $n . "_";
 }
+
+$nombreImg .= $navegador;
 
 // Crear imagen
 
