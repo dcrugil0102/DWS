@@ -1,2 +1,6 @@
 x: 24, y: 432, color: 'black', grosor: 'fino'
 x: 123, y: 21, color: 'black', grosor: 'medio'
+x: 12, y: 432, color: 'black', grosor: 'fino'
+x: 123, y: 21, color: 'black', grosor: 'fino'
+x: 23, y: 12, color: 'black', grosor: 'fino'
+x: 23, y: 12, color: 'black', grosor: 'fino'

@@ -18,6 +18,31 @@ $valores = [
 
 $errores = [];
 
+// Sacar IP del cliente
+
+$ip = getenv("REMOTE_ADDR");
+$nombreImg = "";
+$rutaImg = __DIR__ . "/imagenes/puntos";
+
+foreach (explode(".", $ip) as $n) {
+    $nombreImg .= $n . "_";
+}
+
+// Crear imagen
+
+$img = imagecreatetruecolor(500, 500);
+
+$blanco = imagecolorallocate($img, 255, 255, 255);
+$negro = imagecolorallocate($img, 0, 0, 0);
+
+imagefilledrectangle($img, 0, 0, 500, 500, $blanco);
+imagerectangle($img, 0, 0, 499, 499, $negro);
+
+imagejpeg($img, $rutaImg . $nombreImg . ".jpeg", 100);
+
+imagedestroy($img);
+
+
 // Codigo que se ejecuta cuando se envia el formulario
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
