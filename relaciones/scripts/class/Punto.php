@@ -129,10 +129,10 @@ class Punto
 
     // PROPIEDADES DINAMICAS *****************
 
-    public function __toString()
-        {
-            return "x: " . $this->getX() . ", y: " . $this->getY() . ", color: " . $this->getColor() . ", grosor: " . Punto::GROSORES[$this->getGrosor()] . "\n";
-        }
+    // public function __toString()
+    //     {
+    //         return "x: " . $this->getX() . ", y: " . $this->getY() . ", color: " . $this->getColor() . ", grosor: " . Punto::GROSORES[$this->getGrosor()] . "\n";
+    //     }
 
     public function __set($name, $value)
     {

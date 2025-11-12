@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
+
     if (empty($errores)) {
         try {
             $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
@@ -56,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 fputs($fic, $punto . PHP_EOL);
             }
             fclose($fic);
-
 
             $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
         } catch (Exception $err) {
@@ -95,7 +95,7 @@ function cuerpo($valores, $errores, $arrayPuntos)
             <?php
             foreach (Punto::COLORES as $colorIngles => $color) {
                 $selected = ($valores['color'] ?? '') == $color['nombre'] ? 'selected' : '';
-                echo "<option value='{$color['nombre']}' $selected>{$color['nombre']}</option>";
+                echo "<option value='{$colorIngles}' $selected>{$color['nombre']}</option>";
             }
             ?>
         </select>
