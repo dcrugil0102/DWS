@@ -55,14 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (empty($errores)) {
         try {
-            $nuevoPunto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
-            $arrayPuntos[] = $nuevoPunto;
-            file_put_contents($archivoPuntos, serialize($arrayPuntos));
+            $arrayPuntos[] = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
             $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
-            $arrayPuntos = unserialize(file_get_contents($archivoPuntos));
-            if (!is_array($arrayPuntos)) {
-                $arrayPuntos = [];
-            }
         } catch (Exception $err) {
             $errores['error'] = $err->getMessage();
         }
