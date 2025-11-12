@@ -5,6 +5,9 @@ define("MODO_TRABAJO", "desarrollo"); //en "produccion o en desarrollo
 
 include_once(dirname(__FILE__) . "/scripts/bookstores/validacion.php");
 
+$arrayPuntos = [];
+print_r($arrayPuntos);
+
 if (MODO_TRABAJO == "produccion")
     error_reporting(0);
 else

@@ -1,6 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
-$archivoPuntos = __DIR__ . '/puntos.txt';
+$archivoPuntos = 'puntos.txt';
 
 $barraUbi = [
     [
@@ -17,13 +17,6 @@ $valores = [
 ];
 
 $errores = [];
-$arrayPuntos = [];
-if (file_exists($archivoPuntos) && filesize($archivoPuntos) > 0) {
-    $arrayPuntos = unserialize(file_get_contents($archivoPuntos));
-    if (!is_array($arrayPuntos)) {
-        $arrayPuntos = [];
-    }
-}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $valores['cordX'] = (int) $_POST['cordX'];
@@ -55,7 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (empty($errores)) {
         try {
-            $arrayPuntos[] = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
+            $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
+            $arrayPuntos[] = $punto;
+            
+            $fic = fopen($archivoPuntos, "a");
+            foreach ($arrayPuntos as $punto) {
+                fputs($fic, $punto . PHP_EOL);
+            }
+            fclose($fic);
+
+
             $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
         } catch (Exception $err) {
             $errores['error'] = $err->getMessage();
