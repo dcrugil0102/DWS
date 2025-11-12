@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         try {
             $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
             $arrayPuntos[] = $punto;
-            
+
             $fic = fopen($archivoPuntos, "a");
             foreach ($arrayPuntos as $punto) {
                 fputs($fic, $punto . PHP_EOL);
