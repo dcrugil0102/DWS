@@ -18,11 +18,18 @@ $valores = [
 
 $errores = [];
 
+// Codigo que se ejecuta cuando se envia el formulario
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+    // Asignacion de valores
+
     $valores['cordX'] = (int) $_POST['cordX'];
     $valores['cordY'] = (int) $_POST['cordY'];
     $valores['color'] = $_POST['color'] ?? '';
     $valores['grosor'] = $_POST['grosor'] ?? '';
+
+    // Validacion de los valores
 
     if (!validaEntero($valores['cordX'], 0, 500, 0)) {
         $errores['cordX'] = 'La coordenada X debe ser entre 0 y 500';
@@ -46,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
+    // Crear los puntos
 
     if (empty($errores)) {
         try {
@@ -70,12 +78,12 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($valores, $errores, $arrayPuntos);
+cuerpo($valores, $errores, $archivoPuntos);
 finCuerpo();
 
 function cabecera() {}
 
-function cuerpo($valores, $errores, $arrayPuntos)
+function cuerpo($valores, $errores, $archivoPuntos)
 {
 ?>
     <h1>Relacion 7:</h1>
@@ -94,7 +102,7 @@ function cuerpo($valores, $errores, $arrayPuntos)
             <option value="" disabled selected>Escoge color</option>
             <?php
             foreach (Punto::COLORES as $colorIngles => $color) {
-                $selected = ($valores['color'] ?? '') == $color['nombre'] ? 'selected' : '';
+                $selected = ($valores['color'] ?? '') == $colorIngles ? 'selected' : '';
                 echo "<option value='{$colorIngles}' $selected>{$color['nombre']}</option>";
             }
             ?>
@@ -119,11 +127,7 @@ function cuerpo($valores, $errores, $arrayPuntos)
 
     <textarea name="puntos" id="puntos" rows="10" cols="50" readonly>
 <?php
-    if (is_array($arrayPuntos)) {
-        foreach ($arrayPuntos as $punto) {
-            echo "x: " . $punto->getX() . ", y: " . $punto->getY() . ", color: " . $punto->getColor() . ", grosor: " . Punto::GROSORES[$punto->getGrosor()] . "\n";
-        }
-    }
+    echo file_get_contents($archivoPuntos);
 ?>
     </textarea>
 <?php
