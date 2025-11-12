@@ -1,5 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
+$archivoPuntos = __DIR__ . '/puntos.txt';
 
 $barraUbi = [
     [
@@ -7,8 +8,6 @@ $barraUbi = [
         "LINK" => "/aplicacion/relacion7/index.php"
     ]
 ];
-
-// ********************* CONTROLADOR *****************************
 
 $valores = [
     'cordX' => 0,
@@ -19,17 +18,18 @@ $valores = [
 
 $errores = [];
 $arrayPuntos = [];
+if (file_exists($archivoPuntos) && filesize($archivoPuntos) > 0) {
+    $arrayPuntos = unserialize(file_get_contents($archivoPuntos));
+    if (!is_array($arrayPuntos)) {
+        $arrayPuntos = [];
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-    // Asignacion de valores
-
-    $valores['cordX'] = (int)$_POST['cordX'];
-    $valores['cordY'] = (int)$_POST['cordY'];
+    $valores['cordX'] = (int) $_POST['cordX'];
+    $valores['cordY'] = (int) $_POST['cordY'];
     $valores['color'] = $_POST['color'] ?? '';
     $valores['grosor'] = $_POST['grosor'] ?? '';
-
-    // Validaciones
 
     if (!validaEntero($valores['cordX'], 0, 500, 0)) {
         $errores['cordX'] = 'La coordenada X debe ser entre 0 y 500';
@@ -45,19 +45,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($valores['grosor'] == "") {
         $errores['grosor'] = 'Debes seleccionar un grosor.';
+    } else {
+        foreach (Punto::GROSORES as $key => $value) {
+            if ($valores['grosor'] == $value) {
+                $valores['grosor'] = $key;
+            }
+        }
     }
-    
-    // Crear punto y añadirlo al array
 
     if (empty($errores)) {
-       try {
-        $arrayPuntos[] = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
-    } catch (Exception $err) {
-        $errores['error'] = $err->getMessage();
+        try {
+            $nuevoPunto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
+            $arrayPuntos[] = $nuevoPunto;
+            file_put_contents($archivoPuntos, serialize($arrayPuntos));
+            $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
+            $arrayPuntos = unserialize(file_get_contents($archivoPuntos));
+            if (!is_array($arrayPuntos)) {
+                $arrayPuntos = [];
+            }
+        } catch (Exception $err) {
+            $errores['error'] = $err->getMessage();
+        }
     }
-    
 }
-
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -67,12 +77,7 @@ inicioCuerpo("2DAW APLICACION", $barraUbi);
 cuerpo($valores, $errores, $arrayPuntos);
 finCuerpo();
 
-
-
-// ************************** VISTA *****************************
-
 function cabecera() {}
-
 
 function cuerpo($valores, $errores, $arrayPuntos)
 {
@@ -85,18 +90,18 @@ function cuerpo($valores, $errores, $arrayPuntos)
         <span class="error"><?= $errores['cordX'] ?? '' ?></span><br>
 
         <label for="cordY">Introduce Y:</label>
-        <input type="number" name="cordY" value="<?= htmlspecialchars($valores['cordX'] ?? "") ?>">
+        <input type="number" name="cordY" value="<?= htmlspecialchars($valores['cordY'] ?? "") ?>">
         <span class="error"><?= $errores['cordY'] ?? '' ?></span><br>
 
         <label for="color">Escoge el color:</label>
         <select name="color">
             <option value="" disabled selected>Escoge color</option>
             <?php
-                foreach (Punto::COLORES as $colorIngles => $color) {
-                        $selected = ($valores['color'] ?? '') == $color['nombre'] ? 'selected' : '';
+            foreach (Punto::COLORES as $colorIngles => $color) {
+                $selected = ($valores['color'] ?? '') == $color['nombre'] ? 'selected' : '';
                 echo "<option value='{$color['nombre']}' $selected>{$color['nombre']}</option>";
-                } 
-             ?>
+            }
+            ?>
         </select>
         <span class="error"><?= $errores['color'] ?? '' ?></span><br>
 
@@ -116,7 +121,14 @@ function cuerpo($valores, $errores, $arrayPuntos)
         <button type="submit">Guardar</button>
     </form>
 
+    <textarea name="puntos" id="puntos" rows="10" cols="50" readonly>
 <?php
-                // print_r($arrayPuntos);
-}
+    if (is_array($arrayPuntos)) {
+        foreach ($arrayPuntos as $punto) {
+            echo "x: " . $punto->getX() . ", y: " . $punto->getY() . ", color: " . $punto->getColor() . ", grosor: " . Punto::GROSORES[$punto->getGrosor()] . "\n";
+        }
+    }
+?>
+    </textarea>
+<?php
 }

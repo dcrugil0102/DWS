@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-class Punto 
+class Punto
 {
     // PROPIEDADES *******************
     public const COLORES = [
@@ -14,7 +14,7 @@ class Punto
     public const GROSORES = [
         1 => 'fino',
         2 => 'medio',
-        3 => 'grueso'
+        3 => 'gordo'
     ];
 
     private int $_x = 0;
@@ -25,23 +25,23 @@ class Punto
     // CONSTRUCTOR *********************
 
     public function __construct(int $x, int $y, string $color, int $grosor)
-        {
-            if (!$this->setX($x)) {
-                throw new Exception("X debe ser entre 0 y 20000");
-            }
-            
-            if (!$this->setY($y)) {
-                throw new Exception("Y debe ser entre 0 y 20000");
-            }
-
-            if (!$this->setColor($color)) {
-                throw new Exception("Color inválido");
-            }
-
-            if (!$this->setGrosor($grosor)) {
-                throw new Exception("Grosor inválido");
-            }
+    {
+        if (!$this->setX($x)) {
+            throw new Exception("X debe ser entre 0 y 20000");
         }
+
+        if (!$this->setY($y)) {
+            throw new Exception("Y debe ser entre 0 y 20000");
+        }
+
+        if (!$this->setColor($color)) {
+            throw new Exception("Color inválido");
+        }
+
+        if (!$this->setGrosor($grosor)) {
+            throw new Exception("Grosor inválido");
+        }
+    }
 
     // GETTERS Y SETTERS *******************
 
@@ -56,15 +56,15 @@ class Punto
     /**
      * @param int $x
      */
-public function setX(int $x): bool
-{
-    if (validaEntero($x, 0, 20000, 0)) {
-        $this->_x = $x;
-        return true;
-    } else {
-        return false;
+    public function setX(int $x): bool
+    {
+        if (validaEntero($x, 0, 20000, 0)) {
+            $this->_x = $x;
+            return true;
+        } else {
+            return false;
+        }
     }
-}
 
 
     /**
@@ -100,7 +100,7 @@ public function setX(int $x): bool
      */
     public function setColor(string $color): bool
     {
-        if(validaRango($color, Punto::COLORES, 2)){
+        if (validaRango($color, Punto::COLORES, 2)) {
             $this->_color = $color;
             return true;
         } else
@@ -120,7 +120,7 @@ public function setX(int $x): bool
      */
     public function setGrosor(int $grosor): bool
     {
-        if(validaRango($grosor, Punto::GROSORES, 2)){
+        if (validaRango($grosor, Punto::GROSORES, 2)) {
             $this->_grosor = $grosor;
             return true;
         } else
