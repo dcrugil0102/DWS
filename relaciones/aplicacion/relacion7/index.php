@@ -1,4 +1,5 @@
 <?php
+include_once(dirname(__FILE__) . "/../../cabecera.php");
 
 // Sacar IP y navegador del cliente
 
@@ -26,7 +27,7 @@ $nombrePunto = "puntos/puntos_";
 foreach (explode(".", $ip) as $n) $nombrePunto .= $n . "_";
 $nombrePunto .= "$navegador.dat";
 
-include_once(dirname(__FILE__) . "/../../cabecera.php");
+include_once(dirname(__FILE__) . "/global.php");
 
 $barraUbi = [
     [
@@ -125,7 +126,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     } else if ($_POST['formulario'] == 'eliminar') {
-        array_splice($arrayPuntos, $_POST['puntos'], 1);
+        $puntoABorrar = $_POST['puntos'];
+        array_splice($arrayPuntos, $puntoABorrar, 1);
+
+        if (file_exists($nombrePunto)) {
+            $lineas = file($nombrePunto);
+            if (isset($lineas[$puntoABorrar])) {
+                unset($lineas[$puntoABorrar]);
+                file_put_contents($nombrePunto, $lineas);
+            }
+        }
     }
 }
 
@@ -198,7 +208,7 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg, $arrayPuntos)
         <input type="hidden" name="formulario" value="eliminar">
         
         <select name="puntos" id="puntos">
-            <option value="" disabled selected>Escoge color</option>
+            <option value="" disabled selected>Elige Punto</option>
             <?php
                 for ($i=0; $i < count($arrayPuntos); $i++) { 
                     echo "<option value='$i'>{$i}º: {$arrayPuntos[$i]}</option>";
