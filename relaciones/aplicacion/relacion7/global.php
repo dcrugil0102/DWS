@@ -19,9 +19,5 @@ if (file_exists($rutaPunto) && !empty($rutaPunto)) {
             $errores[] = $err;
             }
     }
-
-    foreach ($arrayPuntos as $punto) {
-        echo $punto;
-    }
 }
 ?>

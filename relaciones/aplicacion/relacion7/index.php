@@ -114,6 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             try {
                 $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
 
+                $arrayPuntos[] = $punto;
+                
                 $fic = fopen($nombrePunto, 'a');
                 
                 fputs($fic, $punto . PHP_EOL);
