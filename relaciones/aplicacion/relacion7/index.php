@@ -14,7 +14,8 @@ $valores = [
     'cordX' => 0,
     'cordY' => 0,
     "color" => "",
-    'grosor' => ""
+    'grosor' => "",
+    'archivo' => ""
 ];
 
 $errores = [];
@@ -61,24 +62,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
 
                 $arrayPuntos[] = $punto;
-                
+
                 $fic = fopen($nombrePunto, 'a');
-                
+
                 fputs($fic, $punto . PHP_EOL);
-                
+
                 fclose($fic);
 
                 $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
             } catch (Exception $err) {
-                $errores['error'] = $err->getMessage();
+                $valores['error'] = $err->getMessage();
             }
         }
 
         $img = recrearImg($arrayPuntos);
         imagejpeg($img, $nombreImg, 100);
         imagedestroy($img);
-
-
     } else if ($_POST['formulario'] == 'eliminar') {
         $puntoABorrar = $_POST['puntos'];
         array_splice($arrayPuntos, $puntoABorrar, 1);
@@ -90,6 +89,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 file_put_contents($nombrePunto, $lineas);
             }
         }
+
+        $img = recrearImg($arrayPuntos);
+        imagejpeg($img, $nombreImg, 100);
+        imagedestroy($img);
+    } else if ($_POST['formulario'] == 'cargar') {
+
+        if (isset($_FILES['archivo'])) {
+            print_r($_FILES['archivo']);
+        } else
+            $_FILES['error'] = 'Error al cargar el archivo';
 
         $img = recrearImg($arrayPuntos);
         imagejpeg($img, $nombreImg, 100);
@@ -164,18 +173,27 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg, $arrayPuntos)
 
     <form action="index.php" method="post">
         <input type="hidden" name="formulario" value="eliminar">
-        
+
         <select name="puntos" id="puntos">
             <option value="" disabled selected>Elige Punto</option>
             <?php
-                for ($i=0; $i < count($arrayPuntos); $i++) { 
-                    echo "<option value='$i'>{$i}º: {$arrayPuntos[$i]}</option>";
-                }
+            for ($i = 0; $i < count($arrayPuntos); $i++) {
+                echo "<option value='$i'>{$i}º: {$arrayPuntos[$i]}</option>";
+            }
             ?>
 
         </select>
 
         <button type="submit">Borrar</button>
+    </form>
+
+    <form action="index.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="formulario" value="cargar">
+
+        <input type="file" name="archivo" id="archivo" accept=".txt"><br>
+        <span class="error"><?= $_FILES['error'] ?></span>
+
+        <button type="submit">Cargar puntos</button>
     </form>
 
     <h3>Imagen :</h3>

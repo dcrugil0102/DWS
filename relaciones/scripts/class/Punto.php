@@ -1,4 +1,5 @@
 <?php
+include_once(dirname(__FILE__) . "/../../cabecera.php");
 
 class Punto
 {
