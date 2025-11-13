@@ -67,7 +67,6 @@ $nombrePunto = "puntos/puntos_";
 foreach (explode(".", $ip) as $n) $nombrePunto .= $n . "_";
 $nombrePunto .= "$navegador.dat";
 
-
 // Codigo que se ejecuta cuando se envia el formulario
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
