@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
             } catch (Exception $err) {
-                $valores['error'] = $err->getMessage();
+                $errores['error'] = $err->getMessage();
             }
         }
 
@@ -96,13 +96,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else if ($_POST['formulario'] == 'cargar') {
 
         if (isset($_FILES['archivo'])) {
-            print_r($_FILES['archivo']);
-        } else
-            $_FILES['error'] = 'Error al cargar el archivo';
+            $nombreArchivo = $_FILES['archivo']['name'];
+            $tmp = $_FILES['archivo']['tmp_name'];
 
-        $img = recrearImg($arrayPuntos);
-        imagejpeg($img, $nombreImg, 100);
-        imagedestroy($img);
+            $colores = implode("|", [Punto::COLORES]);
+            $grosores = implode("|", [Punto::GROSORES]);
+
+            move_uploaded_file($tmp, $nombreArchivo);
+            $fic = fopen($nombreArchivo, "r");
+            while (($linea = fgets($fic) !== false)) {
+                $ficPuntos = fopen("$nombrePunto", "a");
+                if (preg_match("^([0-9]|[1-9][0-9]|[0-4][0-9]{2}|500);([0-9]|[1-9][0-9]|[0-4][0-9]{2}|500);(" . $colores . ");(" . $grosores . ")$", $linea)) {
+                    fputs($ficPuntos, $linea);
+                }
+                fclose($ficPuntos);
+            }
+            fclose($fic);
+        } else
+            $valores['archivo'] = 'Error al cargar el archivo';
     }
 }
 
@@ -191,7 +202,7 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg, $arrayPuntos)
         <input type="hidden" name="formulario" value="cargar">
 
         <input type="file" name="archivo" id="archivo" accept=".txt"><br>
-        <span class="error"><?= $_FILES['error'] ?></span>
+        <span class="error"><?= $valores['archivo'] ?? "" ?></span>
 
         <button type="submit">Cargar puntos</button>
     </form>
