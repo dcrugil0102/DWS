@@ -56,21 +56,7 @@ foreach (explode(".", $ip) as $n) {
 $nombreImg .= $navegador . ".jpeg";
 
 if (!file_exists($nombreImg)) {
-    $img = imagecreatetruecolor(500, 500);
-
-    $blanco = imagecolorallocate($img, 255, 255, 255);
-    $negro = imagecolorallocate($img, 0, 0, 0);
-    $rojo = imagecolorallocate($img, 255, 0, 0);
-    $verde = imagecolorallocate($img, 0, 255, 0);
-    $azul = imagecolorallocate($img, 0, 0, 255);
-    $amarillo = imagecolorallocate($img, 255, 255, 0);
-
-    imagefilledrectangle($img, 0, 0, 500, 500, $blanco);
-    imagerectangle($img, 0, 0, 499, 499, $negro);
-
-    imagejpeg($img, $nombreImg, 100);
-
-    imagedestroy($img);
+    crearImg($nombreImg, $arrayPuntos);
 }
 
 // Codigo que se ejecuta cuando se envia el formulario
@@ -130,20 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // Recrear la imagen
 
-        $img = imagecreatefromjpeg($nombreImg);
-
-        foreach ($arrayPuntos as $punto) {
-            $colorPunto = $punto::COLORES[$punto->getColor()]['rgb'];
-            $colorImg = imagecolorallocate($img, $colorPunto[0], $colorPunto[1], $colorPunto[2]);
-
-            $grosor = $punto->getGrosor();
-
-            imagefilledellipse($img, $punto->getX(), $punto->getY(), $grosor*5, $grosor*5, $colorImg);
-            
-        }
-
-        imagejpeg($img, $nombreImg, 100);
-        imagedestroy($img);
+        recrearImg($nombreImg, $arrayPuntos);
 
 
     } else if ($_POST['formulario'] == 'eliminar') {
@@ -157,7 +130,45 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 file_put_contents($nombrePunto, $lineas);
             }
         }
+
+        // Recrear imagen
+
+        recrearImg($nombreImg, $arrayPuntos);
     }
+}
+
+function crearImg($nombreImg, $arrayPuntos){
+    $img = imagecreatetruecolor(500, 500);
+
+    $blanco = imagecolorallocate($img, 255, 255, 255);
+    $negro = imagecolorallocate($img, 0, 0, 0);
+
+    imagefilledrectangle($img, 0, 0, 500, 500, $blanco);
+    imagerectangle($img, 0, 0, 499, 499, $negro);
+
+    imagejpeg($img, $nombreImg, 100);
+
+    imagedestroy($img);
+}
+
+function recrearImg($nombreImg, $arrayPuntos){
+
+    crearImg($nombreImg, $arrayPuntos);
+
+    $img = imagecreatefromjpeg($nombreImg);
+
+        foreach ($arrayPuntos as $punto) {
+            $colorPunto = $punto::COLORES[$punto->getColor()]['rgb'];
+            $colorImg = imagecolorallocate($img, $colorPunto[0], $colorPunto[1], $colorPunto[2]);
+
+            $grosor = $punto->getGrosor();
+
+            imagefilledellipse($img, $punto->getX(), $punto->getY(), $grosor*5, $grosor*5, $colorImg);
+            
+        }
+
+        imagejpeg($img, $nombreImg, 100);
+        imagedestroy($img);
 }
 
 inicioCabecera("2DAW APLICACION");
@@ -243,6 +254,6 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg, $arrayPuntos)
 
     <h3>Imagen :</h3>
     <img src="<?= $nombreImg ?>" alt="">
-    <p><?= $nombreImg ?>"</p>
+
 <?php
 }
