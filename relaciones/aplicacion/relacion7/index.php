@@ -90,12 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-        $img = recrearImg($arrayPuntos);
-        imagejpeg($img, $nombreImg, 100);
-        imagedestroy($img);
+        header("Location: " . $_SERVER['PHP_SELF'] . "?recrear=1");
     } else if ($_POST['formulario'] == 'cargar') {
 
-        if (isset($_FILES['archivo'])) {
+        if (isset($_FILES['archivo']) && $_FILES['archivo']['tmp_name'] != '') {
             $nombreArchivo = $_FILES['archivo']['name'];
             $tmp = $_FILES['archivo']['tmp_name'];
 
@@ -115,15 +113,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             fclose($ficPuntos);
             fclose($fic);
 
-            $img = recrearImg($arrayPuntos);
-            imagejpeg($img, $nombreImg, 100);
-            imagedestroy($img);
-
-            header("Location: " . $_SERVER['PHP_SELF'] . "?mensaje=punto+cargado");
+            header("Location: " . $_SERVER['PHP_SELF'] . "?recrear=1");
         } else {
             $valores['archivo'] = 'Error al cargar el archivo';
         }
     }
+} else if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['recrear'])) {
+    $img = recrearImg($arrayPuntos);
+    imagejpeg($img, $nombreImg, 100);
+    imagedestroy($img);
 }
 
 inicioCabecera("2DAW APLICACION");
