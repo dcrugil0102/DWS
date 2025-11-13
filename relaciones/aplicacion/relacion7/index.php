@@ -59,6 +59,10 @@ if (!file_exists($nombreImg)) {
 
     $blanco = imagecolorallocate($img, 255, 255, 255);
     $negro = imagecolorallocate($img, 0, 0, 0);
+    $rojo = imagecolorallocate($img, 255, 0, 0);
+    $verde = imagecolorallocate($img, 0, 255, 0);
+    $azul = imagecolorallocate($img, 0, 0, 255);
+    $amarillo = imagecolorallocate($img, 255, 255, 0);
 
     imagefilledrectangle($img, 0, 0, 500, 500, $blanco);
     imagerectangle($img, 0, 0, 499, 499, $negro);
@@ -71,55 +75,57 @@ if (!file_exists($nombreImg)) {
 // Codigo que se ejecuta cuando se envia el formulario
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if ($_POST['formulario'] == 'agregar') {
+        // Asignacion de valores
 
-    // Asignacion de valores
+        $valores['cordX'] = (int) $_POST['cordX'];
+        $valores['cordY'] = (int) $_POST['cordY'];
+        $valores['color'] = $_POST['color'] ?? '';
+        $valores['grosor'] = $_POST['grosor'] ?? '';
 
-    $valores['cordX'] = (int) $_POST['cordX'];
-    $valores['cordY'] = (int) $_POST['cordY'];
-    $valores['color'] = $_POST['color'] ?? '';
-    $valores['grosor'] = $_POST['grosor'] ?? '';
+        // Validacion de los valores
 
-    // Validacion de los valores
+        if (!validaEntero($valores['cordX'], 0, 500, 0)) {
+            $errores['cordX'] = 'La coordenada X debe ser entre 0 y 500';
+        }
 
-    if (!validaEntero($valores['cordX'], 0, 500, 0)) {
-        $errores['cordX'] = 'La coordenada X debe ser entre 0 y 500';
-    }
+        if (!validaEntero($valores['cordY'], 0, 500, 0)) {
+            $errores['cordY'] = 'La coordenada Y debe ser entre 0 y 500';
+        }
 
-    if (!validaEntero($valores['cordY'], 0, 500, 0)) {
-        $errores['cordY'] = 'La coordenada Y debe ser entre 0 y 500';
-    }
+        if ($valores['color'] == "") {
+            $errores['color'] = 'Debes seleccionar un color.';
+        }
 
-    if ($valores['color'] == "") {
-        $errores['color'] = 'Debes seleccionar un color.';
-    }
-
-    if ($valores['grosor'] == "") {
-        $errores['grosor'] = 'Debes seleccionar un grosor.';
-    } else {
-        foreach (Punto::GROSORES as $key => $value) {
-            if ($valores['grosor'] == $value) {
-                $valores['grosor'] = $key;
+        if ($valores['grosor'] == "") {
+            $errores['grosor'] = 'Debes seleccionar un grosor.';
+        } else {
+            foreach (Punto::GROSORES as $key => $value) {
+                if ($valores['grosor'] == $value) {
+                    $valores['grosor'] = $key;
+                }
             }
         }
-    }
 
-    // Crear los puntos y añadirlos al fichero
+        // Crear los puntos y añadirlos al fichero
 
-    if (empty($errores)) {
-        try {
-            $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
-            $arrayPuntos[] = $punto;
+        if (empty($errores)) {
+            try {
+                $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
 
-            $fic = fopen($nombrePunto, 'a');
-            foreach ($arrayPuntos as $punto) {
+                $fic = fopen($nombrePunto, 'a');
+                
                 fputs($fic, $punto . PHP_EOL);
-            }
-            fclose($fic);
+                
+                fclose($fic);
 
-            $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
-        } catch (Exception $err) {
-            $errores['error'] = $err->getMessage();
+                $valores = ['cordX' => '', 'cordY' => '', 'color' => '', 'grosor' => ''];
+            } catch (Exception $err) {
+                $errores['error'] = $err->getMessage();
+            }
         }
+    } else if ($_POST['formulario'] == 'eliminar') {
+        
     }
 }
 
@@ -139,6 +145,8 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg)
     <h1>Relacion 7:</h1>
 
     <form action="index.php" method="post">
+        <input type="hidden" name="formulario" value="agregar">
+
         <label for="cordX">Introduce X:</label>
         <input type="number" name="cordX" value="<?= htmlspecialchars($valores['cordX'] ?? "") ?>">
         <span class="error"><?= $errores['cordX'] ?? '' ?></span><br>
@@ -173,6 +181,16 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg)
         <span class="error"><?= $errores['grosor'] ?? '' ?></span><br>
 
         <button type="submit">Guardar</button>
+    </form>
+
+    <form action="index.php" method="post">
+        <input type="hidden" name="formulario" value="eliminar">
+
+            <?php
+            $fic = fopen($nombrePunto, "r");
+            ?>
+
+        <button type="submit">Borrar</button>
     </form>
 
     <textarea name="puntos" id="puntos" rows="10" cols="50" readonly>
