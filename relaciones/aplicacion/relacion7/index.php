@@ -63,14 +63,14 @@ if (!file_exists($nombreImg)) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($_POST['formulario'] == 'agregar') {
-        // Asignacion de valores
+        // Asignacion de valores del formulario
 
         $valores['cordX'] = (int) $_POST['cordX'];
         $valores['cordY'] = (int) $_POST['cordY'];
         $valores['color'] = $_POST['color'] ?? '';
         $valores['grosor'] = $_POST['grosor'] ?? '';
 
-        // Validacion de los valores
+        // Validacion de los valores del formmulario
 
         if (!validaEntero($valores['cordX'], 0, 500, 0)) {
             $errores['cordX'] = 'La coordenada X debe ser entre 0 y 500';
@@ -114,8 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-        // Recrear la imagen
-
         recrearImg($nombreImg, $arrayPuntos);
 
 
@@ -130,8 +128,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 file_put_contents($nombrePunto, $lineas);
             }
         }
-
-        // Recrear imagen
 
         recrearImg($nombreImg, $arrayPuntos);
     }
@@ -170,6 +166,8 @@ function recrearImg($nombreImg, $arrayPuntos){
         imagejpeg($img, $nombreImg, 100);
         imagedestroy($img);
 }
+
+include_once(dirname(__FILE__) . "/imagen.php");
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -254,6 +252,9 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg, $arrayPuntos)
 
     <h3>Imagen :</h3>
     <img src="<?= $nombreImg ?>" alt="">
+    <form action="imagen.php" method="post">
+        <button type="submit">Descargar</button>
+    </form>
 
 <?php
 }
