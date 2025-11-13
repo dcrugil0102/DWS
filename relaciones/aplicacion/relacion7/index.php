@@ -1,10 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
-$archivoPuntos = __DIR__ . '/puntos.txt';
-
-echo $_SERVER['HTTP_USER_AGENT'];
-
 $barraUbi = [
     [
         "TEXTO" => "Inicio",
@@ -21,45 +17,55 @@ $valores = [
 
 $errores = [];
 
-// Sacar IP del cliente
+// Sacar IP y navegador del cliente
 
 $ip = getenv("REMOTE_ADDR");
-$navegador = "";
+$navegador = "otro";
 
 $navegadores = [
-    '/chrome/i' => 'CHROME',
-    '/firefox/i' => 'FIREFOX',
-    '/safari/i' => 'SAFARI',
-    '/edge/i' => 'EDGE',
-    '/opera/i' => 'OPERA'
+    '/chrome/i' => 'chrome',
+    '/firefox/i' => 'firefox',
+    '/safari/i' => 'safari',
+    '/edge/i' => 'edge',
+    '/opera/i' => 'opera'
 ];
 
 foreach ($navegadores as $patron => $value) {
-    $navegador = preg_match($patron, $_SERVER['HTTP_USER_AGENT']) ? $value : $navegador;
+    if (preg_match($patron, $_SERVER['HTTP_USER_AGENT'])) {
+        $navegador = $value;
+        break;
+    }
 }
 
-$nombreImg = "";
-$rutaImg = __DIR__ . "/imagenes/puntos/";
+// Crear imagen
+
+$nombreImg = "../../img/puntos/";
 
 foreach (explode(".", $ip) as $n) {
     $nombreImg .= $n . "_";
 }
 
-$nombreImg .= $navegador;
+$nombreImg .= $navegador . ".jpeg";
 
-// Crear imagen
+if (!file_exists($nombreImg)) {
+    $img = imagecreatetruecolor(500, 500);
 
-$img = imagecreatetruecolor(500, 500);
+    $blanco = imagecolorallocate($img, 255, 255, 255);
+    $negro = imagecolorallocate($img, 0, 0, 0);
 
-$blanco = imagecolorallocate($img, 255, 255, 255);
-$negro = imagecolorallocate($img, 0, 0, 0);
+    imagefilledrectangle($img, 0, 0, 500, 500, $blanco);
+    imagerectangle($img, 0, 0, 499, 499, $negro);
 
-imagefilledrectangle($img, 0, 0, 500, 500, $blanco);
-imagerectangle($img, 0, 0, 499, 499, $negro);
+    imagejpeg($img, $nombreImg, 100);
 
-imagejpeg($img, $rutaImg . $nombreImg . ".jpeg", 100);
+    imagedestroy($img);
+}
 
-imagedestroy($img);
+// Crear fichero de los puntos
+
+$nombrePunto = "puntos/puntos_";
+foreach (explode(".", $ip) as $n) $nombrePunto .= $n . "_";
+$nombrePunto .= "$navegador.dat";
 
 
 // Codigo que se ejecuta cuando se envia el formulario
@@ -97,14 +103,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
-    // Crear los puntos
+    // Crear los puntos y añadirlos al fichero
 
     if (empty($errores)) {
         try {
             $punto = new Punto($valores['cordX'], $valores['cordY'], $valores['color'], $valores['grosor']);
             $arrayPuntos[] = $punto;
 
-            $fic = fopen($archivoPuntos, "a");
+            $fic = fopen($nombrePunto, 'a');
             foreach ($arrayPuntos as $punto) {
                 fputs($fic, $punto . PHP_EOL);
             }
@@ -122,12 +128,12 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($valores, $errores, $archivoPuntos);
+cuerpo($valores, $errores, $nombrePunto, $nombreImg);
 finCuerpo();
 
 function cabecera() {}
 
-function cuerpo($valores, $errores, $archivoPuntos)
+function cuerpo($valores, $errores, $nombrePunto, $nombreImg)
 {
 ?>
     <h1>Relacion 7:</h1>
@@ -171,8 +177,15 @@ function cuerpo($valores, $errores, $archivoPuntos)
 
     <textarea name="puntos" id="puntos" rows="10" cols="50" readonly>
 <?php
-    echo file_get_contents($archivoPuntos);
+    if (!empty($nombrePunto) && file_exists($nombrePunto)) {
+        echo file_get_contents($nombrePunto);
+    } else {
+        echo "No hay puntos guardados todavía.";
+    }
 ?>
     </textarea>
+
+    <h3>Imagen :</h3>
+    <img src="<?= $nombreImg ?>" alt="">
 <?php
 }

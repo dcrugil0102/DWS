@@ -131,10 +131,10 @@ class Punto
 
     public function __toString()
     {
-        return "x: " . $this->getX() .
-            ", y: " . $this->getY() .
-            ", color: '" . $this->getColor() . "'" .
-            ", grosor: '" . Punto::GROSORES[$this->getGrosor()] . "'";
+        return $this->getX() .
+            ";" . $this->getY() .
+            ";" . $this->getColor() .
+            ";" . Punto::GROSORES[$this->getGrosor()];
     }
 
 
