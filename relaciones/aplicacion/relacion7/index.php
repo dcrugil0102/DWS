@@ -118,11 +118,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $img = recrearImg($arrayPuntos);
             imagejpeg($img, $nombreImg, 100);
             imagedestroy($img);
-        } else
-            $valores['archivo'] = 'Error al cargar el archivo';
-    }
 
-    header("Location: " . $_SERVER['PHP_SELF']);
+            header("Location: " . $_SERVER['PHP_SELF'] . "?mensaje=punto+cargado");
+        } else {
+            $valores['archivo'] = 'Error al cargar el archivo';
+        }
+    }
 }
 
 inicioCabecera("2DAW APLICACION");
