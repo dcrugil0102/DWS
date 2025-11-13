@@ -127,6 +127,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $errores['error'] = $err->getMessage();
             }
         }
+
+        // Recrear la imagen
+
+        $img = imagecreatefromjpeg($nombreImg);
+
+        foreach ($arrayPuntos as $punto) {
+            $colorPunto = $punto::COLORES[$punto->getColor()]['rgb'];
+            $colorImg = imagecolorallocate($img, $colorPunto[0], $colorPunto[1], $colorPunto[2]);
+
+            $grosor = $punto->getGrosor();
+
+            imagefilledellipse($img, $punto->getX(), $punto->getY(), $grosor*5, $grosor*5, $colorImg);
+            
+        }
+
+        imagejpeg($img, $nombreImg, 100);
+        imagedestroy($img);
+
+
     } else if ($_POST['formulario'] == 'eliminar') {
         $puntoABorrar = $_POST['puntos'];
         array_splice($arrayPuntos, $puntoABorrar, 1);
@@ -224,5 +243,6 @@ function cuerpo($valores, $errores, $nombrePunto, $nombreImg, $arrayPuntos)
 
     <h3>Imagen :</h3>
     <img src="<?= $nombreImg ?>" alt="">
+    <p><?= $nombreImg ?>"</p>
 <?php
 }
