@@ -1,0 +1,5 @@
+250;250;red;gordo
+265;250;red;gordo
+235;250;red;gordo
+250;265;red;gordo
+250;235;red;gordo

@@ -99,22 +99,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $nombreArchivo = $_FILES['archivo']['name'];
             $tmp = $_FILES['archivo']['tmp_name'];
 
-            $colores = implode("|", [Punto::COLORES]);
-            $grosores = implode("|", [Punto::GROSORES]);
+            $colores = implode("|", array_keys(Punto::COLORES));
+            $grosores = implode("|", Punto::GROSORES);
 
             move_uploaded_file($tmp, $nombreArchivo);
             $fic = fopen($nombreArchivo, "r");
-            while (($linea = fgets($fic) !== false)) {
-                $ficPuntos = fopen("$nombrePunto", "a");
-                if (preg_match("^([0-9]|[1-9][0-9]|[0-4][0-9]{2}|500);([0-9]|[1-9][0-9]|[0-4][0-9]{2}|500);(" . $colores . ");(" . $grosores . ")$", $linea)) {
-                    fputs($ficPuntos, $linea);
+            $ficPuntos = fopen("$nombrePunto", "a");
+            while (($linea = fgets($fic)) !== false) {
+                $linea = trim($linea);
+
+                if (preg_match("/^([0-9]|[1-9][0-9]|[0-4][0-9]{2}|500);([0-9]|[1-9][0-9]|[0-4][0-9]{2}|500);(" . $colores . ");(" . $grosores . ")$/", $linea)) {
+                    fputs($ficPuntos, $linea . PHP_EOL);
                 }
-                fclose($ficPuntos);
             }
+            fclose($ficPuntos);
             fclose($fic);
+
+            $img = recrearImg($arrayPuntos);
+            imagejpeg($img, $nombreImg, 100);
+            imagedestroy($img);
         } else
             $valores['archivo'] = 'Error al cargar el archivo';
     }
+
+    header("Location: " . $_SERVER['PHP_SELF']);
 }
 
 inicioCabecera("2DAW APLICACION");
