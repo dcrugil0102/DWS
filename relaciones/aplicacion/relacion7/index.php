@@ -1,32 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
-// Sacar IP y navegador del cliente
-
-$ip = getenv("REMOTE_ADDR");
-$navegador = "otro";
-
-$navegadores = [
-    '/chrome/i' => 'chrome',
-    '/firefox/i' => 'firefox',
-    '/safari/i' => 'safari',
-    '/edge/i' => 'edge',
-    '/opera/i' => 'opera'
-];
-
-foreach ($navegadores as $patron => $value) {
-    if (preg_match($patron, $_SERVER['HTTP_USER_AGENT'])) {
-        $navegador = $value;
-        break;
-    }
-}
-
-// Crear fichero de los puntos
-
-$nombrePunto = "puntos/puntos_";
-foreach (explode(".", $ip) as $n) $nombrePunto .= $n . "_";
-$nombrePunto .= "$navegador.dat";
-
 include_once(dirname(__FILE__) . "/global.php");
 
 $barraUbi = [
@@ -44,23 +18,6 @@ $valores = [
 ];
 
 $errores = [];
-
-// Crear imagen
-
-$nombreImg = "../../img/puntos/";
-
-foreach (explode(".", $ip) as $n) {
-    $nombreImg .= $n . "_";
-}
-
-$nombreImg .= $navegador . ".jpeg";
-
-if (!file_exists($nombreImg)) {
-    $img = crearImg();
-    
-    imagejpeg($img, $nombreImg, 100);
-    imagedestroy($img);
-}
 
 // Codigo que se ejecuta cuando se envia el formulario
 
@@ -117,7 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-        recrearImg($arrayPuntos);
+        $img = recrearImg($arrayPuntos);
+        imagejpeg($img, $nombreImg, 100);
+        imagedestroy($img);
 
 
     } else if ($_POST['formulario'] == 'eliminar') {
@@ -132,13 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-        recrearImg($arrayPuntos);
+        $img = recrearImg($arrayPuntos);
         imagejpeg($img, $nombreImg, 100);
         imagedestroy($img);
     }
 }
-
-include_once(dirname(__FILE__) . "/imagen.php");
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
