@@ -7,6 +7,18 @@ include_once(dirname(__FILE__) . "/scripts/bookstores/validacion.php");
 
 $arrayPuntos = [];
 
+if (file_exists(__DIR__ . $nombrePunto)) {
+    $fic = fopen(__DIR__ . $nombrePunto, "r");
+    while($linea = fgets($fic) !== false){
+        $datos = explode(';', trim($linea));
+            $arrayPuntos[] = new Punto($datos[0],$datos[1], $datos[2], $datos[3]);
+    }
+}
+
+print_r($arrayPuntos);
+
+
+
 if (MODO_TRABAJO == "produccion")
     error_reporting(0);
 else

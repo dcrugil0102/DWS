@@ -1,21 +1,4 @@
 <?php
-include_once(dirname(__FILE__) . "/../../cabecera.php");
-
-$barraUbi = [
-    [
-        "TEXTO" => "Inicio",
-        "LINK" => "/aplicacion/relacion7/index.php"
-    ]
-];
-
-$valores = [
-    'cordX' => 0,
-    'cordY' => 0,
-    "color" => "",
-    'grosor' => ""
-];
-
-$errores = [];
 
 // Sacar IP y navegador del cliente
 
@@ -36,6 +19,30 @@ foreach ($navegadores as $patron => $value) {
         break;
     }
 }
+
+// Crear fichero de los puntos
+
+$nombrePunto = "puntos/puntos_";
+foreach (explode(".", $ip) as $n) $nombrePunto .= $n . "_";
+$nombrePunto .= "$navegador.dat";
+
+include_once(dirname(__FILE__) . "/../../cabecera.php");
+
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/aplicacion/relacion7/index.php"
+    ]
+];
+
+$valores = [
+    'cordX' => 0,
+    'cordY' => 0,
+    "color" => "",
+    'grosor' => ""
+];
+
+$errores = [];
 
 // Crear imagen
 
@@ -60,12 +67,6 @@ if (!file_exists($nombreImg)) {
 
     imagedestroy($img);
 }
-
-// Crear fichero de los puntos
-
-$nombrePunto = "puntos/puntos_";
-foreach (explode(".", $ip) as $n) $nombrePunto .= $n . "_";
-$nombrePunto .= "$navegador.dat";
 
 // Codigo que se ejecuta cuando se envia el formulario
 
