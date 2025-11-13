@@ -56,7 +56,10 @@ foreach (explode(".", $ip) as $n) {
 $nombreImg .= $navegador . ".jpeg";
 
 if (!file_exists($nombreImg)) {
-    crearImg($nombreImg, $arrayPuntos);
+    $img = crearImg();
+    
+    imagejpeg($img, $nombreImg, 100);
+    imagedestroy($img);
 }
 
 // Codigo que se ejecuta cuando se envia el formulario
@@ -114,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-        recrearImg($nombreImg, $arrayPuntos);
+        recrearImg($arrayPuntos);
 
 
     } else if ($_POST['formulario'] == 'eliminar') {
@@ -129,42 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
 
-        recrearImg($nombreImg, $arrayPuntos);
-    }
-}
-
-function crearImg($nombreImg, $arrayPuntos){
-    $img = imagecreatetruecolor(500, 500);
-
-    $blanco = imagecolorallocate($img, 255, 255, 255);
-    $negro = imagecolorallocate($img, 0, 0, 0);
-
-    imagefilledrectangle($img, 0, 0, 500, 500, $blanco);
-    imagerectangle($img, 0, 0, 499, 499, $negro);
-
-    imagejpeg($img, $nombreImg, 100);
-
-    imagedestroy($img);
-}
-
-function recrearImg($nombreImg, $arrayPuntos){
-
-    crearImg($nombreImg, $arrayPuntos);
-
-    $img = imagecreatefromjpeg($nombreImg);
-
-        foreach ($arrayPuntos as $punto) {
-            $colorPunto = $punto::COLORES[$punto->getColor()]['rgb'];
-            $colorImg = imagecolorallocate($img, $colorPunto[0], $colorPunto[1], $colorPunto[2]);
-
-            $grosor = $punto->getGrosor();
-
-            imagefilledellipse($img, $punto->getX(), $punto->getY(), $grosor*5, $grosor*5, $colorImg);
-            
-        }
-
+        recrearImg($arrayPuntos);
         imagejpeg($img, $nombreImg, 100);
         imagedestroy($img);
+    }
 }
 
 include_once(dirname(__FILE__) . "/imagen.php");
