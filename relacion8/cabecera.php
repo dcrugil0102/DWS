@@ -5,6 +5,8 @@ define("MODO_TRABAJO", "desarrollo"); //en "produccion o en desarrollo
 
 include_once(dirname(__FILE__) . "/scripts/bookstores/validacion.php");
 
+const COLORESFONDO = ['blanco', 'verde', 'rojo', 'azul'];
+
 spl_autoload_register(function ($clase) {
     $ruta = RUTABASE . "/scripts/class/";
     $fichero = $ruta . "$clase.php";
