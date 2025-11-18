@@ -14,9 +14,14 @@ final class RegistroTexto
         $this->_fechaHora = new DateTime();
     }
 
-    // GETTERS ***************************
+    // ToString **************************
 
-    
+    public function __toString()
+    {
+        return $this->get_cadena() . " - " . $this->get_fechaHora();
+    }
+
+    // GETTERS ***************************
 
     /**
      * @return string
