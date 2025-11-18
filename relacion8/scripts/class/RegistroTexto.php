@@ -18,7 +18,7 @@ final class RegistroTexto
 
     public function __toString()
     {
-        return $this->get_cadena() . " - " . $this->get_fechaHora();
+        return $this->get_cadena() . " - " . $this->get_fechaHora()->format('d/m/Y H:i:s');
     }
 
     // GETTERS ***************************

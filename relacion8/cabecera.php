@@ -4,7 +4,6 @@ define("RUTABASE", dirname(__FILE__));
 define("MODO_TRABAJO", "desarrollo"); //en "produccion o en desarrollo
 
 include_once(dirname(__FILE__) . "/scripts/bookstores/validacion.php");
-include_once(dirname(__FILE__) . "/scripts/class/RegistroTexto.php");
 
 const COLORESFONDO = [
     'blanco' => 'white', 

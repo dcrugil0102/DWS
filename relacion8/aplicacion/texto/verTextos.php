@@ -18,6 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $textos[] = $nuevoTexto;
 
     $_SESSION['textos'] = $textos;
+
+    if (isset($_POST['limpiar'])) {
+        $_SESSION['textos'] = [];
+
+        header("Location: verTextos.php");
+    }
 }
 
 inicioCabecera("2DAW APLICACION");
@@ -41,15 +47,20 @@ function cuerpo($textos)
     <h1>Textos</h1>
 
     <form action="verTextos.php" method="post">
-        <label for="texto">Introduce tu texto</label>
-        <textarea name="texto" id="texto"></textarea>
+        <label for="texto">Introduce tu texto</label><br>
+        <textarea cols="50" rows="5" name="texto" id="texto"></textarea>
 
-        <button type="submit">Añadir</button>
-        <textarea name="textos" id="textos">
-            <?php foreach ($textos as $texto) {
-                echo $texto . PHP_EOL;
-            } ?>
-        </textarea>
+        <br>
+
+        <button type="submit">Añadir</button><br><br>
+        <textarea cols="50" rows="10" name="textos" id="textos" readonly><?php
+        foreach ($textos as $texto) {
+            echo $texto . PHP_EOL;
+        }
+        ?></textarea>
+    </form>
+    <form action="verTextos.php" method="post">
+        <button type="submit" name="limpiar">Limpiar textos</button>
     </form>
 <?php
 }
