@@ -20,6 +20,8 @@ const COLORESTEXTO = [
     'azul' => 'blue',
 ];
 
+
+
 spl_autoload_register(function ($clase) {
     $ruta = RUTABASE . "/scripts/class/";
     $fichero = $ruta . "$clase.php";

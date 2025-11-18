@@ -1,5 +1,5 @@
 <?php
-include_once(dirname(__FILE__) . "/cabecera.php");
+include_once(dirname(__FILE__) . "/../../cabecera.php");
 
 $barraUbi = [
     [
@@ -26,6 +26,15 @@ function cabecera() {}
 function cuerpo()
 {
 ?>
-    <p>Estas en el inicio.</p>
+    <h1>Personaliza tu página</h1>
+
+    <form action="personalizar.php" method="post">
+        <label for="fondo">Escoge el color del fondo</label>
+        <select name="fondo" id="fondo">
+            <?php foreach (COLORESFONDO as $color => $value) {
+                echo "<option value="$value">$color</option>";
+            } ?>
+        </select>
+    </form>
 <?php
 }

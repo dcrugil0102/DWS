@@ -48,11 +48,11 @@ function finCabecera()
 }
 
 if (!isset($_COOKIE['color_fondo'])) {
-    setcookie('color_fondo', COLORESFONDO['blanco'], time() + 3600, "/");
+    setcookie('color_fondo', COLORESFONDO['blanco'], time() + (10 * 365 * 24 * 3600), '/');
 }
 
 if (!isset($_COOKIE['color_texto'])) {
-    setcookie('color_texto', COLORESTEXTO['negro'], time() + 3600, "/");
+    setcookie('color_texto', COLORESTEXTO['negro'], time() + (10 * 365 * 24 * 3600), '/');
 }
 function inicioCuerpo(string $cabecera, array $barraUbi = [])
 {

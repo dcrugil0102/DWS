@@ -8,12 +8,22 @@ $barraUbi = [
     ]
 ];
 
+$contador = 0;
+
+if (isset($_COOKIE['visitas'])) {
+    $contador = $_COOKIE['visitas'] + 1;
+} else{
+    $contador = 1;
+}
+
+setcookie('visitas', $contador, time() + (10 * 365 * 24 * 3600), '/');
+
 inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo();
+cuerpo($contador);
 finCuerpo();
 
 
@@ -23,9 +33,9 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo()
+function cuerpo($contador)
 {
 ?>
-    <p>Estas en el inicio.</p>
+    <p>Estas en el inicio. Has visitado la página un total de <?= $contador ?> veces.</p>
 <?php
 }
