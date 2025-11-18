@@ -246,7 +246,16 @@
          */
         function existeUsuario(string $nick):bool
         {
-               
+            $existe = false;
+
+            foreach ($this->_usuarios as $cod) {
+                if (isset($cod['nick']) && $cod['nick'] == $nick) {
+                    $existe = true;
+                    break;
+                }
+            }
+
+            return $existe;
         }
 
         /**
