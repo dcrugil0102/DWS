@@ -147,7 +147,7 @@
          */
         function getPermisoRole(int $codRole, int $numero): bool
         {
-              
+            return $this->_roles[$codRole]['permisos'][$numero];
         }
 
         /**
@@ -234,7 +234,7 @@
          */
         function existeCodUsuario(int $codUsuario):bool
         {
-            
+            return isset($this->_usuarios[$codUsuario]);
         }
 
         /**
