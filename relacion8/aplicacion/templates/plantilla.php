@@ -46,12 +46,23 @@ function finCabecera()
     </head>
 <?php
 }
+
+if (!isset($_COOKIE['color_fondo'])) {
+    setcookie('color_fondo', COLORESFONDO['blanco'], time() + 3600, "/");
+}
+
+if (!isset($_COOKIE['color_texto'])) {
+    setcookie('color_texto', COLORESTEXTO['negro'], time() + 3600, "/");
+}
 function inicioCuerpo(string $cabecera, array $barraUbi = [])
 {
     global $acceso;
+
+    $colorFondo = $_COOKIE['color_fondo'] ?? COLORESFONDO['blanco'];
+    $colorTexto = $_COOKIE['color_texto'] ?? COLORESTEXTO['negro'];
 ?>
 
-    <body>
+    <body style="background-color: <?= $colorFondo ?>; color:<?= $colorTexto ?>;">
         <header>
             <h1 id="titulo"><?php echo $cabecera; ?></h1>
 

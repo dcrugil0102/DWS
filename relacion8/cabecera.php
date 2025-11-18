@@ -25,6 +25,7 @@ spl_autoload_register(function ($clase) {
     $fichero = $ruta . "$clase.php";
 
     if (file_exists($fichero)) {
+        
         require_once($fichero);
     } else {
         throw new Exception("La clase $clase no se ha encontrado.");
