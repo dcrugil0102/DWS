@@ -120,7 +120,7 @@
          */
         function existeRole(int $codRole):bool
         {
-            
+            return isset($this->_roles[$codRole]);
         }
 
         /**
@@ -175,7 +175,7 @@
 
             //la contraseña la guardo encriptada
 			//establecer el método
-            $contrasena= método encriptado;
+            $contrasena= password_hash($contrasena, PASSWORD_BCRYPT);
 
             //busco cual es el ultimo codigo
             $cont=0;
@@ -270,7 +270,7 @@
             $codigo=$this->getCodUsuario($nick);
             
 			//establecer el metodo de encriptado
-            $contrasena= metodo de encriptado;
+            $contrasena= password_hash($contrasena, PASSWORD_BCRYPT);
 
             if ($this->_usuarios[$codigo]["contrasenia"]!=$contrasena)
                  return false;
