@@ -32,7 +32,14 @@ function cuerpo()
         <label for="fondo">Escoge el color del fondo</label>
         <select name="fondo" id="fondo">
             <?php foreach (COLORESFONDO as $color => $value) {
-                echo "<option value="$value">$color</option>";
+                echo "<option value='$value'>$color</option>";
+            } ?>
+        </select>
+
+        <label for="fondo">Escoge el color del fondo</label>
+        <select name="fondo" id="fondo">
+            <?php foreach (COLORESFONDO as $color => $value) {
+                echo "<option value='$value'>$color</option>";
             } ?>
         </select>
     </form>
