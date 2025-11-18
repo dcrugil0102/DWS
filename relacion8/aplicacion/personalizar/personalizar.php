@@ -8,6 +8,13 @@ $barraUbi = [
     ]
 ];
 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    setcookie('color_fondo', $_POST['fondo'], time() + (10 * 365 * 24 * 3600), '/');
+    setcookie('color_texto', $_POST['texto'], time() + (10 * 365 * 24 * 3600), '/');
+
+    header("Location: personalizar.php");
+}
+
 inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
@@ -32,16 +39,24 @@ function cuerpo()
         <label for="fondo">Escoge el color del fondo</label>
         <select name="fondo" id="fondo">
             <?php foreach (COLORESFONDO as $color => $value) {
-                echo "<option value='$value'>$color</option>";
+                $seleccionado = ($value == $_COOKIE['color_fondo']) ? 'selected' : '';
+                echo "<option value='$value' $seleccionado>$color</option>";
             } ?>
         </select>
 
-        <label for="fondo">Escoge el color del fondo</label>
-        <select name="fondo" id="fondo">
-            <?php foreach (COLORESFONDO as $color => $value) {
-                echo "<option value='$value'>$color</option>";
+        <br>
+
+        <label for="texto">Escoge el color del texto</label>
+        <select name="texto" id="texto">
+            <?php foreach (COLORESTEXTO as $color => $value) {
+                $seleccionado = ($value == $_COOKIE['color_texto']) ? 'selected' : '';
+                echo "<option value='$value' $seleccionado>$color</option>";
             } ?>
         </select>
+
+        <br>
+
+        <button type="submit">Guardar</button>
     </form>
 <?php
 }

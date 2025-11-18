@@ -14,10 +14,10 @@ const COLORESFONDO = [
 ];
 
 const COLORESTEXTO = [
-    'blanco' => 'white', 
-    'negro' => 'black', 
+    'negro' => 'black',
+    'blanco' => 'white',  
     'rojo' => 'red', 
-    'azul' => 'blue',
+    'azul' => 'blue'
 ];
 
 
