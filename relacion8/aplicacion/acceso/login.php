@@ -8,8 +8,16 @@ $barraUbi = [
     ]
 ];
 
+$errores = [];
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    
+    $usuario = $_POST['usuario'];
+    $contrasenia = $_POST['contrasenia'];
+    if (!empty($usuario) && !empty($contrasenia)) {
+        $acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales'));
+        
+    } else
+        $errores['login'] = "Debes rellenar todos los campos.";
 }
 
 inicioCabecera("2DAW APLICACION");
@@ -17,7 +25,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo();
+cuerpo($errores);
 finCuerpo();
 
 
@@ -27,15 +35,23 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo()
+function cuerpo($errores)
 {
 ?>
     <form action="login.php" method="post">
         <label for="usuario">Usuario:</label>
         <input type="text" name="usuario" id="usuario">
 
+        <br>
+
         <label for="usuario">Contraseña:</label>
         <input type="password" name="contrasenia" id="contrasenia">
+
+        <span class="error"><?= $errores['login'] ?? '' ?></span>
+
+        <br>
+        <button type="submit">Acceder</button>
+
     </form>
 <?php
 }
