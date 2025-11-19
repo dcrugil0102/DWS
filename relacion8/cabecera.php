@@ -22,6 +22,9 @@ const COLORESTEXTO = [
 
 session_start();
 
+$acl = new ACLArray();
+$acceso = new Acceso();
+
 spl_autoload_register(function ($clase) {
     $ruta = RUTABASE . "/scripts/class/";
     $fichero = $ruta . "$clase.php";
