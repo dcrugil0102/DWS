@@ -36,11 +36,12 @@ class Acceso {
          $_SESSION["acceso"]["nick"]=$this->_nick;
          $_SESSION["acceso"]["nombre"]=$this->_nombre;
          $_SESSION["acceso"]["permisos"]=$this->_permisos;
-         
+        return true;
      }
      else 
      {
          $_SESSION["acceso"]["validado"]=false;
+        return false;
      }
     }
     
@@ -118,6 +119,7 @@ class Acceso {
      * @return boolean Devuelve true si hay usuario registrado. False en caso contrario
      */
     public function hayUsuario():bool {
+        return $this->_validado;
      }
     
     
@@ -128,7 +130,12 @@ class Acceso {
      * @return bool Devuelve true si hay usuario registrado y tiene el permiso indicado
      */
     public function puedePermiso(int $numero):bool {
-       
+       foreach ($this->_permisos as $n => $bool) {
+            if ($n == $numero && $bool) {
+                return true;
+            }
+       }
+        return false;
     }
     
     
@@ -142,8 +149,8 @@ class Acceso {
       * @return string|false
       */
     public function getNick():string|false 
-    { 
-       
+    {
+        return ($this->hayUsuario()) ? $this->_nick : false;
     }
   
     /**
