@@ -130,7 +130,10 @@ class Acceso {
      * @return bool Devuelve true si hay usuario registrado y tiene el permiso indicado
      */
     public function puedePermiso(int $numero):bool {
-       foreach ($this->_permisos as $n => $bool) {
+        if (!$this->hayUsuario()) {
+            return false;
+        }
+        foreach ($this->_permisos as $n => $bool) {
             if ($n == $numero && $bool) {
                 return true;
             }

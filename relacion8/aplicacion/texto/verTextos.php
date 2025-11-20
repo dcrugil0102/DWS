@@ -1,10 +1,23 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+if (!$acceso->hayUsuario()) {
+    header("Location: /aplicacion/acceso/login.php");
+}
+
+if(!$acceso->puedePermiso(1)){
+    paginaError("No tienes permisos");
+    exit();
+}
+
 $barraUbi = [
     [
         "TEXTO" => "Inicio",
         "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Textos",
+        "LINK" => "/aplicacion/texto/verTextos.php"
     ]
 ];
 

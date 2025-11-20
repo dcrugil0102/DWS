@@ -33,8 +33,8 @@ class ACLArray extends ACLBase
     function __construct()
     {
         //añade los roles
-        $this->anadirRole("normales", [1 => true]);
-        $this->anadirRole("administradores", [1 => true, 2 => true]);
+        $this->anadirRole("normales", [1 => false]);
+        $this->anadirRole("administradores", [1 => true, 2 => false]);
 
         //añade los usuario
         $this->anadirUsuario(

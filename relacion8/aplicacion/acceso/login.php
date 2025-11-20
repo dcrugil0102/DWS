@@ -5,6 +5,10 @@ $barraUbi = [
     [
         "TEXTO" => "Inicio",
         "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Login",
+        "LINK" => "/aplicacion/acceso/login.php"
     ]
 ];
 

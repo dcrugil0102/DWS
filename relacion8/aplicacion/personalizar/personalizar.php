@@ -1,14 +1,31 @@
 <?php
 include_once(dirname(__FILE__) . "/../../cabecera.php");
 
+if (!$acceso->hayUsuario()) {
+    header("Location: /aplicacion/acceso/login.php");
+}
+
+if(!$acceso->puedePermiso(1)){
+    paginaError("No tienes permisos");
+    exit();
+}
+
 $barraUbi = [
     [
         "TEXTO" => "Inicio",
         "LINK" => "/index.php"
+    ],
+    [
+        "TEXTO" => "Personalizar",
+        "LINK" => "/aplicacion/personalizar/personalizar.php"
     ]
 ];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (!$acceso->puedePermiso(2)) {
+        paginaError("No tienes permisos");
+        exit();
+    }
     setcookie('color_fondo', $_POST['fondo'], time() + (10 * 365 * 24 * 3600), '/');
     setcookie('color_texto', $_POST['texto'], time() + (10 * 365 * 24 * 3600), '/');
 
