@@ -15,17 +15,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $usuario = $_POST['usuario'];
     $contrasenia = $_POST['contrasenia'];
     if (!empty($usuario) && !empty($contrasenia)) {
-        if ($acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales'))) {
+        if ($acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales')) && $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)))) {
             $mensajes['login'] = "Usuario registrado correctamente";
-            $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)));
 
         } else{
             $errores['login'] = "Error al registrar el usuario.";
         }
     } else
         $errores['login'] = "Debes rellenar todos los campos.";
-
-    print_r($acl->dameUsuarios());
 }
 
 inicioCabecera("2DAW APLICACION");
