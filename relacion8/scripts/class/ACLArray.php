@@ -292,14 +292,8 @@ class ACLArray extends ACLBase
         //recojo cual es el codigo
         $codigo = $this->getCodUsuario($nick);
 
-        //establecer el metodo de encriptado
-        $contrasena = password_hash($contrasena, PASSWORD_BCRYPT);
-
-        if (!password_verify($contrasena, $this->_usuarios[$codigo]["contrasenia"]))
-            return false;
-
-        // es valido
-        return true;
+        return password_verify($contrasena, $this->_usuarios[$codigo]["contrasenia"]);
+    
     }
 
     /**

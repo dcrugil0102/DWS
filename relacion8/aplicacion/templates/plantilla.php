@@ -66,9 +66,6 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
         <header>
             <h1 id="titulo"><?php echo $cabecera; ?></h1>
 
-            <div id="barraLogin">
-
-            </div>
             <nav id="barraMenu">
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
@@ -82,15 +79,20 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
                 </ul>
             </nav>
 
-            <?php if ($_SESSION['acceso']['validado']) {
-                echo "<a href='/aplicacion/acceso/login.php' class='salir'>Salir</a>";
-            } else{
+            <div id="barraLogin">
+                <?php if ($acceso->hayUsuario()) {
                 ?>
                     <form action="/aplicacion/acceso/login.php" method="post">
-                        <button class="salir" name="salir" type="submit">Salir</button>
+                        <div>
+                            <p><?= $acceso->getNombre() ?></p>
+                            <button class="salir" name="salir" type="submit">Salir</button>
+                        </div>
                     </form>
                 <?php
-            } ?>
+                } else{
+                    echo "<a href='/aplicacion/acceso/login.php' class='acceso'>Log In</a>";
+                } ?>
+            </div>
 
         </header>
         <div id="barraUbicacion">
