@@ -9,15 +9,23 @@ $barraUbi = [
 ];
 
 $errores = [];
+$mensajes = [];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $usuario = $_POST['usuario'];
     $contrasenia = $_POST['contrasenia'];
     if (!empty($usuario) && !empty($contrasenia)) {
-        $acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales'));
-        $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)));
+        if ($acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales'))) {
+            $mensajes['login'] = "Usuario registrado correctamente";
+            $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)));
+
+        } else{
+            $errores['login'] = "Error al registrar el usuario.";
+        }
     } else
         $errores['login'] = "Debes rellenar todos los campos.";
+
+    print_r($acl->dameUsuarios());
 }
 
 inicioCabecera("2DAW APLICACION");
@@ -25,7 +33,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($errores);
+cuerpo($errores, $mensajes);
 finCuerpo();
 
 
@@ -35,7 +43,7 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($errores)
+function cuerpo($errores, $mensajes)
 {
 ?>
     <form action="login.php" method="post">
@@ -48,7 +56,8 @@ function cuerpo($errores)
         <input type="password" name="contrasenia" id="contrasenia">
 
         <span class="error"><?= $errores['login'] ?? '' ?></span>
-
+        <span class="valido"><?= $mensajes['login'] ?? '' ?></span>
+        
         <br>
         <button type="submit">Acceder</button>
 
