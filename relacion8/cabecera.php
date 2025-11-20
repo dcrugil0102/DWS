@@ -34,8 +34,9 @@ const COLORESTEXTO = [
 
 session_start();
 
-$acl = new ACLArray();
 $acceso = new Acceso();
+
+$validado = $_SESSION['acceso']['validado'];
 
 if (MODO_TRABAJO == "produccion")
     error_reporting(0);

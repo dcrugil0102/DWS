@@ -8,6 +8,8 @@ $barraUbi = [
     ]
 ];
 
+$acl = new ACLArray();
+
 $errores = [];
 $mensajes = [];
 
@@ -17,7 +19,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (!empty($usuario) && !empty($contrasenia)) {
         if ($acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales')) && $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)))) {
             $mensajes['login'] = "Usuario registrado correctamente";
-
         } else{
             $errores['login'] = "Error al registrar el usuario.";
         }

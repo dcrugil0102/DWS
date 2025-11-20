@@ -72,12 +72,26 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
             <nav id="barraMenu">
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
-                    <li><a href="/aplicacion/tests/index.php">Pruebas</a></li>
-                    <li><a href="/aplicacion/personalizar/personalizar.php">Personalizar</a></li>
-                    <li><a href="/aplicacion/texto/verTextos.php">Textos</a></li>
-                    <li><a href="/aplicacion/acceso/login.php" target="_blank">Acceso</a></li>
+                    <?php if ($_SESSION['acceso']['validado']) {
+                        ?>
+                            <li><a href="/aplicacion/tests/index.php">Pruebas</a></li>
+                            <li><a href="/aplicacion/personalizar/personalizar.php">Personalizar</a></li>
+                            <li><a href="/aplicacion/texto/verTextos.php">Textos</a></li>
+                        <?php
+                    } ?>
                 </ul>
             </nav>
+
+            <?php if ($_SESSION['acceso']['validado']) {
+                echo "<a href='/aplicacion/acceso/login.php' class='salir'>Salir</a>";
+            } else{
+                ?>
+                    <form action="/aplicacion/acceso/login.php" method="post">
+                        <button class="salir" type="submit">Salir</button>
+                    </form>
+                <?php
+            } ?>
+
         </header>
         <div id="barraUbicacion">
             <?php
