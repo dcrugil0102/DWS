@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $contrasenia = $_POST['contrasenia'];
     if (!empty($usuario) && !empty($contrasenia)) {
         $acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales'));
-        
+        $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)));
     } else
         $errores['login'] = "Debes rellenar todos los campos.";
 }
