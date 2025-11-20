@@ -295,7 +295,7 @@ class ACLArray extends ACLBase
         //establecer el metodo de encriptado
         $contrasena = password_hash($contrasena, PASSWORD_BCRYPT);
 
-        if ($this->_usuarios[$codigo]["contrasenia"] != $contrasena)
+        if (!password_verify($contrasena, $this->_usuarios[$codigo]["contrasenia"]))
             return false;
 
         // es valido

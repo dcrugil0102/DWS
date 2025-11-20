@@ -14,16 +14,23 @@ $errores = [];
 $mensajes = [];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (isset($_POST['acceder'])) {
     $usuario = $_POST['usuario'];
     $contrasenia = $_POST['contrasenia'];
     if (!empty($usuario) && !empty($contrasenia)) {
-        if ($acl->anadirUsuario($usuario, $usuario, $contrasenia, $acl->getCodRole('normales')) && $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)))) {
-            $mensajes['login'] = "Usuario registrado correctamente";
+        if ($acl->esValido($usuario, $contrasenia)) {
+            $mensajes['login'] = "Login correcto, bienvenido $usuario.";
+            $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)));
         } else{
-            $errores['login'] = "Error al registrar el usuario.";
+            $errores['login'] = "Nombre o contraseña inválidos";
         }
     } else
         $errores['login'] = "Debes rellenar todos los campos.";
+    }
+
+    if(isset($_POST['salir'])){
+        $acceso->quitarRegistroUsuario();
+    }
 }
 
 inicioCabecera("2DAW APLICACION");
@@ -57,7 +64,7 @@ function cuerpo($errores, $mensajes)
         <span class="valido"><?= $mensajes['login'] ?? '' ?></span>
         
         <br>
-        <button type="submit">Acceder</button>
+        <button type="submit" name>Acceder</button>
 
     </form>
 <?php

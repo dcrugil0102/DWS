@@ -87,7 +87,7 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
             } else{
                 ?>
                     <form action="/aplicacion/acceso/login.php" method="post">
-                        <button class="salir" type="submit">Salir</button>
+                        <button class="salir" name="salir" type="submit">Salir</button>
                     </form>
                 <?php
             } ?>
