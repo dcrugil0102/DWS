@@ -37,7 +37,7 @@ of your domain and delete these references -->
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <link rel="stylesheet" type="text/css"
-            href="/styles/base1.css">
+            href="/styles/base2.css">
     <?php
 }
 function finCabecera()
@@ -69,12 +69,13 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
             <nav id="barraMenu">
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
-                    <?php if ($_SESSION['acceso']['validado']) {
-                        ?>
-                            <li><a href="/aplicacion/tests/index.php">Pruebas</a></li>
-                            <li><a href="/aplicacion/personalizar/personalizar.php">Personalizar</a></li>
-                            <li><a href="/aplicacion/texto/verTextos.php">Textos</a></li>
-                        <?php
+                    <?php if ($acceso->hayUsuario()) {
+                    ?>
+                        <li><a href="/aplicacion/tests/index.php">Pruebas</a></li>
+                        <li><a href="/aplicacion/personalizar/personalizar.php">Personalizar</a></li>
+                        <li><a href="/aplicacion/texto/verTextos.php">Textos</a></li>
+                        <li><a href="/aplicacion/usuarios/index.php">Usuarios</a></li>
+                    <?php
                     } ?>
                 </ul>
             </nav>
@@ -89,7 +90,7 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
                         </div>
                     </form>
                 <?php
-                } else{
+                } else {
                     echo "<a href='/aplicacion/acceso/login.php' class='acceso'>Log In</a>";
                 } ?>
             </div>

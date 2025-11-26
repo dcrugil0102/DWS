@@ -187,3 +187,19 @@ footer {
     margin-left: 0.5rem;
     display: inline-block;
 }
+
+.tabla,
+.tabla td,
+.tabla th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+    padding: 5px;
+}
+
+.tabla img {
+    width: 5vh;
+}

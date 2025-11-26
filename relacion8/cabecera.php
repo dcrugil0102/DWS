@@ -4,13 +4,14 @@ define("RUTABASE", dirname(__FILE__));
 define("MODO_TRABAJO", "desarrollo"); //en "produccion o en desarrollo
 
 include_once(dirname(__FILE__) . "/scripts/bookstores/validacion.php");
+include_once(dirname(__FILE__) . "/aplicacion/config/acceso_bd.php");
 
 spl_autoload_register(function ($clase) {
     $ruta = RUTABASE . "/scripts/class/";
     $fichero = $ruta . "$clase.php";
 
     if (file_exists($fichero)) {
-        
+
         require_once($fichero);
     } else {
         throw new Exception("La clase $clase no se ha encontrado.");
@@ -18,25 +19,24 @@ spl_autoload_register(function ($clase) {
 });
 
 const COLORESFONDO = [
-    'blanco' => 'white', 
-    'verde' => 'green', 
-    'rojo' => 'red', 
+    'blanco' => 'white',
+    'verde' => 'green',
+    'rojo' => 'red',
     'azul' => 'blue',
     'cyan' => 'cyan'
 ];
 
 const COLORESTEXTO = [
     'negro' => 'black',
-    'blanco' => 'white',  
-    'rojo' => 'red', 
+    'blanco' => 'white',
+    'rojo' => 'red',
     'azul' => 'blue'
 ];
 
 session_start();
+$conexion = new mysqli($servidor, $usuario, $pass, $baseDatos);
 
 $acceso = new Acceso();
-
-$validado = $_SESSION['acceso']['validado'];
 
 if (MODO_TRABAJO == "produccion")
     error_reporting(0);
