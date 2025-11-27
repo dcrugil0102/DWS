@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // NIF
-    if (!validaExpresion($_POST['nif'], "^\d{8}a-zA-z]$", "") || empty($_POST['nif'])) {
+    if (!validaExpresion($_POST['nif'], "/^\d{8}[A-Za-z]$/", "") || empty($_POST['nif'])) {
         $errores['nif'] = "NIF Inválido.";
     }
 
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Fecha de nacimiento
-    if (!validaFecha($_POST['fecha_nacimiento'], "") || empty($_POST['fecha_nacimiento'])) {
+    if (empty($_POST['fecha_nacimiento'])) {
         $errores['fecha_nacimiento'] = "La fecha de nacimiento no es válida";
     }
 
@@ -121,44 +121,44 @@ function cuerpo($usuarios, $valores, $errores)
     <h1>Nuevo usuario:</h1>
      <form action="nuevoUsuario.php" method="post">
         <label>Nick:</label>
-        <input type="text" name="nick" value="<?= htmlspecialchars($valores['nick'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['nick'] ?? '' ?></span>
+        <input type="text" name="nick" value="<?= htmlspecialchars($valores['nick'] ?? '') ?>">
+        <span class="error"><?= $errores['nick'] ?? '' ?></span><br><br>
 
         <label>Nombre completo:</label>
-        <input type="text" name="nombre" value="<?= htmlspecialchars($valores['nombre'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span>
+        <input type="text" name="nombre" value="<?= htmlspecialchars($valores['nombre'] ?? '') ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>NIF:</label>
-        <input type="text" name="nif" value="<?= htmlspecialchars($valores['nif'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['nif'] ?? '' ?></span>
+        <input type="text" name="nif" value="<?= htmlspecialchars($valores['nif'] ?? '') ?>">
+        <span class="error"><?= $errores['nif'] ?? '' ?></span><br><br>
 
         <label>Dirección:</label>
-        <input type="text" name="direccion" value="<?= htmlspecialchars($valores['direccion'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['direccion'] ?? '' ?></span>
+        <input type="text" name="direccion" value="<?= htmlspecialchars($valores['direccion'] ?? '') ?>">
+        <span class="error"><?= $errores['direccion'] ?? '' ?></span><br><br>
 
         <label>Población:</label>
-        <input type="text" name="poblacion" value="<?= htmlspecialchars($valores['poblacion'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['poblacion'] ?? '' ?></span>
+        <input type="text" name="poblacion" value="<?= htmlspecialchars($valores['poblacion'] ?? '') ?>">
+        <span class="error"><?= $errores['poblacion'] ?? '' ?></span><br><br>
 
         <label>Provincia:</label>
-        <input type="text" name="provincia" value="<?= htmlspecialchars($valores['provincia'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['provincia'] ?? '' ?></span>
+        <input type="text" name="provincia" value="<?= htmlspecialchars($valores['provincia'] ?? '') ?>">
+        <span class="error"><?= $errores['provincia'] ?? '' ?></span><br><br>
 
         <label>Código postal:</label>
-        <input type="text" name="cp" value="<?= htmlspecialchars($valores['cp'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['cp'] ?? '' ?></span>
+        <input type="text" name="cp" value="<?= htmlspecialchars($valores['cp'] ?? '') ?>">
+        <span class="error"><?= $errores['cp'] ?? '' ?></span><br><br>
 
         <label>Fecha de nacimiento:</label>
-        <input type="date" name="fecha_nacimiento" value="<?= htmlspecialchars($valores['fecha_nacimiento'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['fecha_nacimiento'] ?? '' ?></span>
+        <input type="date" name="fecha_nacimiento" value="<?= htmlspecialchars($valores['fecha_nacimiento'] ?? '') ?>">
+        <span class="error"><?= $errores['fecha_nacimiento'] ?? '' ?></span><br><br>
 
         <label>Borrado:</label>
-        <input type="checkbox" name="borrado" value="<?= htmlspecialchars($valores['borrado'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['borrado'] ?? '' ?></span>
+        <input type="checkbox" name="borrado" value="<?= ($valores['borrado'] ? 'checked' : '') ?>">
+        <span class="error"><?= $errores['borrado'] ?? '' ?></span><br><br>
 
         <label>Foto:</label>
-        <input type="file" name="foto" value="<?= htmlspecialchars($valores['foto'] ?? '') ?>"><br><br>
-        <span class="error"><?= $errores['foto'] ?? '' ?></span>
+        <input type="file" name="foto" value="<?= htmlspecialchars($valores['foto'] ?? '') ?>">
+        <span class="error"><?= $errores['foto'] ?? '' ?></span><br><br>
 
         <button type="submit">Agregar</button>
      </form>
