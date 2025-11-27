@@ -70,5 +70,7 @@ function cuerpo($usuarios)
             ?>
         </tr>
     </table>
+
+    <a href="nuevoUsuario.php">Agregar Usuario</a>
 <?php
 }
