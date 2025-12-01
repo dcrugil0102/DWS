@@ -52,8 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     // VALIDACIONES
 
-    $noErrores = false;
-
     $valores['nombre'] = $_POST['nombre'] ?? '';
     $valores['nif'] = $_POST['nif'] ?? '';
     $valores['direccion'] = $_POST['direccion'] ?? '';
@@ -62,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $valores['cp'] = $_POST['cp'] ?? '';
     $valores['fecha_nacimiento'] = $_POST['fecha_nacimiento'] ?? '';
     $valores['borrado'] = isset($_POST['borrado']) ? 1 : 0;
-    $valores['foto'] = $_FILES['foto'];
+    $valores['foto'] = $_FILES['foto'] ?? '';
 
     // Nombre completo
     if (!validaCadena($_POST['nombre'], 50, '') || empty($_POST['nombre'])) {
@@ -121,7 +119,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($usuario, $valores);
+cuerpo($usuario, $valores, $errores);
 finCuerpo();
 
 
@@ -131,48 +129,54 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($usuario, $valores)
+function cuerpo($usuario, $valores, $errores)
 {
 
 
 ?>
     <h1>Nuevo Usuario:</h1>
 
-    <form action="modificarUsuario.php" method="post">
+    <form action="modificarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>" method="post">
         <label>Nick:</label>
         <input type="text" name="nick" value="<?= $usuario['nick'] ?>" readonly><br><br>
-        <span class="error"></span>
 
         <label>Nombre completo:</label>
-        <input type="text" name="nombre" value="<?= empty($valores['nombre']) ? $usuario['nombre'] : $valores['nombre'] ?>"> <br><br>
+        <input type="text" name="nombre" value="<?= empty($valores['nombre']) ? $usuario['nombre'] : $valores['nombre'] ?>"> 
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>NIF:</label>
-        <input type="text" name="nif" value="<?= empty($valores['nif']) ? $usuario['nif'] : $valores['nif'] ?>"><br><br>
+        <input type="text" name="nif" value="<?= empty($valores['nif']) ? $usuario['nif'] : $valores['nif'] ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>Dirección:</label>
-        <input type="text" name="direccion" value="<?= empty($valores['direccion']) ? $usuario['direccion'] : $valores['direccion'] ?>"><br><br>
+        <input type="text" name="direccion" value="<?= empty($valores['direccion']) ? $usuario['direccion'] : $valores['direccion'] ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>Población:</label>
-        <input type="text" name="poblacion" value="<?= empty($valores['poblacion']) ? $usuario['poblacion'] : $valores['poblacion'] ?>"><br><br>
+        <input type="text" name="poblacion" value="<?= empty($valores['poblacion']) ? $usuario['poblacion'] : $valores['poblacion'] ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>Provincia:</label>
-        <input type="text" name="provincia" value="<?= empty($valores['provincia']) ? $usuario['provincia'] : $valores['provincia'] ?>"><br><br>
+        <input type="text" name="provincia" value="<?= empty($valores['provincia']) ? $usuario['provincia'] : $valores['provincia'] ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>Código postal:</label>
-        <input type="text" name="cp" value="<?= empty($valores['cp']) ? $usuario['CP'] : $valores['cp'] ?>"><br><br>
+        <input type="text" name="cp" value="<?= empty($valores['cp']) ? $usuario['CP'] : $valores['cp'] ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>Fecha de nacimiento:</label>
-        <input type="date" name="fecha_nacimiento" value="<?= empty($valores['fecha_nacimiento']) ? $usuario['fecha_nacimiento'] : $valores['fecha_nacimiento'] ?>"><br><br>
+        <input type="date" name="fecha_nacimiento" value="<?= empty($valores['fecha_nacimiento']) ? $usuario['fecha_nacimiento'] : $valores['fecha_nacimiento'] ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <label>Borrado:</label>
-        <input type="checkbox" name="borrado" <?= empty($valores['nombre']) ? ($usuario['nombre'] ? 'checked' : '') : ($valores['nombre'] ? 'checked' : '') ?>><br><br>
+        <input type="checkbox" name="borrado" <?= empty($valores['borrado']) ? ($usuario['borrado'] ? 'checked' : '') : ($valores['borrado'] ? 'checked' : '') ?>><br><br>
 
         <div style="display:flex; align-items:center; gap: 10px;">
             <label>Foto:</label>
             <img class="imgUsu" src="/images/fotos/<?= empty($valores['foto']) ? $usuario['foto'] : $valores['foto'] ?>"><br><br>
-        </div>
-
-        <br>
+        </div><br>
+        <input type="file" accept="image/jpeg, image/png" name=" foto">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
 
         <button type="submit">Guardar</button>
     </form>
