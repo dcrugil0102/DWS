@@ -61,6 +61,7 @@ function cuerpo($usuarios)
             <th>Foto</th>
         </tr>
         <?php
+        $codUsu = '';
         while ($fila = $usuarios->fetch_assoc()) {
             echo "<tr>";
             foreach ($fila as $key => $value) {
@@ -71,11 +72,14 @@ function cuerpo($usuarios)
                         echo "<td><img src='/images/fotos/" . $value . "'></td>";
                     } else
                         echo "<td>$value</td>";
-                }
+                } else
+                    $codUsu = $value;
             }
-            echo "<a href='verUsuario.php'>Ver</a>";
-            echo "<a href='modificarUsuario.php'>Modificar</a>";
-            echo "<a href='borrarUsuario.php'>Eliminar</a>";
+                echo "<td class='enlaces'>
+                        <a href='verUsuario.php?codUsu=$codUsu'>Ver</a> |
+                        <a href='modificarUsuario.php?codUsu=$codUsu'>Modificar</a> |
+                        <a href='borrarUsuario.php?codUsu=$codUsu'>Eliminar</a>
+                    </td>";
             echo "</tr>";
         }
         ?>

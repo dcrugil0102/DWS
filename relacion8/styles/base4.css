@@ -203,6 +203,14 @@ footer {
 .tabla img {
     width: 5vh;
 }
+.enlaces {
+    display: none;
+    border: none !important;
+}
+
+tr:hover .enlaces {
+    display: inline-block;
+}
 
 .boton {
     display: inline-block;
