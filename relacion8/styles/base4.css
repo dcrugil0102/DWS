@@ -188,7 +188,6 @@ footer {
     display: inline-block;
 }
 
-.tabla,
 .tabla td,
 .tabla th {
     border: 1px solid black;
@@ -232,4 +231,8 @@ input[readonly] {
     color: #555;
     border: 1px solid #ccc;
     cursor: not-allowed;
+}
+
+img {
+    border-radius: 100%;
 }
