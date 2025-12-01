@@ -91,7 +91,7 @@ function cuerpo($usuario)
     <br>
 
     <a href="/aplicacion/usuarios/index.php">Volver</a>
-    <a href="modificarUsuario.php">Modificar</a>
+    <a href="modificarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>">Modificar</a>
     <a href="borrarUsuario.php">Eliminar</a>
 
 <?php
