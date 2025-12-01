@@ -105,12 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $valores['foto'] = $_FILES['foto'];
 
             // CAMBIAR NOMBRE A LA FOTO
-            $nombreFoto = $valores['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
+            $nombreFoto = $usuario['foto'];
             
             // SUBIR LA IMAGEN A LA CARPETA IMAGENES
             move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
-    } else {
-        $nombreFoto = "defecto.jpg";
     }
 }
 
@@ -136,7 +134,7 @@ function cuerpo($usuario, $valores, $errores)
 ?>
     <h1>Nuevo Usuario:</h1>
 
-    <form action="modificarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>" method="post">
+    <form action="modificarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>" method="post" enctype="multipart/form-data">
         <label>Nick:</label>
         <input type="text" name="nick" value="<?= $usuario['nick'] ?>" readonly><br><br>
 
@@ -146,27 +144,27 @@ function cuerpo($usuario, $valores, $errores)
 
         <label>NIF:</label>
         <input type="text" name="nif" value="<?= empty($valores['nif']) ? $usuario['nif'] : $valores['nif'] ?>">
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+        <span class="error"><?= $errores['nif'] ?? '' ?></span><br><br>
 
         <label>Dirección:</label>
         <input type="text" name="direccion" value="<?= empty($valores['direccion']) ? $usuario['direccion'] : $valores['direccion'] ?>">
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+        <span class="error"><?= $errores['direccion'] ?? '' ?></span><br><br>
 
         <label>Población:</label>
         <input type="text" name="poblacion" value="<?= empty($valores['poblacion']) ? $usuario['poblacion'] : $valores['poblacion'] ?>">
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+        <span class="error"><?= $errores['poblacion'] ?? '' ?></span><br><br>
 
         <label>Provincia:</label>
         <input type="text" name="provincia" value="<?= empty($valores['provincia']) ? $usuario['provincia'] : $valores['provincia'] ?>">
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+        <span class="error"><?= $errores['provincia'] ?? '' ?></span><br><br>
 
         <label>Código postal:</label>
         <input type="text" name="cp" value="<?= empty($valores['cp']) ? $usuario['CP'] : $valores['cp'] ?>">
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+        <span class="error"><?= $errores['cp'] ?? '' ?></span><br><br>
 
         <label>Fecha de nacimiento:</label>
         <input type="date" name="fecha_nacimiento" value="<?= empty($valores['fecha_nacimiento']) ? $usuario['fecha_nacimiento'] : $valores['fecha_nacimiento'] ?>">
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+        <span class="error"><?= $errores['fecha_nacimiento'] ?? '' ?></span><br><br>
 
         <label>Borrado:</label>
         <input type="checkbox" name="borrado" <?= empty($valores['borrado']) ? ($usuario['borrado'] ? 'checked' : '') : ($valores['borrado'] ? 'checked' : '') ?>><br><br>
@@ -176,7 +174,7 @@ function cuerpo($usuario, $valores, $errores)
             <img class="imgUsu" src="/images/fotos/<?= empty($valores['foto']) ? $usuario['foto'] : $valores['foto'] ?>"><br><br>
         </div><br>
         <input type="file" accept="image/jpeg, image/png" name=" foto">
-        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+        <span class="error"><?= $errores['foto'] ?? '' ?></span><br><br>
 
         <button type="submit">Guardar</button>
     </form>
