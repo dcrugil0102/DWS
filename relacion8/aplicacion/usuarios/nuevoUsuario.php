@@ -121,19 +121,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errores['foto'] = "Formato no permitido";
         } else
             $valores['foto'] = $_FILES['foto'];
+
+            // CAMBIAR NOMBRE A LA FOTO
+            $nombreFoto = $valores['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
+            
+            // SUBIR LA IMAGEN A LA CARPETA IMAGENES
+            move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
     } else {
-        $errores['foto'] = "Debes subir una foto";
+        $nombreFoto = "defecto.jpg";
     }
 
     if (empty($errores)) {
-
-        // CAMBIAR NOMBRE A LA FOTO
-
-        $nombreFoto = $valores['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
-
-        // SUBIR LA IMAGEN A LA CARPETA IMAGENES
-
-        move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/usuarios/$nombreFoto");
 
         // INSERTAR LOS VALORES EN LA BD
 
@@ -156,6 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $noErrores = true;
 
         // VER USUARIO
+        $sentenciaCodUsu = "SELECT cod_usuario FROM usuarios WHERE nick = '{$valores['nick']}';";
+        $codUsu = $conexion->query($sentenciaCodUsu)->fetch_assoc()['cod_usuario'];
 
         header("Location: /aplicacion/usuarios/verUsuario.php");
     }

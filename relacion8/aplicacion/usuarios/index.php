@@ -68,7 +68,7 @@ function cuerpo($usuarios)
                     if ($key === 'borrado') {
                         echo "<td>" . ($value ? 'Si' : 'No') . "</td>";
                     } else if ($key === 'foto') {
-                        echo "<td><img src='/images/usuarios/" . $value . "'></td>";
+                        echo "<td><img src='/images/fotos/" . $value . "'></td>";
                     } else
                         echo "<td>$value</td>";
                 }
