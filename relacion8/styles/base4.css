@@ -188,16 +188,18 @@ footer {
     display: inline-block;
 }
 
+.tabla {
+    border-collapse: collapse;
+}
 .tabla td,
 .tabla th {
     border: 1px solid black;
-    border-collapse: collapse;
-}
-
-.tabla th,
-.tabla td {
     padding: 5px;
 }
+
+/* .tabla th{
+
+} */
 
 .tabla img {
     width: 5vh;
