@@ -109,7 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             
             // SUBIR LA IMAGEN A LA CARPETA IMAGENES
             move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
-    }
+    } else
+        $nombreFoto = $usuario['foto'];
 
     // MODIFICAR USUARIO
 
@@ -123,11 +124,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             CP = '{$valores['cp']}',
                             fecha_nacimiento = '{$valores['fecha_nacimiento']}',
                             borrado = '{$valores['borrado']}',
-                            foto = '{$usuario['foto']}'
+                            foto = '$nombreFoto'
                             WHERE cod_usuario = '$codUsu'";
     }
 
     $conexion->query($sentenciaUpdate);
+
+    header("Location: /aplicacion/usuarios/verUsuario.php?codUsu=$codUsu");
 }
 
 inicioCabecera("2DAW APLICACION");
