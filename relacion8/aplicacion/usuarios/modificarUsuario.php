@@ -105,11 +105,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $valores['foto'] = $_FILES['foto'];
 
             // CAMBIAR NOMBRE A LA FOTO
-            $nombreFoto = $usuario['foto'];
+            $nombreFoto = $usuario['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
             
             // SUBIR LA IMAGEN A LA CARPETA IMAGENES
             move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
     }
+
+    // MODIFICAR USUARIO
+
+    if (empty($errores)) {
+        $sentenciaUpdate = "UPDATE usuarios
+                            set nombre = '{$valores['nombre']}',
+                            nif = '{$valores['nif']}',
+                            direccion = '{$valores['direccion']}',
+                            poblacion = '{$valores['poblacion']}',
+                            provincia = '{$valores['provincia']}',
+                            CP = '{$valores['cp']}',
+                            fecha_nacimiento = '{$valores['fecha_nacimiento']}',
+                            borrado = '{$valores['borrado']}',
+                            foto = '{$usuario['foto']}'
+                            WHERE cod_usuario = '$codUsu'";
+    }
+
+    $conexion->query($sentenciaUpdate);
 }
 
 inicioCabecera("2DAW APLICACION");
@@ -171,7 +189,7 @@ function cuerpo($usuario, $valores, $errores)
 
         <div style="display:flex; align-items:center; gap: 10px;">
             <label>Foto:</label>
-            <img class="imgUsu" src="/images/fotos/<?= empty($valores['foto']) ? $usuario['foto'] : $valores['foto'] ?>"><br><br>
+            <img class="imgUsu" src="/images/fotos/<?= $usuario['foto'] ?>"><br><br>
         </div><br>
         <input type="file" accept="image/jpeg, image/png" name=" foto">
         <span class="error"><?= $errores['foto'] ?? '' ?></span><br><br>
