@@ -13,11 +13,18 @@ $barraUbi = [
     ]
 ];
 
+if (!$acceso->hayUsuario()) {
+    header("Location: /aplicacion/acceso/login.php");
+}
+
+if (!$acceso->puedePermiso(2)) {
+    paginaError("No tienes permisos");
+    exit();
+}
+
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
-
-$usuarios = $conexion->query("SELECT * FROM usuarios");
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
@@ -53,24 +60,24 @@ function cuerpo($usuarios)
             <th>Borrado</th>
             <th>Foto</th>
         </tr>
-        <tr>
-            <?php
-            while ($fila = $usuarios->fetch_assoc()) {
-                foreach ($fila as $key => $value) {
-                    if ($key != 'cod_usuario') {
-                        if ($key === 'borrado') {
-                            echo "<td>" . ($value ? 'Si' : 'No') . "</td>";
-                        } else if ($key === 'foto') {
-                            echo "<td><img src='/images/usuarios/" . $value . "'></td>";
-                        } else
-                            echo "<td>$value</td>";
-                    }
+        <?php
+        while ($fila = $usuarios->fetch_assoc()) {
+            echo "<tr>";
+            foreach ($fila as $key => $value) {
+                if ($key != 'cod_usuario') {
+                    if ($key === 'borrado') {
+                        echo "<td>" . ($value ? 'Si' : 'No') . "</td>";
+                    } else if ($key === 'foto') {
+                        echo "<td><img src='/images/usuarios/" . $value . "'></td>";
+                    } else
+                        echo "<td>$value</td>";
                 }
             }
-            ?>
-        </tr>
-    </table>
+            echo "</tr>";
+        }
+        ?>
+    </table><br>
 
-    <a href="nuevoUsuario.php">Agregar Usuario</a>
+    <a class="boton" href="nuevoUsuario.php">Agregar Usuario</a>
 <?php
 }

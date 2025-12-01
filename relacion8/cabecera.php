@@ -36,6 +36,8 @@ const COLORESTEXTO = [
 session_start();
 $conexion = new mysqli($servidor, $usuario, $pass, $baseDatos);
 
+$usuarios = $conexion->query("SELECT * FROM usuarios");
+
 $acceso = new Acceso();
 
 if (MODO_TRABAJO == "produccion")

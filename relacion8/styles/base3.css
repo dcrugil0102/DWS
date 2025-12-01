@@ -203,3 +203,18 @@ footer {
 .tabla img {
     width: 5vh;
 }
+
+.boton {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.boton:hover {
+    background: #217dbb;
+}

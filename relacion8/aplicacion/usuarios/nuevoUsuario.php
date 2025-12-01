@@ -10,8 +10,21 @@ $barraUbi = [
     [
         'TEXTO' => "Usuarios",
         'LINK' => "/aplicacion/usuarios"
+    ],
+    [
+        'TEXTO' => "Agregar usuario",
+        'LINK' => "/aplicacion/usuarios/nuevoUsuario.php"
     ]
 ];
+
+if (!$acceso->hayUsuario()) {
+    header("Location: /aplicacion/acceso/login.php");
+}
+
+if (!$acceso->puedePermiso(2) && !$acceso->puedePermiso(3)) {
+    paginaError("No tienes permisos");
+    exit();
+}
 
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
@@ -30,11 +43,24 @@ $valores = [
     'foto' => ''
 ];
 $errores = [];
+$noErrores = false;
+
+$nicksUsuarios = [];
+
+while ($fila = $usuarios->fetch_assoc()) {
+    foreach ($fila as $key => $value) {
+        if ($key == 'nick') {
+            $nicksUsuarios[] = $value;
+        }
+    }
+}
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
     // VALIDACIONES
+
+    $noErrores = false;
 
     $valores['nick'] = $_POST['nick'] ?? '';
     $valores['nombre'] = $_POST['nombre'] ?? '';
@@ -45,11 +71,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $valores['cp'] = $_POST['cp'] ?? '';
     $valores['fecha_nacimiento'] = $_POST['fecha_nacimiento'] ?? '';
     $valores['borrado'] = isset($_POST['borrado']) ? 1 : 0;
-    $valores['foto'] = $_FILES['foto'] ?? null;
+    $valores['foto'] = $_FILES['foto'];
 
     // Nick
     if (!validaCadena($_POST['nick'], 50, '') || empty($_POST['nick'])) {
         $errores['nick'] = "El nick no puede superar los 50 carácteres ni estar vacío";
+    } else if (validaRango($_POST['nick'], $nicksUsuarios, 1)) {
+        $errores['nick'] = 'Ese nick ya existe!';
     }
 
     // Nombre completo
@@ -88,22 +116,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Foto
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $valores['foto'] = $_FILES['foto'];
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+        if (!getimagesize($valores['foto']['tmp_name'])) {
+            $errores['foto'] = "Formato no permitido";
+        } else
+            $valores['foto'] = $_FILES['foto'];
     } else {
         $errores['foto'] = "Debes subir una foto";
     }
 
-}
+    if (empty($errores)) {
 
-$usuarios = $conexion->query("SELECT * FROM usuarios");
+        // CAMBIAR NOMBRE A LA FOTO
+
+        $nombreFoto = $valores['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
+
+        // SUBIR LA IMAGEN A LA CARPETA IMAGENES
+
+        move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/usuarios/$nombreFoto");
+
+        // INSERTAR LOS VALORES EN LA BD
+
+        $sentenciaIngresarUsu = "INSERT INTO USUARIOS (nick, nombre, nif, direccion, poblacion, provincia, CP, fecha_nacimiento, borrado, foto)
+                                VALUES (
+                                        '{$valores['nick']}',
+                                        '{$valores['nombre']}',
+                                        '{$valores['nif']}',
+                                        '{$valores['direccion']}',
+                                        '{$valores['poblacion']}',
+                                        '{$valores['provincia']}',
+                                        '{$valores['cp']}',
+                                        '{$valores['fecha_nacimiento']}',
+                                        {$valores['borrado']},
+                                        '$nombreFoto'
+                                        )";
+
+        $conexion->query($sentenciaIngresarUsu);
+
+        $noErrores = true;
+
+        // VER USUARIO
+
+        header("Location: /aplicacion/usuarios/verUsuario.php");
+    }
+}
 
 inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($usuarios, $valores, $errores);
+cuerpo($usuarios, $valores, $errores, $noErrores);
 finCuerpo();
 
 
@@ -113,13 +176,13 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($usuarios, $valores, $errores)
+function cuerpo($usuarios, $valores, $errores, $noErrores)
 {
 
 
 ?>
     <h1>Nuevo usuario:</h1>
-     <form action="nuevoUsuario.php" method="post">
+    <form action="nuevoUsuario.php" method="post" enctype="multipart/form-data">
         <label>Nick:</label>
         <input type="text" name="nick" value="<?= htmlspecialchars($valores['nick'] ?? '') ?>">
         <span class="error"><?= $errores['nick'] ?? '' ?></span><br><br>
@@ -153,14 +216,19 @@ function cuerpo($usuarios, $valores, $errores)
         <span class="error"><?= $errores['fecha_nacimiento'] ?? '' ?></span><br><br>
 
         <label>Borrado:</label>
-        <input type="checkbox" name="borrado" value="<?= ($valores['borrado'] ? 'checked' : '') ?>">
+        <input type="checkbox" name="borrado" <?= ($valores['borrado'] ? 'checked' : '') ?>>
         <span class="error"><?= $errores['borrado'] ?? '' ?></span><br><br>
 
         <label>Foto:</label>
-        <input type="file" name="foto" value="<?= htmlspecialchars($valores['foto'] ?? '') ?>">
+        <input type="file" accept="image/jpeg, image/png" name=" foto">
         <span class="error"><?= $errores['foto'] ?? '' ?></span><br><br>
 
         <button type="submit">Agregar</button>
-     </form>
+        <span class="valido"><?= $noErrores ? "Usuario registrado exitosamente." : "" ?></span>
+    </form>
+
+    <br>
+
+    <a href="/aplicacion/usuarios/index.php">Volver</a>
 <?php
 }

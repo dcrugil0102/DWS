@@ -34,7 +34,7 @@ class ACLArray extends ACLBase
     {
         //añade los roles
         $this->anadirRole("normales", [1 => false]);
-        $this->anadirRole("administradores", [1 => true, 2 => false]);
+        $this->anadirRole("administradores", [1 => true, 2 => true, 3 => true]);
 
         //añade los usuario
         $this->anadirUsuario(
@@ -293,7 +293,6 @@ class ACLArray extends ACLBase
         $codigo = $this->getCodUsuario($nick);
 
         return password_verify($contrasena, $this->_usuarios[$codigo]["contrasenia"]);
-    
     }
 
     /**
