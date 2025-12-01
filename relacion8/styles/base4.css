@@ -203,6 +203,13 @@ footer {
 
 .tabla img {
     width: 5vh;
+    height: 5vh;
+    padding: 0;
+}
+.imgUsu {
+    width: 10vh;
+    height: 10vh;
+    border-radius: 100%;
 }
 .enlaces {
     display: none;

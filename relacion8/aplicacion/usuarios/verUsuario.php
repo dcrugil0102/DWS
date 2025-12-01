@@ -85,7 +85,7 @@ function cuerpo($usuario)
 
     <div style="display:flex; align-items:center; gap: 10px;">
         <label>Foto:</label>
-        <img src="/images/fotos/<?= $usuario['foto'] ?>" alt="" style="width:10vh;"><br><br>
+        <img class="imgUsu" src="/images/fotos/<?= $usuario['foto'] ?>" alt=""><br><br>
     </div>
 
     <br>
