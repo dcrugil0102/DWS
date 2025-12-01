@@ -30,12 +30,16 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
+$codUsu = $_GET['codUsu'];
+$sentenciaDatosUsu = "SELECT * FROM usuarios WHERE cod_usuario = '$codUsu'";
+$usuario = $conexion->query($sentenciaDatosUsu)->fetch_assoc();
+
 inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($usuarios);
+cuerpo($usuario);
 finCuerpo();
 
 
@@ -45,7 +49,7 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($usuarios)
+function cuerpo($usuario)
 {
 
 
@@ -53,34 +57,40 @@ function cuerpo($usuarios)
     <h1>Nuevo Usuario:</h1>
 
     <label>Nick:</label>
-    <input type="text" name="nick" value="" disabled><br><br>
+    <input type="text" name="nick" value="<?= $usuario['nick'] ?>" readonly><br><br>
 
     <label>Nombre completo:</label>
-    <input type="text" name="nombre" value="" readonly> <br><br>
+    <input type="text" name="nombre" value="<?= $usuario['nombre'] ?>" readonly> <br><br>
 
     <label>NIF:</label>
-    <input type="text" name="nif" value="" readonly><br><br>
+    <input type="text" name="nif" value="<?= $usuario['nif'] ?>" readonly><br><br>
 
     <label>Dirección:</label>
-    <input type="text" name="direccion" value="" readonly><br><br>
+    <input type="text" name="direccion" value="<?= $usuario['direccion'] ?>" readonly><br><br>
 
     <label>Población:</label>
-    <input type="text" name="poblacion" value="" readonly><br><br>
+    <input type="text" name="poblacion" value="<?= $usuario['poblacion'] ?>" readonly><br><br>
 
     <label>Provincia:</label>
-    <input type="text" name="provincia" value="" readonly><br><br>
+    <input type="text" name="provincia" value="<?= $usuario['provincia'] ?>" readonly><br><br>
 
     <label>Código postal:</label>
-    <input type="text" name="cp" value="" readonly><br><br>
+    <input type="text" name="cp" value="<?= $usuario['CP'] ?>" readonly><br><br>
 
     <label>Fecha de nacimiento:</label>
-    <input type="date" name="fecha_nacimiento" value="" readonly><br><br>
+    <input type="date" name="fecha_nacimiento" value="<?= $usuario['fecha_nacimiento'] ?>" readonly><br><br>
 
     <label>Borrado:</label>
-    <input type="checkbox" name="borrado" readonly><br><br>
+    <input type="checkbox" name="borrado" <?= $usuario['borrado'] ? 'checked' : '' ?> readonly><br><br>
 
-    <label>Foto:</label>
-    <img src="" alt=""><br><br>
+    <div style="display:flex; align-items:center; gap: 10px;">
+        <label>Foto:</label>
+        <img src="/images/fotos/<?= $usuario['foto'] ?>" alt="" style="width:10vh;"><br><br>
+    </div>
+
+    <br>
+
+    <a href="/aplicacion/usuarios/index.php">Volver</a>
 
 <?php
 }

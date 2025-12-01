@@ -218,3 +218,10 @@ footer {
 .boton:hover {
     background: #217dbb;
 }
+
+input[readonly] {
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+}

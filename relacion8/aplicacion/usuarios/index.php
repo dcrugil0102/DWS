@@ -73,6 +73,9 @@ function cuerpo($usuarios)
                         echo "<td>$value</td>";
                 }
             }
+            echo "<a href='verUsuario.php'>Ver</a>";
+            echo "<a href='modificarUsuario.php'>Modificar</a>";
+            echo "<a href='borrarUsuario.php'>Eliminar</a>";
             echo "</tr>";
         }
         ?>

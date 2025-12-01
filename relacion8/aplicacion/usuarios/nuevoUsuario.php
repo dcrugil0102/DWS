@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sentenciaCodUsu = "SELECT cod_usuario FROM usuarios WHERE nick = '{$valores['nick']}';";
         $codUsu = $conexion->query($sentenciaCodUsu)->fetch_assoc()['cod_usuario'];
 
-        header("Location: /aplicacion/usuarios/verUsuario.php");
+        header("Location: /aplicacion/usuarios/verUsuario.php?codUsu=$codUsu");
     }
 }
 
