@@ -35,9 +35,17 @@ const COLORESTEXTO = [
 
 session_start();
 $conexion = new mysqli($servidor, $usuario, $pass, $baseDatos);
+$aclbd = new ACLBD($servidor, $usuario, $pass, $baseDatos);
 
 $usuarios = $conexion->query("SELECT * FROM usuarios");
 
+$roles = [];
+
+foreach ($aclbd->dameRoles() as $key => $value) {
+    $roles[$key] = $value;
+}
+
+$acl = new ACLArray();
 $acceso = new Acceso();
 
 if (MODO_TRABAJO == "produccion")

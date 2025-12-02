@@ -37,7 +37,10 @@ of your domain and delete these references -->
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <link rel="stylesheet" type="text/css"
-            href="/styles/base4.css">
+            href="/styles/base6.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <?php
 }
 function finCabecera()

@@ -33,13 +33,15 @@ if ($conexion->connect_error) {
 $valores = [
     'nick' => '',
     'nombre' => '',
+    'contrasenia',
+    'contrasenia2',
     'nif' => '',
     'direccion' => '',
     'poblacion' => '',
     'provincia' => '',
     'cp' => '',
     'fecha_nacimiento' => '',
-    'borrado' => '',
+    'role' => '',
     'foto' => ''
 ];
 $errores = [];
@@ -55,7 +57,6 @@ while ($fila = $usuarios->fetch_assoc()) {
     }
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // VALIDACIONES
@@ -64,13 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $valores['nick'] = $_POST['nick'] ?? '';
     $valores['nombre'] = $_POST['nombre'] ?? '';
+    $valores['contrasenia'] = $_POST['contrasenia'] ?? '';
+    $valores['contrasenia2'] = $_POST['contrasenia2'] ?? '';
     $valores['nif'] = $_POST['nif'] ?? '';
     $valores['direccion'] = $_POST['direccion'] ?? '';
     $valores['poblacion'] = $_POST['poblacion'] ?? '';
     $valores['provincia'] = $_POST['provincia'] ?? '';
     $valores['cp'] = $_POST['cp'] ?? '';
     $valores['fecha_nacimiento'] = $_POST['fecha_nacimiento'] ?? '';
-    $valores['borrado'] = isset($_POST['borrado']) ? 1 : 0;
+    $valores['role'] = $_POST['role'] ?? '';
     $valores['foto'] = $_FILES['foto'];
 
     // Nick
@@ -83,6 +86,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Nombre completo
     if (!validaCadena($_POST['nombre'], 50, '') || empty($_POST['nombre'])) {
         $errores['nombre'] = "El nombre no puede superar los 50 carácteres ni estar vacío";
+    }
+
+    // Nombre completo
+    if (!validaCadena($_POST['nombre'], 50, '') || empty($_POST['nombre'])) {
+        $errores['nombre'] = "El nombre no puede superar los 50 carácteres ni estar vacío";
+    }
+
+    // Contraseña
+    if (empty($_POST['contrasenia'])) {
+        $errores['contrasenia'] = "Debes especificar una contraseña";
+    }
+
+    // Contraseña
+    if (($_POST['contrasenia'] !== $_POST['contrasenia2']) || empty($_POST['contrasenia2'])) {
+        $errores['contrasenia'] = "Las contraseñas no coinciden";
     }
 
     // NIF
@@ -122,11 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else
             $valores['foto'] = $_FILES['foto'];
 
-            // CAMBIAR NOMBRE A LA FOTO
-            $nombreFoto = $valores['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
-            
-            // SUBIR LA IMAGEN A LA CARPETA IMAGENES
-            move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
+        // CAMBIAR NOMBRE A LA FOTO
+        $nombreFoto = $valores['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
+
+        // SUBIR LA IMAGEN A LA CARPETA IMAGENES
+        move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
     } else {
         $nombreFoto = "defecto.jpg";
     }
@@ -135,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // INSERTAR LOS VALORES EN LA BD
 
-        $sentenciaIngresarUsu = "INSERT INTO USUARIOS (nick, nombre, nif, direccion, poblacion, provincia, CP, fecha_nacimiento, borrado, foto)
+        $sentenciaIngresarUsu = "INSERT INTO USUARIOS (nick, nombre, nif, direccion, poblacion, provincia, CP, fecha_nacimiento, foto)
                                 VALUES (
                                         '{$valores['nick']}',
                                         '{$valores['nombre']}',
@@ -145,13 +163,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         '{$valores['provincia']}',
                                         '{$valores['cp']}',
                                         '{$valores['fecha_nacimiento']}',
-                                        {$valores['borrado']},
                                         '$nombreFoto'
                                         )";
 
         $conexion->query($sentenciaIngresarUsu);
 
         $noErrores = true;
+
+        // CREAR EL USUARIO EN ACLARRAY
+
+        $acl->anadirUsuario($valores['nombre'], $valores['nick'], $valores['contrasenia'], (int)$valores['role']);
+
+        // AÑADIR USUARIO A LA TABLA ACL
+
+        $aclbd->anadirUsuario($valores['nombre'], $valores['nick'], $valores['contrasenia'], (int) $valores['role']);
 
         // VER USUARIO
         $sentenciaCodUsu = "SELECT cod_usuario FROM usuarios WHERE nick = '{$valores['nick']}';";
@@ -166,7 +191,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($usuarios, $valores, $errores, $noErrores);
+cuerpo($valores, $errores, $noErrores, $roles);
 finCuerpo();
 
 
@@ -176,7 +201,7 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($usuarios, $valores, $errores, $noErrores)
+function cuerpo($valores, $errores, $noErrores, $roles)
 {
 
 
@@ -190,6 +215,14 @@ function cuerpo($usuarios, $valores, $errores, $noErrores)
         <label>Nombre completo:</label>
         <input type="text" name="nombre" value="<?= htmlspecialchars($valores['nombre'] ?? '') ?>">
         <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+
+        <label>Contraseña:</label>
+        <input type="password" name="contrasenia">
+        <span class="error"><?= $errores['contrasenia'] ?? '' ?></span><br><br>
+
+        <label>Repite la contraseña:</label>
+        <input type="password" name="contrasenia2">
+        <span class="error"><?= $errores['contrasenia2'] ?? '' ?></span><br><br>
 
         <label>NIF:</label>
         <input type="text" name="nif" value="<?= htmlspecialchars($valores['nif'] ?? '') ?>">
@@ -215,9 +248,14 @@ function cuerpo($usuarios, $valores, $errores, $noErrores)
         <input type="date" name="fecha_nacimiento" value="<?= htmlspecialchars($valores['fecha_nacimiento'] ?? '') ?>">
         <span class="error"><?= $errores['fecha_nacimiento'] ?? '' ?></span><br><br>
 
-        <label>Borrado:</label>
-        <input type="checkbox" name="borrado" <?= ($valores['borrado'] ? 'checked' : '') ?>>
-        <span class="error"><?= $errores['borrado'] ?? '' ?></span><br><br>
+        <label for="role">Selecciona el role</label>
+        <select name="role" id="role">
+            <?php
+            foreach ($roles as $key => $value) {
+                echo "<option value='$key'>$value</option>";
+            }
+            ?>
+        </select><br><br>
 
         <label>Foto:</label>
         <input type="file" accept="image/jpeg, image/png" name=" foto">

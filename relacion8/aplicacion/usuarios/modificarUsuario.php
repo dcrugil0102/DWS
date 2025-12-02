@@ -30,20 +30,29 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
+// OBTENEMOS EL COD DEL GET Y BUSCAMOS EL USUARIO
+
 $codUsu = $_GET['codUsu'];
 $sentenciaDatosUsu = "SELECT * FROM usuarios WHERE cod_usuario = '$codUsu'";
 $usuario = $conexion->query($sentenciaDatosUsu)->fetch_assoc();
 
+if ($usuario === null) {
+    paginaError("Usuario no encontrado");
+    exit();
+}
+
 $valores = [
     'nick' => '',
     'nombre' => '',
+    'contrasenia' => '',
+    'contrasenia2' => '',
     'nif' => '',
     'direccion' => '',
     'poblacion' => '',
     'provincia' => '',
     'cp' => '',
     'fecha_nacimiento' => '',
-    'borrado' => '',
+    'role' => '',
     'foto' => ''
 ];
 $errores = [];
@@ -53,18 +62,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // VALIDACIONES
 
     $valores['nombre'] = $_POST['nombre'] ?? '';
+    $valores['contrasenia'] = $_POST['contrasenia'] ?? '';
+    $valores['contrasenia2'] = $_POST['contrasenia2'] ?? '';
     $valores['nif'] = $_POST['nif'] ?? '';
     $valores['direccion'] = $_POST['direccion'] ?? '';
     $valores['poblacion'] = $_POST['poblacion'] ?? '';
     $valores['provincia'] = $_POST['provincia'] ?? '';
     $valores['cp'] = $_POST['cp'] ?? '';
     $valores['fecha_nacimiento'] = $_POST['fecha_nacimiento'] ?? '';
-    $valores['borrado'] = isset($_POST['borrado']) ? 1 : 0;
+    $valores['role'] = $_POST['role'] ?? '';
     $valores['foto'] = $_FILES['foto'] ?? '';
 
     // Nombre completo
     if (!validaCadena($_POST['nombre'], 50, '') || empty($_POST['nombre'])) {
         $errores['nombre'] = "El nombre no puede superar los 50 carácteres ni estar vacío";
+    }
+
+    // Contraseña
+    if (empty($_POST['contrasenia'])) {
+        $errores['contrasenia'] = "Debes especificar una contraseña";
+    }
+
+    // Contraseña
+    if (($_POST['contrasenia'] !== $_POST['contrasenia2']) || empty($_POST['contrasenia2'])) {
+        $errores['contrasenia'] = "Las contraseñas no coinciden";
     }
 
     // NIF
@@ -104,11 +125,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } else
             $valores['foto'] = $_FILES['foto'];
 
-            // CAMBIAR NOMBRE A LA FOTO
-            $nombreFoto = $usuario['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
-            
-            // SUBIR LA IMAGEN A LA CARPETA IMAGENES
-            move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
+        // CAMBIAR NOMBRE A LA FOTO
+        $nombreFoto = $usuario['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
+
+        // SUBIR LA IMAGEN A LA CARPETA IMAGENES
+        move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
     } else
         $nombreFoto = $usuario['foto'];
 
@@ -123,14 +144,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             provincia = '{$valores['provincia']}',
                             CP = '{$valores['cp']}',
                             fecha_nacimiento = '{$valores['fecha_nacimiento']}',
-                            borrado = '{$valores['borrado']}',
                             foto = '$nombreFoto'
                             WHERE cod_usuario = '$codUsu'";
+
+        $conexion->query($sentenciaUpdate);
+
+        $aclbd->setNombre($usuario['cod_usuario'], $valores['nombre']);
+        $aclbd->setContrasenia($usuario['cod_usuario'], $valores['contrasenia']);
+        $aclbd->setUsuarioRole($usuario['cod_usuario'], $valores['role']);
+
+        header("Location: /aplicacion/usuarios/verUsuario.php?codUsu=$codUsu");
     }
-
-    $conexion->query($sentenciaUpdate);
-
-    header("Location: /aplicacion/usuarios/verUsuario.php?codUsu=$codUsu");
 }
 
 inicioCabecera("2DAW APLICACION");
@@ -138,7 +162,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($usuario, $valores, $errores);
+cuerpo($usuario, $valores, $errores, $roles);
 finCuerpo();
 
 
@@ -148,7 +172,7 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($usuario, $valores, $errores)
+function cuerpo($usuario, $valores, $errores, $roles)
 {
 
 
@@ -160,8 +184,16 @@ function cuerpo($usuario, $valores, $errores)
         <input type="text" name="nick" value="<?= $usuario['nick'] ?>" readonly><br><br>
 
         <label>Nombre completo:</label>
-        <input type="text" name="nombre" value="<?= empty($valores['nombre']) ? $usuario['nombre'] : $valores['nombre'] ?>"> 
+        <input type="text" name="nombre" value="<?= empty($valores['nombre']) ? $usuario['nombre'] : $valores['nombre'] ?>">
         <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+
+        <label>Nueva contraseña:</label>
+        <input type="password" name="contrasenia">
+        <span class="error"><?= $errores['contrasenia'] ?? '' ?></span><br><br>
+
+        <label>Repite la contraseña:</label>
+        <input type="password" name="contrasenia2">
+        <span class="error"><?= $errores['contrasenia2'] ?? '' ?></span><br><br>
 
         <label>NIF:</label>
         <input type="text" name="nif" value="<?= empty($valores['nif']) ? $usuario['nif'] : $valores['nif'] ?>">
@@ -187,8 +219,14 @@ function cuerpo($usuario, $valores, $errores)
         <input type="date" name="fecha_nacimiento" value="<?= empty($valores['fecha_nacimiento']) ? $usuario['fecha_nacimiento'] : $valores['fecha_nacimiento'] ?>">
         <span class="error"><?= $errores['fecha_nacimiento'] ?? '' ?></span><br><br>
 
-        <label>Borrado:</label>
-        <input type="checkbox" name="borrado" <?= empty($valores['borrado']) ? ($usuario['borrado'] ? 'checked' : '') : ($valores['borrado'] ? 'checked' : '') ?>><br><br>
+        <label for="role">Selecciona el role</label>
+        <select name="role" id="role">
+            <?php
+            foreach ($roles as $key => $value) {
+                echo "<option value='$key'>$value</option>";
+            }
+            ?>
+        </select><br><br>
 
         <div style="display:flex; align-items:center; gap: 10px;">
             <label>Foto:</label>
@@ -203,7 +241,7 @@ function cuerpo($usuario, $valores, $errores)
     <br>
 
     <a href="/aplicacion/usuarios/index.php">Volver</a>
-    <a href="borrarUsuario.php">Eliminar</a>
+    <a href="borrarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>"><?= $usuario['borrado'] ? 'Restaurar' : 'Eliminar' ?></a>
 
 <?php
 }

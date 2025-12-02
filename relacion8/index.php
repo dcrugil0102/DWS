@@ -12,7 +12,7 @@ $contador = 0;
 
 if (isset($_COOKIE['visitas'])) {
     $contador = $_COOKIE['visitas'] + 1;
-} else{
+} else {
     $contador = 1;
 }
 

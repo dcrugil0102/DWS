@@ -21,7 +21,7 @@ if (!$acceso->hayUsuario()) {
     header("Location: /aplicacion/acceso/login.php");
 }
 
-if (!$acceso->puedePermiso(2)) {
+if (!$acceso->puedePermiso(2) && !$acceso->puedePermiso(3)) {
     paginaError("No tienes permisos");
     exit();
 }
@@ -41,12 +41,20 @@ if ($usuario === null) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $bool = $usuario['borrado'];
+    $conexion->query("UPDATE usuarios set borrado = !$bool WHERE cod_usuario = '$codUsu'");
+    $aclbd->setBorrado($usuario['cod_usuario'], !$bool);
+
+    header("Location: /aplicacion/usuarios/verUsuario.php?codUsu=$codUsu");
+}
+
 inicioCabecera("2DAW APLICACION");
 cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($usuario, $acceso);
+cuerpo($usuario);
 finCuerpo();
 
 
@@ -56,7 +64,7 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($usuario, $acceso)
+function cuerpo($usuario)
 {
 
 
@@ -97,15 +105,13 @@ function cuerpo($usuario, $acceso)
 
     <br>
 
+    <form action="borrarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>" method="post">
+        <label for="">Estas seguro de que quieres <?= $usuario['borrado'] ? ' restaurar ' : ' eliminar ' ?> a <?= $usuario['nick'] ?>?</label>
+        <button class="boton" type="submit">Si</button>
+        <a class="botonNo" href="verUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>" style="background-color: white; color: black; border: 1px solid black;">No</a>
+    </form>
+
     <a href="/aplicacion/usuarios/index.php">Volver</a>
-    <?php
-    if ($acceso->puedePermiso(3)) {
-    ?>
-        <a href="modificarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>">Modificar</a>
-        <a href="borrarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>"><?= $usuario['borrado'] ? 'Restaurar' : 'Eliminar' ?></a>
-    <?php
-    }
-    ?>
 
 <?php
 }

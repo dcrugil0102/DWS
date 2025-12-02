@@ -75,6 +75,7 @@ header {
     transition: 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    border: none;
 }
 
 .salir:hover {
@@ -82,6 +83,7 @@ header {
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(255, 76, 76, 0.4);
+    cursor: pointer;
 }
 
 .salir:active {
@@ -190,34 +192,62 @@ footer {
 
 .tabla {
     border-collapse: collapse;
+    width: 75%;
+    font-family: Arial, sans-serif;
 }
-.tabla td,
+
 .tabla th {
-    border: 1px solid black;
-    padding: 5px;
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px;
+    border-bottom: 2px solid #ccc;
 }
 
-/* .tabla th{
+.tabla td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
 
-} */
+.tabla tr:hover {
+    background-color: #fafafa;
+}
 
 .tabla img {
     width: 5vh;
     height: 5vh;
     padding: 0;
 }
+
 .imgUsu {
     width: 10vh;
     height: 10vh;
     border-radius: 100%;
 }
+
 .enlaces {
-    display: none;
-    border: none !important;
+    display: inline-block;
+    visibility: hidden;
+    width: 80px;
+    text-align: center;
 }
 
 tr:hover .enlaces {
-    display: inline-block;
+    visibility: visible;
+}
+
+.enlaces a {
+    text-decoration: none;
+    color: #444;
+    background: #e6e6e6;
+    padding: 1px 5px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.enlaces a:hover {
+    background: #d1d1d1;
+    color: #000;
 }
 
 .boton {
@@ -229,10 +259,28 @@ tr:hover .enlaces {
     border-radius: 6px;
     font-weight: bold;
     transition: 0.2s ease;
+    border: 0;
 }
 
 .boton:hover {
     background: #217dbb;
+    cursor: pointer;
+}
+
+.botonNo {
+    display: inline-block;
+    padding: 5px 16px;
+    background: white;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.botonNo:hover {
+    background: #217dbb;
+    cursor: pointer;
 }
 
 input[readonly] {
@@ -244,4 +292,13 @@ input[readonly] {
 
 img {
     border-radius: 100%;
+}
+
+.ordenar {
+    border: none;
+    display: inline;
+}
+
+.ordenar:hover {
+    cursor: pointer;
 }

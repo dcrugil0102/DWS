@@ -12,28 +12,27 @@ $barraUbi = [
     ]
 ];
 
-$acl = new ACLArray();
-
 $errores = [];
 $mensajes = [];
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['acceder'])) {
         $usuario = $_POST['usuario'];
         $contrasenia = $_POST['contrasenia'];
 
         if (!empty($usuario) && !empty($contrasenia)) {
-            if ($acl->esValido($usuario, $contrasenia)) {
+            if ($aclbd->esValido($usuario, $contrasenia)) {
                 $mensajes['login'] = "Login correcto, bienvenido $usuario.";
-                $acceso->registrarUsuario($usuario, $usuario, $acl->getPermisos($acl->getCodUsuario($usuario)));
+                $acceso->registrarUsuario($usuario, $usuario, $aclbd->getPermisos($aclbd->getCodUsuario($usuario)));
             } else {
                 $errores['login'] = "Nombre o contraseña inválidos: $usuario y $contrasenia";
             }
-        } else {$errores['login'] = "Debes rellenar todos los campos.";}
-
+        } else {
+            $errores['login'] = "Debes rellenar todos los campos.";
+        }
     }
-    
-    if(isset($_POST['salir'])){
+
+    if (isset($_POST['salir'])) {
         $acceso->quitarRegistroUsuario();
     }
 }
@@ -67,7 +66,7 @@ function cuerpo($errores, $mensajes)
 
         <span class="error"><?= $errores['login'] ?? '' ?></span>
         <span class="valido"><?= $mensajes['login'] ?? '' ?></span>
-        
+
         <br>
         <button type="submit" name="acceder">Acceder</button>
 
