@@ -1,6 +1,6 @@
 <?php
 
 $servidor = 'localhost';
-$usuario = 'usu9';
-$pass = 'usu9';
-$baseDatos = 'practica9';
+$usuario = '2daw12';
+$pass = '2daw';
+$baseDatos = 'BD2DAW12';

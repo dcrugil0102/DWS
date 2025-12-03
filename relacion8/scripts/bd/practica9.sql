@@ -35,9 +35,13 @@ CREATE TABLE IF NOT EXISTS `acl_roles` (
   `perm10` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cod_acl_role`),
   UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla practica9.acl_roles: ~2 rows (aproximadamente)
+DELETE FROM `acl_roles`;
+INSERT INTO `acl_roles` (`cod_acl_role`, `nombre`, `perm1`, `perm2`, `perm3`, `perm4`, `perm5`, `perm6`, `perm7`, `perm8`, `perm9`, `perm10`) VALUES
+	(3, 'administradores', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+	(4, 'normales', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- Volcando estructura para tabla practica9.acl_usuarios
 CREATE TABLE IF NOT EXISTS `acl_usuarios` (
@@ -51,9 +55,12 @@ CREATE TABLE IF NOT EXISTS `acl_usuarios` (
   UNIQUE KEY `uq_acl_roles_1` (`nick`),
   KEY `cod_acl_role` (`cod_acl_role`),
   CONSTRAINT `fk_acl_roles_1` FOREIGN KEY (`cod_acl_role`) REFERENCES `acl_roles` (`cod_acl_role`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla practica9.acl_usuarios: ~1 rows (aproximadamente)
+DELETE FROM `acl_usuarios`;
+INSERT INTO `acl_usuarios` (`cod_acl_usuario`, `nick`, `nombre`, `contrasenia`, `cod_acl_role`, `borrado`) VALUES
+	(2, 'damian', 'Damian', 'd033e22ae348aeb5660fc2140aec35850c4da997', 3, 0);
 
 -- Volcando estructura para tabla practica9.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (
@@ -70,9 +77,12 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `foto` varchar(50) NOT NULL,
   PRIMARY KEY (`cod_usuario`),
   UNIQUE KEY `nick` (`nick`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish2_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla practica9.usuarios: ~1 rows (aproximadamente)
+DELETE FROM `usuarios`;
+INSERT INTO `usuarios` (`cod_usuario`, `nick`, `nombre`, `nif`, `direccion`, `poblacion`, `provincia`, `CP`, `fecha_nacimiento`, `borrado`, `foto`) VALUES
+	(2, 'damian', 'Damian', '26791215X', 'Calle Alhambra de Granada', 'Antequera', 'Malaga', '29200', '2006-02-01', 0, 'damian.jpeg');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
