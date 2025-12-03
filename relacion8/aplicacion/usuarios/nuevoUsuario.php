@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // INSERTAR LOS VALORES EN LA BD
 
-        $sentenciaIngresarUsu = "INSERT INTO USUARIOS (nick, nombre, nif, direccion, poblacion, provincia, CP, fecha_nacimiento, foto)
+        $sentenciaIngresarUsu = "INSERT INTO usuarios (nick, nombre, nif, direccion, poblacion, provincia, CP, fecha_nacimiento, foto)
                                 VALUES (
                                         '{$valores['nick']}',
                                         '{$valores['nombre']}',
