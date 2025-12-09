@@ -15,7 +15,7 @@ class Coleccion
     // PROPIEDADES *******************   
 
     protected string $_nombre;
-    protected string $_fecha_alta = '01/10/2025';
+    protected string|DateTime $_fecha_alta = '01/10/2025';
     protected int $_tematica = 10;
     protected string $_tematica_descripcion;
     private array $_libros = [];
@@ -69,9 +69,13 @@ class Coleccion
     /**
      * @return string
      */
-    public function get_fecha_alta(): string
+    public function get_fecha_alta(): string|DateTime
     {
-        return $this->_fecha_alta;
+        $fecha = $this->_fecha_alta;
+        if ($fecha instanceof DateTime) {
+            $fecha = $fecha->format('d/m/Y');
+        }
+        return $fecha;
     }
 
     /**
@@ -91,7 +95,8 @@ class Coleccion
         $mes = (int)$temp[1];
         $anio = (int)$temp[2];
 
-        $fechaAnterior = DateTime::createFromFormat('d/m/Y', $dia . '/' . $mes . '/' . $anio + 4);
+        $fechaAnterior = DateTime::createFromFormat('d/m/Y', $dia . '/' . $mes . '/' . $anio - 4);
+        $fechaActual = DateTime::createFromFormat('d/m/Y', $fechaActual);
 
         if ($_fecha_alta > $fechaActual || $_fecha_alta < $fechaAnterior) {
             return -10;
@@ -139,7 +144,7 @@ class Coleccion
 
     // METODOS DE LIBRO *****************************
 
-    function aniadirLibro(Libro $libro) : bool {
+    public function aniadirLibro(Libro $libro) : bool {
         if (!($libro instanceof Libro)) {
             return false;
         }
@@ -148,7 +153,7 @@ class Coleccion
         return true;
     }
 
-    function dameLibros() : array {
+    public function dameLibros() : array {
 
         $result = [];
 

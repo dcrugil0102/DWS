@@ -29,7 +29,7 @@ cabecera();
 finCabecera();
 
 inicioCuerpo("2DAW APLICACION", $barraUbi);
-cuerpo($contador);
+cuerpo($contador, $COLECCIONES, $acceso);
 finCuerpo();
 
 
@@ -39,13 +39,23 @@ finCuerpo();
 function cabecera() {}
 
 
-function cuerpo($contador)
+function cuerpo($contador, $COLECCIONES, $acceso)
 {
 ?>
     <p>Estas en el inicio. <br> Valor del contador: <?= $contador ?></p>
 
     <h2>Mostrar Colecciones</h2>
 
-    <textarea name="colecciones" id="colecciones" cols="50" rows="10"></textarea>
+    <textarea name="colecciones" id="colecciones" cols="75" rows="10"><?php 
+            foreach ($COLECCIONES as $key => $value) {
+                echo $value . PHP_EOL;
+
+                if ($acceso->hayUsuario()) {
+                    foreach ($COLECCIONES->dameLibros() as $nombre => $libro) {
+                        echo "\t$nombre";
+                    }
+                }
+            }?>
+    </textarea>
 <?php
 }

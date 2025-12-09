@@ -33,7 +33,7 @@ function validaFecha(string &$var, string $defecto): bool
         $anio = (int)$temp[2];
 
         if (checkdate($mes, $dia, $anio)) {
-            $var = DateTime::createFromFormat("d/m/Y", $var)->format("d/m/Y");
+            $var = DateTime::createFromFormat("d/m/Y", $var);
             return true;
         } else {
             $var = $defecto;
