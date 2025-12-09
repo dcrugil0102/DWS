@@ -1,6 +1,6 @@
 <?php
 
-class coleccion
+class Coleccion
 {
 
     // CONSTANTES ******************
@@ -21,7 +21,26 @@ class coleccion
 
     // CONSTRUCTOR **********************
 
+    public function __construct(string $nombre, ?string $fecha_alta = '01/10/2025', ?int $tematica = 10)
+    {   
+        if ($this->set_nombre($nombre) === -10) {
+            throw new Exception("Error al asignar el nombre");
+        }
 
+        if ($fecha_alta !== null) {
+            $this->set_fecha_alta($fecha_alta);
+        }
+
+        if ($tematica !== null) {
+            $this->set_tematica($tematica);
+        }
+
+        foreach (self::TEMATICAS as $key => $value) {
+            if ($this->get_tematica() === $value) {
+                $this->_tematica_descripcion = $key;
+            }
+        }
+    }
 
     // GETTERS Y SETTERS *****************
 
@@ -71,6 +90,13 @@ class coleccion
         $anio = (int)$temp[2];
 
         $fechaAnterior = DateTime::createFromFormat('d/m/Y', $dia . '/' . $mes . '/' . $anio + 4);
+
+        if ($_fecha_alta > $fechaActual || $_fecha_alta < $fechaAnterior) {
+            return -10;
+        } else{
+            $this->_fecha_alta = $_fecha_alta;
+            return 10;
+        }
     }
 
     /**
@@ -84,9 +110,51 @@ class coleccion
     /**
      * @param int $_tematica
      */
-    public function set_tematica(int $_tematica): void
+    public function set_tematica(int $_tematica): int
     {
-        $this->_tematica = $_tematica;
+        if (!validaRango($_tematica, self::TEMATICAS, 1)) {
+            return -10;
+        } else{
+            $this->_tematica = $_tematica;
+            return 10;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function get_tematica_descripcion(): string
+    {
+        return $this->_tematica_descripcion;
+    }
+
+    // toString *************************************
+
+    public function __toString()
+    {
+        return "colección {$this->get_nombre()} añadida el {$this->get_fecha_alta()} de temática {$this->get_tematica_descripcion()}";
+    }
+
+    // PROPIEDADES DINÁMICAS ************************
+
+        public function __set($name, $value)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function __get($name)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function __isset($name)
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function __unset($name)
+    {
+        throw new \Exception('Not implemented');
     }
 }
 
