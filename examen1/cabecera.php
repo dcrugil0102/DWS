@@ -23,6 +23,8 @@ spl_autoload_register(function ($clase) {
     }
 });
 
+session_start();
+
 $coleccion1 = new Coleccion("Harry Potter");
 $coleccion1->aniadirLibro(new Libro("Harry Potter 1", "Pablo Moron", "paginas", 300, "color", "rojo"));
 $coleccion1->aniadirLibro(new Libro("Harry Potter 2", "Pablo Moron", "paginas", 400, "color", "verde"));

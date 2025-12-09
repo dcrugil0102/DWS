@@ -67,18 +67,25 @@ function inicioCuerpo(string $cabecera, array $barraUbi = [])
             </nav>
 
             <div id="barraLogin">
+                <form action="../index.php" method="post">
                 <?php if ($acceso->hayUsuario()) {
                 ?>
-                    <form action="/aplicacion/acceso/login.php" method="post">
                         <div>
-                            <p> < <?= $acceso->getNombre() ?> </p>
+                            <p> <?= $acceso->getNombre() ?> </p>
                             <button class="salir" name="salir" type="submit">Salir</button>
                         </div>
-                    </form>
+                    
                 <?php
                  } else {
-                     echo "<a href='/aplicacion/acceso/login.php' class='acceso'>Loguearse</a>";
+                     ?>
+                        <div>
+                            <p> Sin usuario </p>
+                            <button type='submit' class='acceso' name='login'>Loguearse</button>
+                        </div>
+                    
+                <?php
                  } ?>
+                 </form>
             </div>
 
         </header>
