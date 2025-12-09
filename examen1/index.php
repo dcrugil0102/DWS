@@ -53,13 +53,28 @@ function cuerpo($contador, $COLECCIONES, $acceso)
                 if ($acceso->hayUsuario()) {
                     foreach ($COLECCIONES as $coleccion) {
                         foreach ($coleccion->dameLibros() as $nombre => $libro) {
+                            echo "\t-$nombre:" . PHP_EOL;
                             foreach ($libro as $key => $value) {
-                                echo "\t-$key : $value" . PHP_EOL;
+                                echo "\t\t-$key : $value" . PHP_EOL;
                             }
                         }
                     }
                 }
             }?>
     </textarea>
+
+    <h2>Modifica coleccion:</h2>
+
+    <form action="/aplicacion/colecciones/modificar.php" method="post">
+        <label for="colecciones">Elige la colección:</label>
+        <select name="colecciones" id="colecciones">
+            <?php 
+                foreach ($COLECCIONES as $key => $value) {
+                    echo "<option>$value</option>";
+                }
+            ?>
+        </select>
+        <button type="submit">Modificar</button>
+    </form>
 <?php
 }

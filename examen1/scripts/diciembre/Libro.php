@@ -21,14 +21,17 @@ class Libro implements Iterator
         $nombre_prop = "";
         $valor_prop = "";
 
+        $cont = 0;
+
         for ($i = 0; $i < count($args) - 1; $i += 2) {
             $nombre_prop = $args[$i];
             $valor_prop = $args[$i + 1];
 
             if (is_string($nombre_prop)) {
-                $this->_otras[$i] = $nombre_prop;
-                $this->_otras[$i + 1] = $valor_prop;
+                $this->_otras[$cont] = ['nombre_prop' => $nombre_prop, 'valor_prop' => $valor_prop];
             }
+
+            $cont++;
         }
 
         $this->añadir();
@@ -42,9 +45,9 @@ class Libro implements Iterator
         $prop = "";
         $valor = "";
 
-        for ($i = 0; $i < count($this->_otras); $i += 2) {
-            $prop = $this->_otras[$i];
-            $valor = $this->_otras[$i + 1];
+        foreach ($this->_otras as $key => $value) {
+            $prop = $value['nombre_prop'];
+            $valor = $value['valor_prop'];
 
             $this->__set($prop, $valor);
         }
@@ -74,7 +77,14 @@ class Libro implements Iterator
 
     public function current(): mixed
     {
-        return $this->_otras[$this->_posicion];
+        switch ($this->_posicion) {
+            case 0:
+                return $this->_nombre;
+            case count($this->_otras) - 1:
+                return $this->_autor;
+            default:
+                return $this->_otras[$this->_posicion]['valor_prop'];
+        }
     }
 
     public function key(): mixed
@@ -82,10 +92,10 @@ class Libro implements Iterator
         switch ($this->_posicion) {
             case 0:
                 return "Nombre:";
-            case count($this->_otras):
+            case count($this->_otras) - 1:
                 return "Autor";
             default:
-                return $this->_otras[$this->_posicion];
+                return $this->_otras[$this->_posicion]['nombre_prop'];
         }
     }
 
@@ -101,7 +111,7 @@ class Libro implements Iterator
 
     public function valid(): bool
     {
-        if ($this->_posicion > count($this->_otras)) {
+        if ($this->_posicion > count($this->_otras) - 1) {
             return false;
         } else
             return true;
