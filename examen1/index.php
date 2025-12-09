@@ -70,11 +70,11 @@ function cuerpo($contador, $COLECCIONES, $acceso)
         <select name="colecciones" id="colecciones">
             <?php 
                 foreach ($COLECCIONES as $key => $value) {
-                    echo "<option>$value</option>";
+                    echo "<option value='$key'>$value</option>";
                 }
             ?>
         </select>
-        <button type="submit">Modificar</button>
+        <button type="submit" name="index">Modificar</button>
     </form>
 <?php
 }
