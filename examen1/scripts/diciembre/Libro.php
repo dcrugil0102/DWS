@@ -2,7 +2,7 @@
 
 use Dom\CharacterData;
 
-class Libro
+class Libro implements Iterator
 {
     // PROPIEDADES ****************************
 
@@ -66,5 +66,44 @@ class Libro
 
         $name = mb_strtolower($name);
         return $this->$name;
+    }
+
+    // MÉTODOS DE ITERATOR *************************
+
+    private $_posicion;
+
+    public function current(): mixed
+    {
+        return $this->_otras[$this->_posicion];
+    }
+
+    public function key(): mixed
+    {
+        switch ($this->_posicion) {
+            case 0:
+                return "Nombre:";
+            case count($this->_otras):
+                return "Autor";
+            default:
+                return $this->_otras[$this->_posicion];
+        }
+    }
+
+    public function next(): void
+    {
+        $this->_posicion++;
+    }
+
+    public function rewind(): void
+    {
+        $this->_posicion=0;
+    }
+
+    public function valid(): bool
+    {
+        if ($this->_posicion > count($this->_otras)) {
+            return false;
+        } else
+            return true;
     }
 }

@@ -31,9 +31,9 @@ $coleccion1->aniadirLibro(new Libro("Harry Potter 2", "Pablo Moron", "paginas", 
 $coleccion1->aniadirLibro(new Libro("Harry Potter 3", "Pablo Moron", "paginas", 350, "color", "amarillo"));
 
 $coleccion2 = new Coleccion("Juego de Tronos");
-$coleccion1->aniadirLibro(new Libro("Juego de Tronos T1", "Alvaro Cobos", "paginas", 250, "temporada", "1"));
-$coleccion1->aniadirLibro(new Libro("Juego de Tronos T2", "Alvaro Cobos", "paginas", 399, "temporada", "2"));
-$coleccion1->aniadirLibro(new Libro("Juego de Tronos T3", "Alvaro Cobos", "paginas", 311, "temporada", "3"));
+$coleccion2->aniadirLibro(new Libro("Juego de Tronos T1", "Alvaro Cobos", "paginas", 250, "temporada", "1"));
+$coleccion2->aniadirLibro(new Libro("Juego de Tronos T2", "Alvaro Cobos", "paginas", 399, "temporada", "2"));
+$coleccion2->aniadirLibro(new Libro("Juego de Tronos T3", "Alvaro Cobos", "paginas", 311, "temporada", "3"));
 
 $COLECCIONES = [];
 $COLECCIONES[] = $coleccion1;

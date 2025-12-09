@@ -51,8 +51,12 @@ function cuerpo($contador, $COLECCIONES, $acceso)
                 echo $value . PHP_EOL;
 
                 if ($acceso->hayUsuario()) {
-                    foreach ($COLECCIONES->dameLibros() as $nombre => $libro) {
-                        echo "\t$nombre";
+                    foreach ($COLECCIONES as $coleccion) {
+                        foreach ($coleccion->dameLibros() as $nombre => $libro) {
+                            foreach ($libro as $key => $value) {
+                                echo "\t-$key : $value" . PHP_EOL;
+                            }
+                        }
                     }
                 }
             }?>
