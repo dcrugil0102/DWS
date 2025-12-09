@@ -9,6 +9,23 @@ class Libro
 
     private $_otras = [];
 
+    // CONSTRUCTOR **********************************
+
+    public function __construct(string $nombre, string $autor, string ...$nombre_prop, mixed ...$valor_prop)
+    {
+        $this->_nombre = $nombre;
+        $this->_autor = $autor;
+
+        for ($i=0; $i < count($nombre_prop); $i++) {
+            if ($nombre_prop[$i] instanceof String) {
+                $this->_otras[$nombre_prop[$i]] = $valor_prop[$i];
+            }
+        }
+
+        $this->añadir();
+        
+    }
+
     // METODOS **************************************
 
     function añadir() : void {
@@ -37,7 +54,7 @@ class Libro
         if (!validaRango($name, $this->_otras, 2)) {
             return false;
         }
-        
+
         $name = mb_strtolower($name);
         return $this->$name;
     }

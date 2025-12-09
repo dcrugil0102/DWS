@@ -18,6 +18,7 @@ class Coleccion
     protected string $_fecha_alta = '01/10/2025';
     protected int $_tematica = 10;
     protected string $_tematica_descripcion;
+    private array $_libros = [];
 
     // CONSTRUCTOR **********************
 
@@ -133,6 +134,28 @@ class Coleccion
     public function __toString()
     {
         return "colección {$this->get_nombre()} añadida el {$this->get_fecha_alta()} de temática {$this->get_tematica_descripcion()}";
+    }
+
+    // METODOS DE LIBRO *****************************
+
+    function aniadirLibro(Libro $libro) : bool {
+        if (!($libro instanceof Libro)) {
+            return false;
+        }
+
+        $this->_libros[] = $libro;
+        return true;
+    }
+
+    function dameLibros() : array {
+
+        $result = [];
+
+        foreach ($this->_libros as $n => $libro) {
+            $result['libro' . $n + 1] = $libro;
+        }
+
+        return $result;
     }
 
     // PROPIEDADES DINÁMICAS ************************
