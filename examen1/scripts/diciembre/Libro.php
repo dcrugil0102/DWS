@@ -1,5 +1,7 @@
 <?php
 
+use Dom\CharacterData;
+
 class Libro
 {
     // PROPIEDADES ****************************
@@ -11,14 +13,21 @@ class Libro
 
     // CONSTRUCTOR **********************************
 
-    public function __construct(string $nombre, string $autor, string ...$nombre_prop, mixed ...$valor_prop)
+    public function __construct(string $nombre, string $autor, mixed ...$args)
     {
         $this->_nombre = $nombre;
         $this->_autor = $autor;
 
-        for ($i=0; $i < count($nombre_prop); $i++) {
-            if ($nombre_prop[$i] instanceof String) {
-                $this->_otras[$nombre_prop[$i]] = $valor_prop[$i];
+        $nombre_prop = "";
+        $valor_prop = "";
+
+        for ($i = 0; $i < count($args) - 1; $i += 2) {
+            $nombre_prop = $args[$i];
+            $valor_prop = $args[$i + 1];
+
+            if (is_string($nombre_prop)) {
+                $this->_otras[$i] = $nombre_prop;
+                $this->_otras[$i + 1] = $valor_prop;
             }
         }
 

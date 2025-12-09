@@ -83,8 +83,9 @@ class Coleccion
             return -10;
         }
 
-        $fechaActual = DateTime::createFromFormat('d/m/Y', 'now');
-        
+        $fechaActual = new DateTime('now');
+        $fechaActual = $fechaActual->format('d/m/Y');
+
         $temp = explode("/", $fechaActual);
         $dia = (int)$temp[0];
         $mes = (int)$temp[1];

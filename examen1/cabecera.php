@@ -8,7 +8,7 @@ include_once(dirname(__FILE__) . "/scripts/bookstores/validacion.php");
 
 spl_autoload_register(function ($clase) {
     $ruta = RUTABASE . "/scripts/class/";
-    $ruta2 = RUTABASE . "/scripts/class/";
+    $ruta2 = RUTABASE . "/scripts/diciembre/";
     $fichero = $ruta . "$clase.php";
     $fichero2 = $ruta2 . "$clase.php";
 
@@ -23,8 +23,21 @@ spl_autoload_register(function ($clase) {
     }
 });
 
+$coleccion1 = new Coleccion("Harry Potter");
+$coleccion1->aniadirLibro(new Libro("Harry Potter 1", "Pablo Moron", "paginas", 300, "color", "rojo"));
+$coleccion1->aniadirLibro(new Libro("Harry Potter 2", "Pablo Moron", "paginas", 400, "color", "verde"));
+$coleccion1->aniadirLibro(new Libro("Harry Potter 3", "Pablo Moron", "paginas", 350, "color", "amarillo"));
 
-session_start();
+$coleccion2 = new Coleccion("Juego de Tronos");
+$coleccion1->aniadirLibro(new Libro("Juego de Tronos T1", "Alvaro Cobos", "paginas", 250, "temporada", "1"));
+$coleccion1->aniadirLibro(new Libro("Juego de Tronos T2", "Alvaro Cobos", "paginas", 399, "temporada", "2"));
+$coleccion1->aniadirLibro(new Libro("Juego de Tronos T3", "Alvaro Cobos", "paginas", 311, "temporada", "3"));
+
+$COLECCIONES = [];
+$COLECCIONES[] = $coleccion1;
+$COLECCIONES[] = $coleccion2;
+
+$acceso = new Acceso();
 
 if (MODO_TRABAJO == "produccion")
     error_reporting(0);
