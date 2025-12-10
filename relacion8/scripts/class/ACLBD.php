@@ -17,31 +17,8 @@ class ACLBD extends ACLBase
         if (!$this->_sqli || $this->_sqli->connect_errno <> 0)
             $this->_hayConeccion = false;
 
-        $this->anadirRole('administradores', [
-            1 => true,
-            2 => true,
-            3 => true,
-            4 => true,
-            5 => true,
-            6 => true,
-            7 => true,
-            8 => true,
-            9 => true,
-            10 => true
-        ]);
-
-        $this->anadirRole('normales', [
-            1 => true,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false,
-            10 => false
-        ]);
+        $this->anadirRole('administradores', [1 => true, 2 => true, 3 => true, 4 => true, 5 => true, 6 => true, 7 => true, 8 => true, 9 => true, 10 => true]);
+        $this->anadirRole('normales', [1 => true, 2 => true, 3 => false, 4 => false, 5 => false, 6 => false, 7 => false, 8 => false, 9 => false, 10 => false]);
     }
 
     /**
