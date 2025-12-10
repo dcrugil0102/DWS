@@ -73,8 +73,26 @@ function cuerpo($contador, $COLECCIONES, $acceso)
                     echo "<option value='$key'>$value</option>";
                 }
             ?>
+            <option value="NaN">No existe</option>
         </select>
         <button type="submit" name="index">Modificar</button>
+    </form>
+
+    <h2>Envía colección:</h2>
+
+    <form action="/aplicacion/colecciones/enviar.php" method="post">
+        <label for="colecciones">Elige la colección:</label>
+        <select name="colecciones" id="colecciones">
+            <?php 
+                foreach ($COLECCIONES as $key => $value) {
+                    echo "<option value='$key'>$value</option>";
+                }
+            ?>
+            <option value="NaN">No existe</option>
+        </select>
+        <label for="descargar">Descargar</label>
+        <input type="checkbox" name="descargar" id="descargar">
+        <button type="submit" name="index">Enviar</button>
     </form>
 <?php
 }
