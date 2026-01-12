@@ -35,12 +35,18 @@
 				<ul>
 					<li><?= CHTML::link("Prácticas 1", Sistema::app()->generaURL(["practicas1", "miindice"])) ?>
 						<?php 
-					
-					if(isset($this->ejercicios)){
-						foreach ($this->ejercicios as $ejercicio) {
-							
+
+						if(isset($this->ejercicios)){
+							echo CHTML::dibujaEtiqueta("ul");
+							foreach ($this->ejercicios as $ejercicio => $titulo) {
+								echo CHTML::dibujaEtiqueta("li");
+
+								echo CHTML::link($titulo, Sistema::app()->generaURL(["practicas1", $ejercicio]));
+
+								echo CHTML::dibujaEtiquetaCierre("li");
+							}
+							echo CHTML::dibujaEtiquetaCierre("ul");
 						}
-					}
 
 					?>
 					</li>

@@ -31,6 +31,13 @@ final class practicas1Controlador extends CControlador
 			]
 		];
 
+        $this->ejercicios = [
+            "ejercicio1" => "Ejercicio 1",
+            "ejercicio2" => "Ejercicio 2",
+            "ejercicio3" => "Ejercicio 3",
+            "ejercicio7" => "Ejercicio 7"
+        ];
+
 		$this->dibujaVista("miindice",[],
 							"Prácticas 1");
 		
@@ -38,6 +45,6 @@ final class practicas1Controlador extends CControlador
 
     public function accionEjercicio1(){
         $this->dibujaVista("ejercicio1", [], "Relacion 1 - Ejercicio 1");
-        $this->ejercicios[] = "ejercicio1";
+        
     }
 }
