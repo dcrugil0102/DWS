@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/estilos/principal2.css" />
+	<link rel="stylesheet" type="text/css" href="/estilos/principal3.css" />
 
 	<link rel="icon" type="image/png" href="/imagenes/favicon.png" />
 	<?php
@@ -33,10 +33,35 @@
 
 		<nav id="menu">
 				<ul>
-					<li><?= CHTML::link() ?></li>
-					<li><a href="">Practicas 2</a></li>
+					<li><?= CHTML::link("Prácticas 1", Sistema::app()->generaURL(["practicas1", "miindice"])) ?></li>
+					<li><?= CHTML::link("Prácticas 2", Sistema::app()->generaURL(["practicas1", "index"])) ?></li>
 				</ul>
-			</nav>
+		</nav>
+
+		<nav id="barraUbi">
+			<ul>
+					<?php
+
+					if (isset($this->barraUbi)) {
+						foreach ($this->barraUbi as $opcion) {
+							echo CHTML::dibujaEtiqueta(
+								"li",
+								array(),
+								"",
+								false
+							);
+							echo CHTML::link(
+								$opcion["texto"],
+								$opcion["enlace"]
+							);
+							echo CHTML::dibujaEtiquetaCierre("li");
+							echo CHTML::dibujaEtiqueta("br") . "\r\n";
+						}
+					}
+
+					?>
+				</ul>
+		</nav>
 
 		<div class="contenido">
 			<aside>
