@@ -33,8 +33,20 @@
 
 		<nav id="menu">
 				<ul>
-					<li><?= CHTML::link("Prácticas 1", Sistema::app()->generaURL(["practicas1", "miindice"])) ?></li>
-					<li><?= CHTML::link("Prácticas 2", Sistema::app()->generaURL(["practicas1", "index"])) ?></li>
+					<li><?= CHTML::link("Prácticas 1", Sistema::app()->generaURL(["practicas1", "miindice"])) ?>
+						<?php 
+					
+					if(isset($this->ejercicios)){
+						foreach ($this->ejercicios as $ejercicio) {
+							
+						}
+					}
+
+					?>
+					</li>
+					<li><?= CHTML::link("Prácticas 2", Sistema::app()->generaURL(["practicas2", "index"])) ?></li>
+
+					
 				</ul>
 		</nav>
 
