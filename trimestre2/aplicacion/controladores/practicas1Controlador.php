@@ -32,10 +32,20 @@ final class practicas1Controlador extends CControlador
 		];
 
         $this->ejercicios = [
-            "ejercicio1" => "Ejercicio 1",
-            "ejercicio2" => "Ejercicio 2",
-            "ejercicio3" => "Ejercicio 3",
-            "ejercicio7" => "Ejercicio 7"
+            "practicas1" => [
+				"titulo" => "Prácticas 1",
+				"vista" => "miindice",
+				"ejercicios" => [
+					"ejercicio1" => "Ejercicio 1",
+					"ejercicio2" => "Ejercicio 2",
+					"ejercicio3" => "Ejercicio 3",
+					"ejercicio7" => "Ejercicio 7"
+				]
+			],
+			"practicas2" => [
+				"titulo" => "Prácticas 2",
+				"vista" => "index"
+			]
         ];
 
 		$this->dibujaVista("miindice",[],

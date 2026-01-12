@@ -33,25 +33,19 @@
 
 		<nav id="menu">
 				<ul>
-					<li><?= CHTML::link("Prácticas 1", Sistema::app()->generaURL(["practicas1", "miindice"])) ?>
-						<?php 
 
-						if(isset($this->ejercicios)){
-							echo CHTML::dibujaEtiqueta("ul");
-							foreach ($this->ejercicios as $ejercicio => $titulo) {
-								echo CHTML::dibujaEtiqueta("li");
 
-								echo CHTML::link($titulo, Sistema::app()->generaURL(["practicas1", $ejercicio]));
-
-								echo CHTML::dibujaEtiquetaCierre("li");
-							}
-							echo CHTML::dibujaEtiquetaCierre("ul");
+					<?php 
+					
+					if (isset($this->ejercicios)) {
+						foreach ($this->ejercicios as $practica => $opciones) {
+							echo CHTML::dibujaEtiqueta("li");
+							echo CHTML::link($opciones['titulo'], Sistema::app()->generaURL([$practica, $opciones['vista']]));
+							echo CHTML::dibujaEtiquetaCierre("li");
 						}
+					}
 
 					?>
-					</li>
-					<li><?= CHTML::link("Prácticas 2", Sistema::app()->generaURL(["practicas2", "index"])) ?></li>
-
 					
 				</ul>
 		</nav>

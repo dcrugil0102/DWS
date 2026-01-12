@@ -24,16 +24,19 @@ class inicialControlador extends CControlador
 		];
 
 		$this->ejercicios = [
-            "relacion1" => [
-				"titulo" => "Relacion 1",
-				"ejercicio1" => "Ejercicio 1",
-				"ejercicio2" => "Ejercicio 2",
-				"ejercicio3" => "Ejercicio 3",
-				"ejercicio7" => "Ejercicio 7"
+            "practicas1" => [
+				"titulo" => "Prácticas 1",
+				"vista" => "miindice",
+				"ejercicios" => [
+					"ejercicio1" => "Ejercicio 1",
+					"ejercicio2" => "Ejercicio 2",
+					"ejercicio3" => "Ejercicio 3",
+					"ejercicio7" => "Ejercicio 7"
+				]
 			],
-			"relacion2" => [
-				"titulo" => "Relacion 2",
-				
+			"practicas2" => [
+				"titulo" => "Prácticas 2",
+				"vista" => "index"
 			]
         ];
 
