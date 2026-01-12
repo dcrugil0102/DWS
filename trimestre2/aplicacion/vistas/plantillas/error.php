@@ -11,7 +11,7 @@
         <title>ERROR</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width; initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="/estilos/principal.css" />
+		<link rel="stylesheet" type="text/css" href="/estilos/principal2.css" />
 		<link rel="icon" type="image/png" href="/imagenes/favicon.png" />
 		
 	</head>
@@ -48,7 +48,7 @@
 			
 			</div>
 		    <footer>
-			    <h2>Copyright: <?php echo Sistema::app()->autor." ".Sistema::app()->direccion;?></h2>
+			    <h2>Copyright: <?php echo Sistema::app()->autor;?></h2>
 		    </footer><!-- #footer -->
 				
 		</div><!-- #wrapper -->	

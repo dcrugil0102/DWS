@@ -33,16 +33,8 @@
 
 		<nav id="menu">
 				<ul>
-					<li>Practicas 1
-						<ul>
-							<li>miindice</li>
-						</ul>
-					</li>
-					<li>Practicas 2
-						<ul>
-							<li>index</li>
-						</ul>
-					</li>
+					<li><?= CHTML::link() ?></li>
+					<li><a href="">Practicas 2</a></li>
 				</ul>
 			</nav>
 
