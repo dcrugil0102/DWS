@@ -38,12 +38,21 @@
 				</ul>
 		</nav>
 
+		<br>
+
 		<nav id="barraUbi">
 			<ul>
 					<?php
 
 					if (isset($this->barraUbi)) {
 						foreach ($this->barraUbi as $opcion) {
+
+							if ($opcion !== $this->barraUbi[0]) {
+								echo CHTML::dibujaEtiqueta("p");
+								echo ">";
+								echo CHTML::dibujaEtiquetaCierre("p");
+							}
+
 							echo CHTML::dibujaEtiqueta(
 								"li",
 								array(),
