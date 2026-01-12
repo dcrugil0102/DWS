@@ -7,6 +7,7 @@
 	<title><?php echo $titulo; ?></title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/estilos/principal2.css" />
 
 	<link rel="icon" type="image/png" href="/imagenes/favicon.png" />
@@ -29,6 +30,21 @@
 			</div>
 
 		</header><!-- #header -->
+
+		<nav id="menu">
+				<ul>
+					<li>Practicas 1
+						<ul>
+							<li>miindice</li>
+						</ul>
+					</li>
+					<li>Practicas 2
+						<ul>
+							<li>index</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
 
 		<div class="contenido">
 			<aside>
