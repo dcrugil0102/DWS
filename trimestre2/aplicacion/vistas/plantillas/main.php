@@ -62,7 +62,7 @@
 
 		</div>
 		<footer>
-			<h2><span>Copyright:</span> <?php echo Sistema::app()->autor ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Dirección:</span><?php echo Sistema::app()->direccion ?></h2>
+			<h2><span>Copyright:</span> <?php echo Sistema::app()->autor ?> </h2>
 		</footer><!-- #footer -->
 
 	</div><!-- #wrapper -->
