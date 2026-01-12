@@ -1,6 +1,6 @@
 <?php
 	 
-class inicialControlador extends CControlador
+final class inicialControlador extends CControlador
 {
 	public array $menuizq=[];
 	public array $barraUbi=[];

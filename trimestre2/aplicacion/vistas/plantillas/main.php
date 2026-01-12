@@ -41,6 +41,19 @@
 						foreach ($this->ejercicios as $practica => $opciones) {
 							echo CHTML::dibujaEtiqueta("li");
 							echo CHTML::link($opciones['titulo'], Sistema::app()->generaURL([$practica, $opciones['vista']]));
+
+							if (isset($opciones['ejercicios'])) {
+								echo CHTML::dibujaEtiqueta("ul");
+
+								foreach ($opciones['ejercicios'] as $ejercicio => $titulo) {
+									echo CHTML::dibujaEtiqueta("li");
+									echo CHTML::link($titulo, Sistema::app()->generaURL([$practica, $ejercicio]));
+									echo CHTML::dibujaEtiquetaCierre("li");
+								}
+
+								echo CHTML::dibujaEtiquetaCierre("ul");
+							}
+
 							echo CHTML::dibujaEtiquetaCierre("li");
 						}
 					}
