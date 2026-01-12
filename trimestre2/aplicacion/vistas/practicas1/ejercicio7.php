@@ -32,3 +32,6 @@
     echo "Fecha modificada (d/m/Y): " . $modificada->format("d/m/Y") . "<br>";
     echo "Fecha modificada (dia d, mes F, año Y, día de la semana l): " . $modificada->format("d F Y l") . "<br>";
     echo "Hora modificada (H:i:s): " . $modificada->format("H:i:s") . "<br>";
+
+    echo "<br>";
+    echo CHTML::link("Volver", Sistema::app()->generaURL(["practicas1", "miindice"]));

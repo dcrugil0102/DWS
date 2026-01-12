@@ -49,7 +49,7 @@ final class practicas1Controlador extends CControlador
         $this->inicializarMenus();
         $this->menuizq[] = ["texto" => "Ejercicio 1", "enlace" => ["practicas1/ejercicio1"]];
         $this->barraUbi[] = ["texto" => "Ejercicio 1", "enlace" => ["practicas1/ejercicio1"]];
-        $this->dibujaVista("ejercicio1", [], "Relacion 1 - Ejercicio 1");
+        $this->dibujaVista("ejercicio1", [], "Relacion 1 - Ejercicio 1"); 
         
     }
     public function accionEjercicio2(){

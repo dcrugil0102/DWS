@@ -45,3 +45,6 @@
     echo "<p>el 4 ha salido $l4 veces con un porcentaje de " . ($l4 / 10) . "%</p>";
     echo "<p>el 5 ha salido $l5 veces con un porcentaje de " . ($l5 / 10) . "%</p>";
     echo "<p>el 6 ha salido $l6 veces con un porcentaje de " . ($l6 / 10) . "%</p>";
+
+    echo "</br>";
+    echo CHTML::link("Volver", Sistema::app()->generaURL(["practicas1", "miindice"]));

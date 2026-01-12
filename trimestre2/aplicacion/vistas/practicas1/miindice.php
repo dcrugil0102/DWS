@@ -1,3 +1,3 @@
 <?php
-echo "funciona que no es poco";
+echo "Ejercicios de la relacion 1 del primer trimestre.";
 ?>

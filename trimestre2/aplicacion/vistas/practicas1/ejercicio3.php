@@ -34,3 +34,6 @@
         } else
             echo "<p>array3[$indice] = $valor</p>";
     }
+
+    echo "<br>";
+    echo CHTML::link("Volver", Sistema::app()->generaURL(["practicas1", "miindice"]));

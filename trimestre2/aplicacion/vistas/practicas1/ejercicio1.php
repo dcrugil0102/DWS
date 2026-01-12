@@ -33,4 +33,6 @@
     ?>
     <h3>Hexadecimal a decimal</h3>
 <?php
-    echo "FF = " . hexdec("FF") . "<br>";
+    echo "FF = " . hexdec("FF") . "<br><br>";
+
+    echo CHTML::link("Volver", Sistema::app()->generaURL(["practicas1", "miindice"]));
