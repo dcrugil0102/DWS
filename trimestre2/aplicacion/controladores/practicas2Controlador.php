@@ -4,11 +4,11 @@ final class practicas2Controlador extends CControlador
 {
     public array $menuizq=[
 		"texto" => "Inicio", 
-		"enlace" => ["inicial"]
+		"enlace" => "inicial"
 	];
     public array $barraUbi=[
 		"texto" => "Inicio", 
-		"enlace" => ["inicial"]
+		"enlace" => "inicial"
 	];
     public array $ejercicios=[
 		"practicas1" => [
@@ -43,7 +43,7 @@ final class practicas2Controlador extends CControlador
 				"enlace" => ["practicas2/index"]
 			];
 
-		$this->dibujaVista("index",[],
+		$this->dibujaVista("index",["barraUbi" => $this->barraUbi],
 							"Prácticas 2");
 
 							

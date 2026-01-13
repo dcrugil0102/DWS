@@ -79,12 +79,7 @@
 								echo CHTML::dibujaEtiquetaCierre("p");
 							}
 
-							echo CHTML::dibujaEtiqueta(
-								"li",
-								array(),
-								"",
-								false
-							);
+							echo CHTML::dibujaEtiqueta("li");
 							echo CHTML::link(
 								$opcion["texto"],
 								$opcion["enlace"]
