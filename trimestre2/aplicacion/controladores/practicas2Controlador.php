@@ -95,4 +95,36 @@ final class practicas2Controlador extends CControlador
 			exit;
     	} 
 	}
+
+	public function accionPedirDatos()
+	{
+
+		$min = $_GET['min'] ?? 1;
+		$max = $_GET['max'] ?? 10;
+		$patron = $_GET['patron'] ?? "hoola";
+
+		$array = [];
+		$numeros = [];
+		$palabras = [];
+
+		for ($i = 0; $i < 10; $i++) {
+			$numeros[$i] = mt_rand($min, $max);
+		}
+
+		$longitud = strlen($patron);
+
+		for ($i = 0; $i < 10; $i++) {
+			$aleatoria = "";
+			for ($j = 0; $j < $longitud; $j++) {
+				$aleatoria .= chr(rand(97, 122));
+			}
+		}
+
+		$palabras[] = $patron[0] . $aleatoria . $patron[$longitud - 1];
+
+		$array['numeros'] = $numeros;
+		$array['palabras'] = $palabras;
+
+		var_dump($array);
+	}
 }
