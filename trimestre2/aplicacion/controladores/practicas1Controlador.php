@@ -26,6 +26,7 @@ final class practicas1Controlador extends CControlador
                     "ejercicio1" => "Ejercicio 1",
                     "ejercicio2" => "Ejercicio 2",
                     "ejercicio3" => "Ejercicio 3",
+                    "ejer5" => "Ejercicio 5",
                     "ejercicio7" => "Ejercicio 7"
                 ]
             ],
@@ -113,11 +114,19 @@ final class practicas1Controlador extends CControlador
     }
 
     public function accionEjer5(){
+
+        $this->inicializarMenus();
+        $this->menuizq[] = ["texto" => "Ejercicio 5", "enlace" => ["practicas1/ejercicio5"]];
+        $this->barraUbi[] = ["texto" => "Ejercicio 5", "enlace" => ["practicas1/ejercicio5"]];
+
         $vector = array();
         $vector[1] = "esto es una cadena";
         $vector["posi1"] = 25.67;
         $vector[] = false;
         $vector["ultima"] = array(2, 5, 96);
         $vector[56] = 23;
+
+        $this->dibujaVista("vistaejer5", ["vector" => $vector], "Relacion 1 - Ejercicio 5");
+        
     }
 }
