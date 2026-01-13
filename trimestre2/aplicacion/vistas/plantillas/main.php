@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/estilos/principal3.css" />
+	<link rel="stylesheet" type="text/css" href="/estilos/principal4.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 	<link rel="icon" type="image/png" href="/imagenes/favicon.png" />
@@ -125,7 +125,7 @@
 
 		</div>
 		<footer>
-			<h2><span>Copyright:</span> <?php echo Sistema::app()->autor ?> </h2>
+			<h2><span>Copyright:</span> <?php echo Sistema::app()->autor ?> &copy;</h2>
 		</footer><!-- #footer -->
 
 	</div><!-- #wrapper -->

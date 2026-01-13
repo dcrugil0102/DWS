@@ -3,12 +3,12 @@
 final class practicas2Controlador extends CControlador
 {
     public array $menuizq=[
-		"texto" => "Inicio", 
-		"enlace" => "inicial"
+		["texto" => "Inicio", 
+		"enlace" => "inicial"]
 	];
     public array $barraUbi=[
-		"texto" => "Inicio", 
-		"enlace" => "inicial"
+		["texto" => "Inicio", 
+		"enlace" => "inicial"]
 	];
     public array $ejercicios=[
 		"practicas1" => [
@@ -64,5 +64,27 @@ final class practicas2Controlador extends CControlador
 
 		$this->dibujaVista("mierror",[],
 							"ERROR");
+	}
+
+	public function accionDescarga1(){
+		$this->menuizq[] =
+            [
+				"texto" => "Descarga 1", 
+				"enlace" => ["practicas2/descarga1"]
+			];
+
+		$this->barraUbi[] =
+			[
+				"texto" => "Descarga 1", 
+				"enlace" => ["practicas2/descarga1"]
+			];
+
+		$this->dibujaVista("descarga1",[],
+							"Descarga 1");
+	}
+
+	public function accionDescarga2(){
+
+		
 	}
 }
