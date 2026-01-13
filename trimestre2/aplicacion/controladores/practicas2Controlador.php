@@ -98,7 +98,7 @@ final class practicas2Controlador extends CControlador
 
 	public function accionPedirDatos()
 	{
-
+		
 		$min = $_GET['min'] ?? 1;
 		$max = $_GET['max'] ?? 10;
 		$patron = $_GET['patron'] ?? "hoola";
@@ -118,13 +118,18 @@ final class practicas2Controlador extends CControlador
 			for ($j = 0; $j < $longitud; $j++) {
 				$aleatoria .= chr(rand(97, 122));
 			}
+
+			$palabras[] = $patron[0] . $aleatoria . $patron[$longitud - 1];
 		}
 
-		$palabras[] = $patron[0] . $aleatoria . $patron[$longitud - 1];
+		
 
 		$array['numeros'] = $numeros;
 		$array['palabras'] = $palabras;
 
-		var_dump($array);
+		header("Content-Type: application/json; charset=utf-8");
+
+		echo json_encode([$array]);
+		exit;
 	}
 }
