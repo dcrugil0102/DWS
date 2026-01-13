@@ -85,13 +85,14 @@ final class practicas2Controlador extends CControlador
 
 	public function accionDescarga2(){
 
-		$archivo = __DIR__ . "/../../../imagenes/chicotetactico.jpg";
+		$archivo = __DIR__ . "/../../imagenes/chicotetactico.jpg";
 
 		if (file_exists($archivo)) {
 			header('Content-Type: image/jpeg');
 			header('Content-Disposition: attachment; filename="'.basename($archivo).'"');
 
 			readfile($archivo);
-    } 
+			exit;
+    	} 
 	}
 }
