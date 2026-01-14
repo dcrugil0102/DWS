@@ -49,21 +49,9 @@ final class practicas2Controlador extends CControlador
 							
 	}
 
-	public function accionMierror(){
-		$this->menuizq[] =
-            [
-				"texto" => "ERROR", 
-				"enlace" => ["practicas2/mierror"]
-			];
-
-		$this->barraUbi[] =
-			[
-				"texto" => "ERROR", 
-				"enlace" => ["practicas2/mierror"]
-			];
-
-		$this->dibujaVista("mierror",[],
-							"ERROR");
+	public function accionMierror()
+	{
+		Sistema::app()->paginaError(404, "No seas malo y no accedas a esta página");
 	}
 
 	public function accionDescarga1(){

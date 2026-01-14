@@ -11,7 +11,7 @@
         <title>ERROR</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width; initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="/estilos/principal2.css" />
+		<link rel="stylesheet" type="text/css" href="/estilos/principal4.css" />
 		<link rel="icon" type="image/png" href="/imagenes/favicon.png" />
 		
 	</head>
