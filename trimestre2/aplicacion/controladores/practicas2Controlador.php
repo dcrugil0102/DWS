@@ -115,7 +115,7 @@ final class practicas2Controlador extends CControlador
 
 		for ($i = 0; $i < 10; $i++) {
 			$aleatoria = "";
-			for ($j = 0; $j < $longitud; $j++) {
+			for ($j = 0; $j < $longitud - 2; $j++) {
 				$aleatoria .= chr(rand(97, 122));
 			}
 
