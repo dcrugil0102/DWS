@@ -132,4 +132,21 @@ final class practicas2Controlador extends CControlador
 		echo json_encode([$array]);
 		exit;
 	}
+
+	public function accionPeticionAjax(){
+		$this->menuizq[] =
+            [
+				"texto" => "Peticion Ajax", 
+				"enlace" => ["practicas2/ajax"]
+			];
+
+		$this->barraUbi[] =
+			[
+				"texto" => "Peticion Ajax", 
+				"enlace" => ["practicas2/ajax"]
+			];
+
+		$this->dibujaVista("ajax",[],
+							"Peticion Ajax");
+	}
 }
