@@ -1,8 +1,8 @@
 <?php
 
-echo CHTML::scriptFichero("/js/peticionAjax.js", ["defer" => "true"]);
+$this->textoHead = CHTML::scriptFichero("/js/peticionAjax.js", ["defer" => "true"]);
 
-echo CHTML::iniciarForm(Sistema::app()->generaURL(["practicas2", "pedirDatos"]), "get");
+echo CHTML::iniciarForm("", "get", ["id" => "form"]);
 
 echo CHTML::campoLabel("Introduce el min: ", "min");
 echo CHTML::campoText("min", "", ["id" => "min"]);
@@ -22,7 +22,7 @@ echo CHTML::campoText("patron", "", ["id" => "patron"]);
 echo CHTML::dibujaEtiqueta("br");
 echo CHTML::dibujaEtiqueta("br");
 
-echo chtml::boton("Pedir", ["type" => "submit", "onclick" => "hacerPeticion() "]);
+echo chtml::boton("Pedir", ["type" => "submit", "id" => "btn"]);
 
 echo CHTML::finalizarForm();
 

@@ -1,12 +1,20 @@
-function hacerPeticion() {
-    let min = document.getElementById("min").value;
-    let max = document.getElementById("max").value;
-    let patron = document.getElementById("patron").value;
+let dominio = window.location.protocol + "//" + window.location.hostname;
+let url = dominio + "/practicas2/pedirDatos";
 
-    fetch(`/peticionAjax?min=${min}&max=${max}&patron=${patron}`)
-        .then((response) => response.text())
-        .then((data) => {
-            document.getElementById("resultado").innerHTML = data;
-        })
-        .catch((error) => console.error("Error:", error));
-}
+document.getElementById("form").addEventListener("submit", (event) => {
+    event.preventDefault();
+});
+
+document.getElementById("btn").addEventListener("click", () => {
+    fetch(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "",
+    }).then((response) => {
+        if (response.ok) {
+            response.json().then((resp) => {
+                resultado.innerhtml = resp["datos"];
+            });
+        }
+    });
+});
