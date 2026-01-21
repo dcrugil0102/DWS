@@ -1,20 +1,23 @@
-let dominio = window.location.protocol + "//" + window.location.hostname;
-let url = dominio + "/practicas2/pedirDatos";
+const form = document.getElementById("formulario");
+const resultados = document.getElementById("resultados");
 
-document.getElementById("form").addEventListener("submit", (event) => {
+form.addEventListener("submit", function (event) {
     event.preventDefault();
-});
+    const formData = new FormData(form);
+    const min = parseFloat(formData.get("min"));
+    const max = parseFloat(formData.get("max"));
+    const patron = formData.get("patron");
 
-document.getElementById("btn").addEventListener("click", () => {
-    fetch(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "",
-    }).then((response) => {
-        if (response.ok) {
-            response.json().then((resp) => {
-                resultado.innerhtml = resp["datos"];
-            });
-        }
-    });
+    fetch(
+        `/practicas2/pedirDatos/min=${encodeURIComponent(
+            min
+        )}&max=${encodeURIComponent(max)}&patron=${encodeURIComponent(patron)}`
+    )
+        .then((res) => res.json())
+        .then((data) => {
+            resultados.textContent = JSON.stringify(data, null, 2);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
 });

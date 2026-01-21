@@ -1,0 +1,247 @@
+<?php
+include_once(dirname(__FILE__) . "/../../cabecera.php");
+
+
+$barraUbi = [
+    [
+        "TEXTO" => "Inicio",
+        "LINK" => "/index.php"
+    ],
+    [
+        'TEXTO' => "Usuarios",
+        'LINK' => "/aplicacion/usuarios"
+    ],
+    [
+        'TEXTO' => "Modificar usuario",
+        'LINK' => "/aplicacion/usuarios/modificarUsuario.php"
+    ]
+];
+
+if (!$acceso->hayUsuario()) {
+    header("Location: /aplicacion/acceso/login.php");
+}
+
+if (!$acceso->puedePermiso(2) && !$acceso->puedePermiso(3)) {
+    paginaError("No tienes permisos");
+    exit();
+}
+
+if ($conexion->connect_error) {
+    die("Error de conexión: " . $conexion->connect_error);
+}
+
+// OBTENEMOS EL COD DEL GET Y BUSCAMOS EL USUARIO
+
+$codUsu = $_GET['codUsu'];
+$sentenciaDatosUsu = "SELECT * FROM usuarios WHERE cod_usuario = '$codUsu'";
+$usuario = $conexion->query($sentenciaDatosUsu)->fetch_assoc();
+
+if ($usuario === null) {
+    paginaError("Usuario no encontrado");
+    exit();
+}
+
+$valores = [
+    'nick' => '',
+    'nombre' => '',
+    'contrasenia' => '',
+    'contrasenia2' => '',
+    'nif' => '',
+    'direccion' => '',
+    'poblacion' => '',
+    'provincia' => '',
+    'cp' => '',
+    'fecha_nacimiento' => '',
+    'role' => '',
+    'foto' => ''
+];
+$errores = [];
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+    // VALIDACIONES
+
+    $valores['nombre'] = $_POST['nombre'] ?? '';
+    $valores['contrasenia'] = $_POST['contrasenia'] ?? '';
+    $valores['contrasenia2'] = $_POST['contrasenia2'] ?? '';
+    $valores['nif'] = $_POST['nif'] ?? '';
+    $valores['direccion'] = $_POST['direccion'] ?? '';
+    $valores['poblacion'] = $_POST['poblacion'] ?? '';
+    $valores['provincia'] = $_POST['provincia'] ?? '';
+    $valores['cp'] = $_POST['cp'] ?? '';
+    $valores['fecha_nacimiento'] = $_POST['fecha_nacimiento'] ?? '';
+    $valores['role'] = $_POST['role'] ?? '';
+    $valores['foto'] = $_FILES['foto'] ?? '';
+
+    // Nombre completo
+    if (!validaCadena($_POST['nombre'], 50, '') || empty($_POST['nombre'])) {
+        $errores['nombre'] = "El nombre no puede superar los 50 carácteres ni estar vacío";
+    }
+
+    // Contraseña
+    if (empty($_POST['contrasenia'])) {
+        $errores['contrasenia'] = "Debes especificar una contraseña";
+    }
+
+    // Contraseña
+    if (($_POST['contrasenia'] !== $_POST['contrasenia2']) || empty($_POST['contrasenia2'])) {
+        $errores['contrasenia'] = "Las contraseñas no coinciden";
+    }
+
+    // NIF
+    if (!validaExpresion($_POST['nif'], "/^\d{8}[A-Za-z]$/", "") || empty($_POST['nif'])) {
+        $errores['nif'] = "NIF Inválido.";
+    }
+
+    // Dirección
+    if (!validaCadena($_POST['direccion'], 50, '') || empty($_POST['direccion'])) {
+        $errores['direccion'] = "La dirección no puede superar los 50 carácteres ni estar vacío";
+    }
+
+    // Población
+    if (!validaCadena($_POST['poblacion'], 30, '') || empty($_POST['poblacion'])) {
+        $errores['poblacion'] = "La población no puede superar los 30 carácteres ni estar vacío";
+    }
+
+    // Provincia
+    if (!validaCadena($_POST['provincia'], 30, '') || empty($_POST['provincia'])) {
+        $errores['provincia'] = "La provincia no puede superar los 30 carácteres ni estar vacío";
+    }
+
+    // Código postal
+    if (!validaCadena($_POST['cp'], 5, '00000') || empty($_POST['cp'])) {
+        $errores['cp'] = "El código postal no puede superar los 5 carácteres ni estar vacío";
+    }
+
+    // Fecha de nacimiento
+    if (empty($_POST['fecha_nacimiento'])) {
+        $errores['fecha_nacimiento'] = "La fecha de nacimiento no es válida";
+    }
+
+    // Foto
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+        if (!getimagesize($valores['foto']['tmp_name'])) {
+            $errores['foto'] = "Formato no permitido";
+        } else
+            $valores['foto'] = $_FILES['foto'];
+
+        // CAMBIAR NOMBRE A LA FOTO
+        $nombreFoto = $usuario['nick'] . "." . pathinfo($valores['foto']['name'])['extension'];
+
+        // SUBIR LA IMAGEN A LA CARPETA IMAGENES
+        move_uploaded_file($valores['foto']['tmp_name'], __DIR__ . "/../../images/fotos/$nombreFoto");
+    } else
+        $nombreFoto = $usuario['foto'];
+
+    // MODIFICAR USUARIO
+
+    if (empty($errores)) {
+        $sentenciaUpdate = "UPDATE usuarios
+                            set nombre = '{$valores['nombre']}',
+                            nif = '{$valores['nif']}',
+                            direccion = '{$valores['direccion']}',
+                            poblacion = '{$valores['poblacion']}',
+                            provincia = '{$valores['provincia']}',
+                            CP = '{$valores['cp']}',
+                            fecha_nacimiento = '{$valores['fecha_nacimiento']}',
+                            foto = '$nombreFoto'
+                            WHERE cod_usuario = '$codUsu'";
+
+        $conexion->query($sentenciaUpdate);
+
+        $aclbd->setNombre($usuario['cod_usuario'], $valores['nombre']);
+        $aclbd->setContrasenia($usuario['cod_usuario'], $valores['contrasenia']);
+        $aclbd->setUsuarioRole($usuario['cod_usuario'], $valores['role']);
+
+        header("Location: /aplicacion/usuarios/verUsuario.php?codUsu=$codUsu");
+    }
+}
+
+inicioCabecera("2DAW APLICACION");
+cabecera();
+finCabecera();
+
+inicioCuerpo("2DAW APLICACION", $barraUbi);
+cuerpo($usuario, $valores, $errores, $roles);
+finCuerpo();
+
+
+
+// **********************************************************
+
+function cabecera() {}
+
+
+function cuerpo($usuario, $valores, $errores, $roles)
+{
+
+
+?>
+    <h1>Nuevo Usuario:</h1>
+
+    <form action="modificarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>" method="post" enctype="multipart/form-data">
+        <label>Nick:</label>
+        <input type="text" name="nick" value="<?= $usuario['nick'] ?>" readonly><br><br>
+
+        <label>Nombre completo:</label>
+        <input type="text" name="nombre" value="<?= empty($valores['nombre']) ? $usuario['nombre'] : $valores['nombre'] ?>">
+        <span class="error"><?= $errores['nombre'] ?? '' ?></span><br><br>
+
+        <label>Nueva contraseña:</label>
+        <input type="password" name="contrasenia">
+        <span class="error"><?= $errores['contrasenia'] ?? '' ?></span><br><br>
+
+        <label>Repite la contraseña:</label>
+        <input type="password" name="contrasenia2">
+        <span class="error"><?= $errores['contrasenia2'] ?? '' ?></span><br><br>
+
+        <label>NIF:</label>
+        <input type="text" name="nif" value="<?= empty($valores['nif']) ? $usuario['nif'] : $valores['nif'] ?>">
+        <span class="error"><?= $errores['nif'] ?? '' ?></span><br><br>
+
+        <label>Dirección:</label>
+        <input type="text" name="direccion" value="<?= empty($valores['direccion']) ? $usuario['direccion'] : $valores['direccion'] ?>">
+        <span class="error"><?= $errores['direccion'] ?? '' ?></span><br><br>
+
+        <label>Población:</label>
+        <input type="text" name="poblacion" value="<?= empty($valores['poblacion']) ? $usuario['poblacion'] : $valores['poblacion'] ?>">
+        <span class="error"><?= $errores['poblacion'] ?? '' ?></span><br><br>
+
+        <label>Provincia:</label>
+        <input type="text" name="provincia" value="<?= empty($valores['provincia']) ? $usuario['provincia'] : $valores['provincia'] ?>">
+        <span class="error"><?= $errores['provincia'] ?? '' ?></span><br><br>
+
+        <label>Código postal:</label>
+        <input type="text" name="cp" value="<?= empty($valores['cp']) ? $usuario['CP'] : $valores['cp'] ?>">
+        <span class="error"><?= $errores['cp'] ?? '' ?></span><br><br>
+
+        <label>Fecha de nacimiento:</label>
+        <input type="date" name="fecha_nacimiento" value="<?= empty($valores['fecha_nacimiento']) ? $usuario['fecha_nacimiento'] : $valores['fecha_nacimiento'] ?>">
+        <span class="error"><?= $errores['fecha_nacimiento'] ?? '' ?></span><br><br>
+
+        <label for="role">Selecciona el role</label>
+        <select name="role" id="role">
+            <?php
+            foreach ($roles as $key => $value) {
+                echo "<option value='$key'>$value</option>";
+            }
+            ?>
+        </select><br><br>
+
+        <div style="display:flex; align-items:center; gap: 10px;">
+            <label>Foto:</label>
+            <img class="imgUsu" src="/images/fotos/<?= $usuario['foto'] ?>"><br><br>
+        </div><br>
+        <input type="file" accept="image/jpeg, image/png" name=" foto">
+        <span class="error"><?= $errores['foto'] ?? '' ?></span><br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <br>
+
+    <a href="/aplicacion/usuarios/index.php">Volver</a>
+    <a href="borrarUsuario.php?codUsu=<?= $usuario['cod_usuario'] ?>"><?= $usuario['borrado'] ? 'Restaurar' : 'Eliminar' ?></a>
+
+<?php
+}

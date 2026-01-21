@@ -35,12 +35,12 @@ class Libro implements Iterator
         }
 
         $this->añadir();
-        
     }
 
     // METODOS **************************************
 
-    function añadir() : void {
+    function añadir(): void
+    {
 
         $prop = "";
         $valor = "";
@@ -61,7 +61,7 @@ class Libro implements Iterator
     }
 
 
-    public function __get($name) : mixed
+    public function __get($name): mixed
     {
         if (!validaRango($name, $this->_otras, 2)) {
             return false;
@@ -106,7 +106,7 @@ class Libro implements Iterator
 
     public function rewind(): void
     {
-        $this->_posicion=0;
+        $this->_posicion = 0;
     }
 
     public function valid(): bool
