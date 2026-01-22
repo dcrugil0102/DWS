@@ -51,49 +51,84 @@ class DatosRegistro extends CActiveRecord
                     "TIPO" => "CADENA",
                     "TAMANIO" => 10
                 ),
+                array("ATRI" => "fecha_nacimiento", "TIPO" => "FECHA"),
                 array(
-                    "ATRI" => "descripcion",
-                    "TIPO" => "CADENA",
-                    "TAMANIO" => 60
-                ),
-                array(
-                    "ATRI" => "cod_fabricante",
-                    "TIPO" => "ENTERO",
-                    "MIN" => 0
-                ),
-                array("ATRI" => "fecha_alta", "TIPO" => "FECHA"),
-                array(
-                    "ATRI" => "fecha_alta",
+                    "ATRI" => "fecha_nacimiento",
                     "TIPO" => "FUNCION",
-                    "FUNCION" => "validaFechaAlta"
+                    "FUNCION" => "validaFechaNac"
                 ),
+                array(
+                    "ATRI" => "provincia",
+                    "TIPO" => "CADENA",
+                    "TAMANIO" => 30,
+                    "DEFECTO" => "MALAGA"
+                ),
+                array(
+                    "ATRI" => "estado",
+                    "TIPO" => "RANGO",
+                    "RANGO" => [0,1,2,3,4],
+                    "DEFECTO" => 0
+                ),
+                array(
+                    "ATRI" => "contrasenia,confirmar_contrasenia",
+                    "TIPO" => "CADENA",
+                    
+                ),
+                array(
+                    "ATRI" => "contrasenia,confirmar_contrasenia",
+                    "TIPO" => "FUNCION",
+                    "FUNCION" => "validaContrasenia"
+                ),
+                
             );
     }
 
     protected function afterCreate(): void
     {
-        $this->cod_articulo = 0;
-        $this->nombre = "";
-        $this->descripcion = "";
-        $this->cod_fabricante = 1;
-        $this->fabricante_nombre = "SIN INDICAR";
+        $this->fecha_nacimiento = date('d/m/Y', strtotime('-18 years'));
     }
 
-    public function validaFechaAlta()
+    public function validaFechaNac()
     {
         $fecha1 = DateTime::createFromFormat(
             'd/m/Y',
-            $this->fecha_alta
+            $this->fecha_nacimiento
         );
         $fecha2 = DateTime::createFromFormat(
             'd/m/Y',
-            '01/01/2000'
+            '01/01/1900'
         );
+        $fecha3 = new DateTime();
+
         if ($fecha1 < $fecha2) {
             $this->setError(
                 "fecha_alta",
-                "La fecha de alta debe ser posterior a
-01/01/2000"
+                "La fecha de nacimiento debe ser posterior a 01/01/1900"
+            );
+        }
+        if ($fecha1 > $fecha3) {
+            $this->setError(
+                "fecha_alta",
+                "La fecha de nacimiento debe ser anterior a la fecha de hoy"
+            );
+        }
+    }
+
+    public function validaContrasenia(){
+        $pass1 = $this->contrasenia;
+        $pass2 = $this->confirmar_contrasenia;
+
+        if ($pass1 !== $pass2) {
+            $this->setError(
+                "confirmar_contrasenia",
+                "Las contraseñas no coinciden"
+            );
+        }
+
+        if ($pass1 !== $pass2) {
+            $this->setError(
+                "contrasenia,confirmar_contrasenia",
+                "Las contraseñas no coinciden"
             );
         }
     }
