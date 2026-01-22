@@ -10,16 +10,11 @@ final class practicas2Controlador extends CControlador
 	public function __construct()
 	{
 		$this->menu = require __DIR__ . "/../config/menu.php";
+		$this->menuizq = $this->menu['practicas2']['hijos'];
 	}
 
 	public function accionIndex()
 	{
-
-		$this->menuizq[] =
-			[
-				"texto" => "Practicas 2",
-				"enlace" => ["practicas2/index"]
-			];
 
 		$this->barraUbi = $this->menu;
 		$this->actual = $this->menu["practicas2"];
@@ -38,11 +33,6 @@ final class practicas2Controlador extends CControlador
 
 	public function accionDescarga1()
 	{
-		$this->menuizq[] =
-			[
-				"texto" => "Descarga 1",
-				"enlace" => ["practicas2/descarga1"]
-			];
 
 		$this->barraUbi = $this->menu;
 		$this->actual = $this->menu["practicas2"]['hijos']['descarga1'];
@@ -107,11 +97,6 @@ final class practicas2Controlador extends CControlador
 
 	public function accionPeticionAjax()
 	{
-		$this->menuizq[] =
-			[
-				"texto" => "Peticion Ajax",
-				"enlace" => ["practicas2/ajax"]
-			];
 
 		$this->barraUbi = $this->menu;
 		$this->actual = $this->menu["practicas2"]['hijos']['peticionAjax'];

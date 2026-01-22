@@ -10,20 +10,14 @@ final class inicialControlador extends CControlador
 	public function __construct()
 	{
 		$this->menu = require __DIR__ . "/../config/menu.php";
+		$this->menuizq = $this->menu['inicial']['hijos'];
 	}
 
 	public function accionIndex()
 	{
 
-		$this->menuizq = [
-			[
-				"texto" => "Inicio",
-				"enlace" => ["inicial"]
-			]
-		];
-
 		$this->barraUbi[] = $this->menu;
-		$this->actual = $this->menu["inicio"];
+		$this->actual = $this->menu["inicial"];
 
 		$this->dibujaVista(
 			"index",

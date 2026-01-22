@@ -10,6 +10,7 @@ final class practicas1Controlador extends CControlador
     public function __construct()
     {
         $this->menu = require __DIR__ . "/../config/menu.php";
+        $this->menuizq = $this->menu['practicas1']['hijos'];
     }
 
     public function accionMiindice()
@@ -27,8 +28,6 @@ final class practicas1Controlador extends CControlador
 
     public function accionEjercicio1()
     {
-
-        $this->menuizq[] = ["texto" => "Ejercicio 1", "enlace" => ["practicas1/ejercicio1"]];
         $this->barraUbi = $this->menu;
         $this->actual = $this->menu["practicas1"]['hijos']['ejercicio1'];
 
@@ -37,8 +36,6 @@ final class practicas1Controlador extends CControlador
     public function accionEjercicio2()
     {
 
-
-        $this->menuizq[] = ["texto" => "Ejercicio 2", "enlace" => ["practicas1/ejercicio2"]];
         $this->barraUbi = $this->menu;
         $this->actual = $this->menu["practicas1"]['hijos']['ejercicio2'];
 
@@ -46,8 +43,6 @@ final class practicas1Controlador extends CControlador
     }
     public function accionEjercicio3()
     {
-
-
 
         $array1 = array();
         $array1[1] = "valor cualquiera";
@@ -83,7 +78,6 @@ final class practicas1Controlador extends CControlador
 
         $datos = [$array1, $array2, $array3];
 
-        $this->menuizq[] = ["texto" => "Ejercicio 3", "enlace" => ["practicas1/ejercicio3"]];
         $this->barraUbi = $this->menu;
         $this->actual = $this->menu["practicas1"]['hijos']['ejercicio3'];
 
@@ -92,8 +86,6 @@ final class practicas1Controlador extends CControlador
     public function accionEjercicio7()
     {
 
-
-        $this->menuizq[] = ["texto" => "Ejercicio 7", "enlace" => ["practicas1/ejercicio7"]];
         $this->barraUbi = $this->menu;
         $this->actual = $this->menu["practicas1"]['hijos']['ejercicio7'];
 
@@ -103,8 +95,6 @@ final class practicas1Controlador extends CControlador
     public function accionEjer5()
     {
 
-
-        $this->menuizq[] = ["texto" => "Ejercicio 5", "enlace" => ["practicas1/ejercicio5"]];
         $this->barraUbi = $this->menu;
         $this->actual = $this->menu["practicas1"]['hijos']['ejer5'];
 

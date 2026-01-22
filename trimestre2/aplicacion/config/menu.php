@@ -1,9 +1,14 @@
 <?php
 return [
-    "inicio" => [
+    "inicial" => [
         "texto" => "Inicio",
         "enlace" => ["inicial", "index"],
-        "hijos" => []
+        "hijos" => [
+            "inicial" => [
+                "texto" => "Inicio",
+                "enlace" => ["inicial", "index"]
+            ]
+        ]
     ],
 
     "practicas1" => [
@@ -37,9 +42,21 @@ return [
         "texto" => "Prácticas 2",
         "enlace" => ["practicas2", "index"],
         "hijos" => [
+            "error" => [
+                "texto" => "Error",
+                "enlace" => ["practicas2", "error"]
+            ],
             "descarga1" => [
                 "texto" => "Descarga 1",
                 "enlace" => ["practicas2", "descarga1"]
+            ],
+            "descarga2" => [
+                "texto" => "Descarga 2",
+                "enlace" => ["practicas2", "descarga2"]
+            ],
+            "pedirDatos" => [
+                "texto" => "Pedir datos",
+                "enlace" => ["practicas2", "pedirDatos"]
             ],
             "peticionAjax" => [
                 "texto" => "Peticion Ajax",
