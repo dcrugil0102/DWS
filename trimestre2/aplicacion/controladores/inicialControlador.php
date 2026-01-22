@@ -1,50 +1,34 @@
 <?php
-	 
+
 final class inicialControlador extends CControlador
 {
-	public array $menuizq=[];
-	public array $barraUbi=[];
-	public array $ejercicios=[];
+	public array $menu = [];
+	public array $menuizq = [];
+	public array $barraUbi = [];
+	public array $actual = [];
+
+	public function __construct()
+	{
+		$this->menu = require __DIR__ . "/../config/menu.php";
+	}
+
 	public function accionIndex()
 	{
-		
 
 		$this->menuizq = [
 			[
-				"texto" => "Inicio", 
+				"texto" => "Inicio",
 				"enlace" => ["inicial"]
 			]
 		];
 
-		$this->barraUbi = [
-			[
-				"texto" => "Inicio", 
-				"enlace" => ["inicial"]
-			]
-		];
+		$this->barraUbi[] = $this->menu;
+		$this->actual = $this->menu["inicio"];
 
-		$this->ejercicios = [
-            "practicas1" => [
-				"titulo" => "Prácticas 1",
-				"vista" => "miindice",
-				"ejercicios" => [
-					"ejercicio1" => "Ejercicio 1",
-					"ejercicio2" => "Ejercicio 2",
-					"ejercicio3" => "Ejercicio 3",
-					"ejercicio7" => "Ejercicio 7"
-				]
-			],
-			"practicas2" => [
-				"titulo" => "Prácticas 2",
-				"vista" => "index"
-			]
-        ];
-
-		$this->dibujaVista("index",[],
-							"Pagina principal");
-
-							
+		$this->dibujaVista(
+			"index",
+			[],
+			"Pagina principal"
+		);
 	}
-
-	
 }

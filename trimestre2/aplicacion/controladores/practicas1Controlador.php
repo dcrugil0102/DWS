@@ -2,68 +2,52 @@
 
 final class practicas1Controlador extends CControlador
 {
-    public array $menuizq=[];
-    public array $barraUbi=[];
-    public array $ejercicios = [];
+    public array $menu = [];
+    public array $menuizq = [];
+    public array $barraUbi = [];
+    public array $actual = [];
 
-    private function inicializarMenus()
+    public function __construct()
     {
-        $this->menuizq = [
-            ["texto" => "Inicio", "enlace" => ["inicial"]],
-            ["texto" => "Practicas 1", "enlace" => ["practicas1/miindice"]]
-        ];
-
-        $this->barraUbi = [
-            ["texto" => "Inicio", "enlace" => ["inicial"]],
-            ["texto" => "Practicas 1", "enlace" => ["practicas1/miindice"]]
-        ];
-
-        $this->ejercicios = [
-            "practicas1" => [
-                "titulo" => "Prácticas 1",
-                "vista" => "miindice",
-                "ejercicios" => [
-                    "ejercicio1" => "Ejercicio 1",
-                    "ejercicio2" => "Ejercicio 2",
-                    "ejercicio3" => "Ejercicio 3",
-                    "ejer5" => "Ejercicio 5",
-                    "ejercicio7" => "Ejercicio 7"
-                ]
-            ],
-            "practicas2" => [
-                "titulo" => "Prácticas 2",
-                "vista" => "index"
-            ]
-        ];
+        $this->menu = require __DIR__ . "/../config/menu.php";
     }
 
-	public function accionMiindice()
-	{
-        $this->inicializarMenus();
+    public function accionMiindice()
+    {
 
-		$this->dibujaVista("miindice",[],
-							"Prácticas 1");	
-	}
+        $this->barraUbi = $this->menu;
+        $this->actual = $this->menu["practicas1"];
 
-    public function accionEjercicio1(){
+        $this->dibujaVista(
+            "miindice",
+            [],
+            "Prácticas 1"
+        );
+    }
 
-        $this->inicializarMenus();
+    public function accionEjercicio1()
+    {
+
         $this->menuizq[] = ["texto" => "Ejercicio 1", "enlace" => ["practicas1/ejercicio1"]];
-        $this->barraUbi[] = ["texto" => "Ejercicio 1", "enlace" => ["practicas1/ejercicio1"]];
-        $this->dibujaVista("ejercicio1", [], "Relacion 1 - Ejercicio 1"); 
-        
-    }
-    public function accionEjercicio2(){
+        $this->barraUbi = $this->menu;
+        $this->actual = $this->menu["practicas1"]['hijos']['ejercicio1'];
 
-        $this->inicializarMenus();
+        $this->dibujaVista("ejercicio1", [], "Relacion 1 - Ejercicio 1");
+    }
+    public function accionEjercicio2()
+    {
+
+
         $this->menuizq[] = ["texto" => "Ejercicio 2", "enlace" => ["practicas1/ejercicio2"]];
-        $this->barraUbi[] = ["texto" => "Ejercicio 2", "enlace" => ["practicas1/ejercicio2"]];
-        $this->dibujaVista("ejercicio2", [], "Relacion 1 - Ejercicio 2");
-        
-    }
-    public function accionEjercicio3(){
+        $this->barraUbi = $this->menu;
+        $this->actual = $this->menu["practicas1"]['hijos']['ejercicio2'];
 
-        $this->inicializarMenus();
+        $this->dibujaVista("ejercicio2", [], "Relacion 1 - Ejercicio 2");
+    }
+    public function accionEjercicio3()
+    {
+
+
 
         $array1 = array();
         $array1[1] = "valor cualquiera";
@@ -100,24 +84,29 @@ final class practicas1Controlador extends CControlador
         $datos = [$array1, $array2, $array3];
 
         $this->menuizq[] = ["texto" => "Ejercicio 3", "enlace" => ["practicas1/ejercicio3"]];
-        $this->barraUbi[] = ["texto" => "Ejercicio 3", "enlace" => ["practicas1/ejercicio3"]];
+        $this->barraUbi = $this->menu;
+        $this->actual = $this->menu["practicas1"]['hijos']['ejercicio3'];
+
         $this->dibujaVista("ejercicio3", ['datos' => $datos], "Relacion 1 - Ejercicio 3");
-        
     }
-    public function accionEjercicio7(){
+    public function accionEjercicio7()
+    {
 
-        $this->inicializarMenus();
+
         $this->menuizq[] = ["texto" => "Ejercicio 7", "enlace" => ["practicas1/ejercicio7"]];
-        $this->barraUbi[] = ["texto" => "Ejercicio 7", "enlace" => ["practicas1/ejercicio7"]];
+        $this->barraUbi = $this->menu;
+        $this->actual = $this->menu["practicas1"]['hijos']['ejercicio7'];
+
         $this->dibujaVista("ejercicio7", [], "Relacion 1 - Ejercicio 7");
-        
     }
 
-    public function accionEjer5(){
+    public function accionEjer5()
+    {
 
-        $this->inicializarMenus();
+
         $this->menuizq[] = ["texto" => "Ejercicio 5", "enlace" => ["practicas1/ejercicio5"]];
-        $this->barraUbi[] = ["texto" => "Ejercicio 5", "enlace" => ["practicas1/ejercicio5"]];
+        $this->barraUbi = $this->menu;
+        $this->actual = $this->menu["practicas1"]['hijos']['ejer5'];
 
         $vector = array();
         $vector[1] = "esto es una cadena";
@@ -127,6 +116,5 @@ final class practicas1Controlador extends CControlador
         $vector[56] = 23;
 
         $this->dibujaVista("vistaejer5", ["vector" => $vector], "Relacion 1 - Ejercicio 5");
-        
     }
 }

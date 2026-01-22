@@ -33,65 +33,72 @@
 		</header><!-- #header -->
 
 		<nav id="menu">
-				<ul>
+			<ul>
+				<?php
+				$menu = $this->menu ?? [];
 
+				foreach ($menu as $item) {
+					echo CHTML::dibujaEtiqueta("li");
 
-					<?php 
-					
-					if (isset($this->ejercicios)) {
-						foreach ($this->ejercicios as $practica => $opciones) {
-							echo CHTML::dibujaEtiqueta("li");
-							echo CHTML::link($opciones['titulo'], Sistema::app()->generaURL([$practica, $opciones['vista']]));
+					$controlador = $item["enlace"][0];
+					$accion = $item["enlace"][1];
 
-							if (isset($opciones['ejercicios'])) {
-								echo CHTML::dibujaEtiqueta("ul");
+					echo CHTML::link(
+						$item["texto"],
+						Sistema::app()->generaURL([$controlador, $accion])
+					);
 
-								foreach ($opciones['ejercicios'] as $ejercicio => $titulo) {
-									echo CHTML::dibujaEtiqueta("li");
-									echo CHTML::link($titulo, Sistema::app()->generaURL([$practica, $ejercicio]));
-									echo CHTML::dibujaEtiquetaCierre("li");
-								}
-
-								echo CHTML::dibujaEtiquetaCierre("ul");
-							}
-
-							echo CHTML::dibujaEtiquetaCierre("li");
-						}
-					}
-
-					?>
-					
-				</ul>
+					echo CHTML::dibujaEtiquetaCierre("li");
+				}
+				?>
+			</ul>
 		</nav>
+
+
+
 
 		<br>
 
 		<nav id="barraUbi">
 			<ul>
-					<?php
+				<?php
+				$nivel = $this->actual ?? null;
+				$breadcrumb = [];
 
-					if (isset($this->barraUbi)) {
-						foreach ($this->barraUbi as $opcion) {
-
-							if ($opcion !== $this->barraUbi[0]) {
-								echo CHTML::dibujaEtiqueta("p");
-								echo "<i class='fa-solid fa-caret-right'></i>";
-								echo CHTML::dibujaEtiquetaCierre("p");
+				while ($nivel) {
+					array_unshift($breadcrumb, $nivel);
+					$nivel = null;
+					foreach ($this->barraUbi as $padre) {
+						if (!empty($padre["hijos"])) {
+							foreach ($padre["hijos"] as $hijo) {
+								if ($hijo === $breadcrumb[0]) {
+									$nivel = $padre;
+									break 2;
+								}
 							}
-
-							echo CHTML::dibujaEtiqueta("li");
-							echo CHTML::link(
-								$opcion["texto"],
-								$opcion["enlace"]
-							);
-							echo CHTML::dibujaEtiquetaCierre("li");
-							echo CHTML::dibujaEtiqueta("br") . "\r\n";
 						}
 					}
+				}
 
-					?>
-				</ul>
+				if (!empty($this->barraUbi["inicio"])) {
+					array_unshift($breadcrumb, $this->barraUbi["inicio"]);
+				}
+
+				$total = count($breadcrumb);
+				foreach ($breadcrumb as $i => $item) {
+					echo CHTML::dibujaEtiqueta("li");
+					echo CHTML::link($item["texto"], Sistema::app()->generaURL($item["enlace"]));
+					echo CHTML::dibujaEtiquetaCierre("li");
+
+					if ($i < $total - 1) {
+						echo '<i class="fa-solid fa-caret-right"></i>';
+					}
+				}
+
+				?>
+			</ul>
 		</nav>
+
 
 		<div class="contenido">
 			<aside>

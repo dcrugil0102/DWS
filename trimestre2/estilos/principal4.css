@@ -65,7 +65,9 @@
         opacity: 0;
         transform: translateY(-10px);
         pointer-events: none;
-        transition: opacity 0.3s, transform 0.3s;
+        transition:
+            opacity 0.3s,
+            transform 0.3s;
         min-width: 180px;
         z-index: 1000;
     }
@@ -82,7 +84,9 @@
         font-weight: 400;
         color: #182848;
         white-space: nowrap;
-        transition: background 0.3s, color 0.3s;
+        transition:
+            background 0.3s,
+            color 0.3s;
     }
 
     #menu ul li ul li:hover {
@@ -128,12 +132,6 @@
 
     #barraUbi ul li a:hover {
         color: #ffd700;
-    }
-
-    #barraUbi ul li + li::before {
-        content: ">";
-        color: #ffffff;
-        margin: 0 5px;
     }
 
     #divLogin {

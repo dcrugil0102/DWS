@@ -2,51 +2,33 @@
 
 final class practicas2Controlador extends CControlador
 {
-    public array $menuizq=[
-		["texto" => "Inicio", 
-		"enlace" => "inicial"]
-	];
-    public array $barraUbi=[
-		["texto" => "Inicio", 
-		"enlace" => "inicial"]
-	];
-    public array $ejercicios=[
-		"practicas1" => [
-                "titulo" => "Prácticas 1",
-                "vista" => "miindice",
-                "ejercicios" => [
-                    "ejercicio1" => "Ejercicio 1",
-                    "ejercicio2" => "Ejercicio 2",
-                    "ejercicio3" => "Ejercicio 3",
-                    "ejer5" => "Ejercicio 5",
-                    "ejercicio7" => "Ejercicio 7"
-                ]
-            ],
-            "practicas2" => [
-                "titulo" => "Prácticas 2",
-                "vista" => "index"
-            ]
-	];
+	public array $menu = [];
+	public array $menuizq = [];
+	public array $barraUbi = [];
+	public array $actual = [];
+
+	public function __construct()
+	{
+		$this->menu = require __DIR__ . "/../config/menu.php";
+	}
 
 	public function accionIndex()
 	{
-	
+
 		$this->menuizq[] =
-            [
-				"texto" => "Practicas 2", 
-				"enlace" => ["practicas2/index"]
-			];
-
-		$this->barraUbi[] =
 			[
-				"texto" => "Practicas 2", 
+				"texto" => "Practicas 2",
 				"enlace" => ["practicas2/index"]
 			];
 
-		$this->dibujaVista("index",["barraUbi" => $this->barraUbi],
-							"Prácticas 2");
+		$this->barraUbi = $this->menu;
+		$this->actual = $this->menu["practicas2"];
 
-							
+		$this->dibujaVista(
+			"index",
+			[],
+			"Prácticas 2"
+		);
 	}
 
 	public function accionMierror()
@@ -54,39 +36,41 @@ final class practicas2Controlador extends CControlador
 		Sistema::app()->paginaError(404, "No seas malo y no accedas a esta página");
 	}
 
-	public function accionDescarga1(){
+	public function accionDescarga1()
+	{
 		$this->menuizq[] =
-            [
-				"texto" => "Descarga 1", 
-				"enlace" => ["practicas2/descarga1"]
-			];
-
-		$this->barraUbi[] =
 			[
-				"texto" => "Descarga 1", 
+				"texto" => "Descarga 1",
 				"enlace" => ["practicas2/descarga1"]
 			];
 
-		$this->dibujaVista("descarga1",[],
-							"Descarga 1");
+		$this->barraUbi = $this->menu;
+		$this->actual = $this->menu["practicas2"]['hijos']['descarga1'];
+
+		$this->dibujaVista(
+			"descarga1",
+			[],
+			"Descarga 1"
+		);
 	}
 
-	public function accionDescarga2(){
+	public function accionDescarga2()
+	{
 
 		$archivo = __DIR__ . "/../../imagenes/chicotetactico.jpg";
 
 		if (file_exists($archivo)) {
 			header('Content-Type: image/jpeg');
-			header('Content-Disposition: attachment; filename="'.basename($archivo).'"');
+			header('Content-Disposition: attachment; filename="' . basename($archivo) . '"');
 
 			readfile($archivo);
 			exit;
-    	} 
+		}
 	}
 
 	public function accionPedirDatos()
 	{
-		
+
 		$min = $_GET['min'] ?? 1;
 		$max = $_GET['max'] ?? 10;
 		$patron = $_GET['patron'] ?? "hoola";
@@ -110,7 +94,7 @@ final class practicas2Controlador extends CControlador
 			$palabras[] = $patron[0] . $aleatoria . $patron[$longitud - 1];
 		}
 
-		
+
 
 		$array['numeros'] = $numeros;
 		$array['palabras'] = $palabras;
@@ -121,20 +105,21 @@ final class practicas2Controlador extends CControlador
 		exit;
 	}
 
-	public function accionPeticionAjax(){
+	public function accionPeticionAjax()
+	{
 		$this->menuizq[] =
-            [
-				"texto" => "Peticion Ajax", 
-				"enlace" => ["practicas2/ajax"]
-			];
-
-		$this->barraUbi[] =
 			[
-				"texto" => "Peticion Ajax", 
+				"texto" => "Peticion Ajax",
 				"enlace" => ["practicas2/ajax"]
 			];
 
-		$this->dibujaVista("ajax",[],
-							"Peticion Ajax");
+		$this->barraUbi = $this->menu;
+		$this->actual = $this->menu["practicas2"]['hijos']['peticionAjax'];
+
+		$this->dibujaVista(
+			"ajax",
+			[],
+			"Peticion Ajax"
+		);
 	}
 }
