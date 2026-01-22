@@ -125,30 +125,33 @@ class DatosRegistro extends CActiveRecord
             );
         }
 
-        if ($pass1 !== $pass2) {
+        if ($pass1 === "") {
             $this->setError(
-                "contrasenia,confirmar_contrasenia",
-                "Las contraseñas no coinciden"
+                "contrasenia",
+                "Debes especificar una contraseña"
             );
         }
     }
 
-    public static function listaFabricantes($fabricante = null)
-    {
-        $fabricantes = array(
-            1 => "Siemens",
-            2 => "Intel",
-            3 => "Apple"
-        );
+    public static function dameEstados($cod_estado){
 
-        if ($fabricante === null)
-            return $fabricantes;
-        else {
-            if (isset($fabricantes[$fabricante]))
-                return $fabricantes[$fabricante];
+        $estados = [
+            0 => "No se sabe",
+            1 => "Estudiando",
+            2 => "Trabajando",
+            3 => "En paro",
+            4 => "Jubilado",
+        ];
+
+        if(is_null($cod_estado)){
+            return $estados;
+        } else {
+            if (isset($estados[$cod_estado]))
+                return $estados[$cod_estado];
 
             else
                 return false;
         }
     }
+
 }

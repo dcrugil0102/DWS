@@ -9,6 +9,11 @@ final class registroControlador extends CControlador
         
     }
     public function accionPedirDatosRegistro(){
-        
-    }
+
+        $datosRegistro = new DatosRegistro();
+
+        $this->dibujaVista("datosRegistro",
+            array("modelo"=>$datosRegistro),
+            "Registrar nuevo usuario");
+        }
 }
