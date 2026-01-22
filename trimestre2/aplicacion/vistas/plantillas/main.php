@@ -21,13 +21,21 @@
 <body>
 	<div id="todo">
 		<header>
-			<div class="logo">
+			<div class="logo-titulo">
+				<div class="logo">
 				<a href="/index.php"><img src="/imagenes/logo.png" width="50px" height="50px" /></a>
 			</div>
 			<div class="titulo">
 				<a href="/index.php">
 					<h1>PROYECTO FRAMEWORK PEDROSA</h1>
 				</a>
+			</div>
+			</div>
+
+			<div class="user">
+				<p>Usuario no conectado</p>
+				<button>Login</button>
+				<button>Registrarse</button>
 			</div>
 
 		</header><!-- #header -->

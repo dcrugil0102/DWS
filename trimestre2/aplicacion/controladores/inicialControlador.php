@@ -16,7 +16,7 @@ final class inicialControlador extends CControlador
 	public function accionIndex()
 	{
 
-		$this->barraUbi[] = $this->menu;
+		$this->barraUbi = $this->menu;
 		$this->actual = $this->menu["inicial"];
 
 		$this->dibujaVista(
