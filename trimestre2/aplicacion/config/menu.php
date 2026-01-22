@@ -63,5 +63,16 @@ return [
                 "enlace" => ["practicas2", "peticionAjax"]
             ],
         ]
+        ],
+
+        "productos" => [
+        "texto" => "Productos",
+        "enlace" => ["productos", "index"],
+        "hijos" => [
+            "productos" => [
+                "texto" => "Inicio",
+                "enlace" => ["productos", "index"]
+            ]
+        ]
     ]
 ];

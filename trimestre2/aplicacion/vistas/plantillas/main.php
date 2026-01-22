@@ -33,9 +33,9 @@
 			</div>
 
 			<div class="user">
-				<p>Usuario no conectado</p>
-				<button>Login</button>
-				<button>Registrarse</button>
+				<p>Usuario: no conectado</p>
+				<button><?= CHTML::link("Login", Sistema::app()->generaURL(["registro", "login"])) ?></button>
+				<button><?= CHTML::link("Registrarse", Sistema::app()->generaURL(["registro", "pedirDatosRegistro"])) ?></button>
 			</div>
 
 		</header><!-- #header -->
