@@ -63,9 +63,20 @@ return [
                 "enlace" => ["practicas2", "peticionAjax"]
             ],
         ]
-        ],
+    ],
 
-        "productos" => [
+    // "registro" => [
+    //     "texto" => "Registro",
+    //     "enlace" => ["registro", "index"],
+    //     "hijos" => [
+    //         "productos" => [
+    //             "texto" => "Inicio",
+    //             "enlace" => ["productos", "index"]
+    //         ]
+    //     ]
+    // ],
+
+    "productos" => [
         "texto" => "Productos",
         "enlace" => ["productos", "index"],
         "hijos" => [

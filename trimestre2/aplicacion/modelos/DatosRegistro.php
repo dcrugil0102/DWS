@@ -66,26 +66,28 @@ class DatosRegistro extends CActiveRecord
                 array(
                     "ATRI" => "estado",
                     "TIPO" => "RANGO",
-                    "RANGO" => [0,1,2,3,4],
+                    "RANGO" => [0, 1, 2, 3, 4],
                     "DEFECTO" => 0
                 ),
                 array(
                     "ATRI" => "contrasenia,confirmar_contrasenia",
                     "TIPO" => "CADENA",
-                    
+
                 ),
                 array(
                     "ATRI" => "contrasenia,confirmar_contrasenia",
                     "TIPO" => "FUNCION",
                     "FUNCION" => "validaContrasenia"
                 ),
-                
+
             );
     }
 
     protected function afterCreate(): void
     {
         $this->fecha_nacimiento = date('d/m/Y', strtotime('-18 years'));
+        $this->provincia = "MALAGA";
+        $this->estado = 0;
     }
 
     public function validaFechaNac()
@@ -102,19 +104,20 @@ class DatosRegistro extends CActiveRecord
 
         if ($fecha1 < $fecha2) {
             $this->setError(
-                "fecha_alta",
+                "fecha_nacimiento",
                 "La fecha de nacimiento debe ser posterior a 01/01/1900"
             );
         }
         if ($fecha1 > $fecha3) {
             $this->setError(
-                "fecha_alta",
+                "fecha_nacimiento",
                 "La fecha de nacimiento debe ser anterior a la fecha de hoy"
             );
         }
     }
 
-    public function validaContrasenia(){
+    public function validaContrasenia()
+    {
         $pass1 = $this->contrasenia;
         $pass2 = $this->confirmar_contrasenia;
 
@@ -133,7 +136,8 @@ class DatosRegistro extends CActiveRecord
         }
     }
 
-    public static function dameEstados($cod_estado){
+    public static function dameEstados($cod_estado)
+    {
 
         $estados = [
             0 => "No se sabe",
@@ -143,7 +147,7 @@ class DatosRegistro extends CActiveRecord
             4 => "Jubilado",
         ];
 
-        if(is_null($cod_estado)){
+        if (is_null($cod_estado)) {
             return $estados;
         } else {
             if (isset($estados[$cod_estado]))
@@ -153,5 +157,4 @@ class DatosRegistro extends CActiveRecord
                 return false;
         }
     }
-
 }
