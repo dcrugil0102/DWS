@@ -33,9 +33,18 @@
 			</div>
 
 			<div class="user">
-				<p>Usuario: no conectado</p>
-				<button><?= CHTML::link("Login", Sistema::app()->generaURL(["registro", "login"])) ?></button>
-				<button><?= CHTML::link("Registrarse", Sistema::app()->generaURL(["registro", "pedirDatosRegistro"])) ?></button>
+				<p></p>
+				<?php
+				if (!isset($_SESSION['login'])) {
+					echo CHTML::dibujaEtiqueta("p", [], "Usuario: no conectado");
+					echo CHTML::botonHtml(CHTML::link("Login", Sistema::app()->generaURL(["registro", "login"])));
+					echo CHTML::botonHtml(CHTML::link("Registrarse", Sistema::app()->generaURL(["registro", "pedirDatosRegistro"])));
+				} else {
+					echo CHTML::dibujaEtiqueta("p", [], "Usuario: " . $_SESSION['login']->nick);
+					echo CHTML::dibujaEtiquetaCierre("p");
+					echo CHTML::botonHtml(CHTML::link("Logout", Sistema::app()->generaURL(["registro", "logout"])));
+				}
+				?>
 			</div>
 
 		</header><!-- #header -->

@@ -12,8 +12,50 @@ final class registroControlador extends CControlador
     {
         $this->menu = require __DIR__ . "/../config/menu.php";
     }
-    public function accionLogin() {}
-    public function accionLogout() {}
+    public function accionLogin()
+    {
+
+        $this->actual = [
+            "texto" => "Login Usuario",
+            "enlace" => ["registro", "login"]
+        ];
+
+
+        $login = new Login();
+
+        $nombre = $login->getNombre();
+
+        if (isset($_POST[$nombre])) {
+
+            $login->setValores($_POST[$nombre]);
+
+            if ($login->validar()) {
+
+                Sistema::app()->irAPagina(["inicial", "index"]);
+
+                $_SESSION['login'] = $login;
+            } else {
+                $this->dibujaVista(
+                    "login",
+                    array("modelo" => $login),
+                    "Inicio de sesión"
+                );
+                exit;
+            }
+        }
+
+        $this->dibujaVista(
+            "login",
+            array("modelo" => $login),
+            "Inicio de sesión"
+        );
+    }
+    public function accionLogout()
+    {
+        unset($_SESSION['login']);
+        Sistema::app()->irAPagina(["inicial", "index"]);
+        exit;
+    }
     public function accionPedirDatosRegistro()
     {
 
@@ -33,12 +75,6 @@ final class registroControlador extends CControlador
 
             if ($datosRegistro->validar()) {
 
-                // Sistema::app()->irAPagina(
-                //     array(
-                //         "registro",
-                //         "datosUsuario"
-                //     )
-                // );
                 $this->dibujaVista("datosUsuario", ["modelo" => $datosRegistro], "Datos del usuario");
                 exit;
             } else {
@@ -57,14 +93,4 @@ final class registroControlador extends CControlador
             "Registrar nuevo usuario"
         );
     }
-
-    // public function accionDatosUsuario()
-    // {
-    //     $this->actual = [
-    //         "texto" => "Datos Usuario",
-    //         "enlace" => ["registro", "datosUsuario"]
-    //     ];
-
-    //     $this->dibujaVista("datosUsuario", [], "Datos del usuario");
-    // }
 }
