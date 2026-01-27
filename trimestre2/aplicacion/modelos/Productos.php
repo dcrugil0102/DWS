@@ -128,4 +128,11 @@ class Login extends CActiveRecord
         $this->precio_venta = $this->precio_base + $this->precio_iva;
     }
 
+    public function validaCodCategoria(){
+        $categoria = new Categorias();
+        if(!$categoria->buscarPorId($this->cod_categoria)){
+            $this->setError("cod_categoria", "Categoría no válida");
+        }
+    }
+
 }
