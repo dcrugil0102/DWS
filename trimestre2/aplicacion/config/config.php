@@ -10,10 +10,10 @@ $config = array(
 		"grupo" => "2daw"
 	),
 	"BD" => array(
-		"hay" => false,
+		"hay" => true,
 		"servidor" => "localhost",
-		"usuario" => "vicente",
-		"contra" => "2daw",
-		"basedatos" => "practica9"
+		"usuario" => "root",
+		"contra" => "root",
+		"basedatos" => "practica10"
 	)
 );

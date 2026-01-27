@@ -4,14 +4,24 @@ class Login extends CActiveRecord
 {
     protected function fijarNombre(): string
     {
-        return 'Categorias';
+        return 'Productos';
     }
 
     protected function fijarAtributos(): array
     {
         return array(
-            "cod_categoria",
-            "descripcion"
+            "cod_producto",
+            "nombre",
+            "cod_categoría",
+            "fabricante",
+            "fecha_alta",
+            "unidades",
+            "precio_base",
+            "iva",
+            "precio_iva",
+            "precio_venta",
+            "foto",
+            "borrado"
         );
     }
 
