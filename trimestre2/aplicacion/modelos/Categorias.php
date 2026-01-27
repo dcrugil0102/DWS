@@ -4,14 +4,14 @@ class Login extends CActiveRecord
 {
     protected function fijarNombre(): string
     {
-        return 'Login';
+        return 'Categorias';
     }
 
     protected function fijarAtributos(): array
     {
         return array(
-            "nick",
-            "contrasenia"
+            "cod_categoria",
+            "descripcion"
         );
     }
 
