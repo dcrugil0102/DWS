@@ -48,20 +48,55 @@ class Login extends CActiveRecord
         return
             array(
                 array(
-                    "ATRI" => "cod_producto,nombre,cod_categoria",
+                    "ATRI" => "nombre,cod_categoria",
                     "TIPO" => "REQUERIDO"
+                ),
+                array(
+                    "ATRI" => "cod_producto",
+                    "TIPO" => "ENTERO"
+                ),
+                array(
+                    "ATRI" => "nombre",
+                    "TIPO" => "CADENA",
+                    "TAMANIO" => 30
                 ),
                 array(
                     "ATRI" => "cod_categoria",
                     "TIPO" => "ENTERO"
                 ),
                 array(
-                    "ATRI" => "descripcion",
+                    "ATRI" => "cod_categoria",
+                    "TIPO" => "FUNCION",
+                    "FUNCION" => "validaCodCategoria"
+                ),
+                array(
+                    "ATRI" => "fabricante",
                     "TIPO" => "CADENA",
-                    "TAMANIO" => 40
-                )
+                    "TAMANIO" => 30,
+                    "DEFECTO" => ""
+                ),
+                array(
+                    "ATRI" => "fecha_alta",
+                    "TIPO" => "FECHA"
+                ),
+                array(
+                    "ATRI" => "unidades",
+                    "TIPO" => "ENTERO",
+                    "DEFECTO" => 0
+                ),
+                array(
+                    "ATRI" => "precio_base",
+                    "TIPO" => "REAL",
+                    "DEFECTO" => 0,
+                    "MIN" => 0
+                ),
 
             );
+    }
+
+    public function afterCreate(): void
+    {
+        $this->fecha_alta = new DateTime();
     }
 
     public function dameCategorias($cod){
