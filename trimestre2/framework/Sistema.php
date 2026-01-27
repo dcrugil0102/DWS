@@ -71,7 +71,7 @@ class Sistema
 		if (!self::$_app)
 			self::$_app = new CAplicacion($config);
 
-		session_start();
+		
 
 		return self::$_app;
 	}

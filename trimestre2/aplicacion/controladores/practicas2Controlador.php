@@ -11,6 +11,8 @@ final class practicas2Controlador extends CControlador
 	{
 		$this->menu = require __DIR__ . "/../config/menu.php";
 		$this->menuizq = $this->menu['practicas2']['hijos'];
+
+		session_start();
 	}
 
 	public function accionIndex()

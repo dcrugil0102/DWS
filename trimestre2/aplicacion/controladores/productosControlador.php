@@ -12,6 +12,8 @@ final class productosControlador extends CControlador
 	{
 		$this->menu = require __DIR__ . "/../config/menu.php";
 		$this->menuizq = $this->menu['productos']['hijos'];
+
+		session_start();
 	}
     public function accionIndex(){
         $this->barraUbi = $this->menu;

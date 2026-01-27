@@ -11,6 +11,8 @@ final class inicialControlador extends CControlador
 	{
 		$this->menu = require __DIR__ . "/../config/menu.php";
 		$this->menuizq = $this->menu['inicial']['hijos'];
+
+		session_start();
 	}
 
 	public function accionIndex()

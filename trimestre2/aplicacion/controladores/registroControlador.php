@@ -11,6 +11,8 @@ final class registroControlador extends CControlador
     public function __construct()
     {
         $this->menu = require __DIR__ . "/../config/menu.php";
+
+        session_start();
     }
     public function accionLogin()
     {

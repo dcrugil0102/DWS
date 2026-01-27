@@ -13,6 +13,7 @@ class Login extends CActiveRecord
             "cod_producto",
             "nombre",
             "cod_categoría",
+            "descripcion_categoria",    
             "fabricante",
             "fecha_alta",
             "unidades",
@@ -31,6 +32,7 @@ class Login extends CActiveRecord
             "cod_producto"  => "Código identificador del producto",
             "nombre"        => "Nombre del producto",
             "cod_categoría" => "Código de la categoría del producto",
+            "descripcion_categoria" => "Nombre de la categoría del producto",
             "fabricante"    => "Empresa o marca fabricante",
             "fecha_alta"    => "Fecha de alta del producto en el sistema",
             "unidades"      => "Cantidad de unidades disponibles",
@@ -90,6 +92,31 @@ class Login extends CActiveRecord
                     "DEFECTO" => 0,
                     "MIN" => 0
                 ),
+                array(
+                    "ATRI" => "iva",
+                    "TIPO" => "RANGO",
+                    "RANGO" => [4, 10, 21],
+                    "DEFECTO" => 21
+                ),
+                array(
+                    "ATRI" => "precio_iva",
+                    "TIPO" => "REAL"
+                ),
+                array(
+                    "ATRI" => "precio_venta",
+                    "TIPO" => "REAL"
+                ),
+                array(
+                    "ATRI" => "foto",
+                    "TIPO" => "CADENA",
+                    "TAMANIO" => 40,
+                    "DEFECTO" => "base.jpg"
+                ),
+                array(
+                    "ATRI" => "borrado",
+                    "TIPO" => "RANGO",
+                    "RANGO" => [0,1]
+                ),
 
             );
     }
@@ -97,23 +124,8 @@ class Login extends CActiveRecord
     public function afterCreate(): void
     {
         $this->fecha_alta = new DateTime();
+        $this->precio_iva = ($this->precio_base * $this->iva) / 100;
+        $this->precio_venta = $this->precio_base + $this->precio_iva;
     }
 
-    public function dameCategorias($cod){
-
-        $sentencia = "select descripcion from categorias where cod_categoria = $cod";
-        $consulta = Sistema::app()->BD()->crearConsulta($sentencia);
-        $categorias = $consulta->filas();
-
-
-        if (is_null($cod)) {
-            return $categorias;
-        } else {
-            if (isset($categorias[$cod]))
-                return $categorias[$cod];
-
-            else
-                return false;
-        }
-    }
 }
