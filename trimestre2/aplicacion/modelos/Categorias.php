@@ -46,7 +46,7 @@ class Login extends CActiveRecord
 
     public function dameCategorias($cod){
 
-        $sentencia = "select descripcion from categorias where cod_categoria = $cod";
+        $sentencia = "select descripcion from categorias";
         $consulta = Sistema::app()->BD()->crearConsulta($sentencia);
         $categorias = $consulta->filas();
 

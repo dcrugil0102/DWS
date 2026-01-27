@@ -28,8 +28,18 @@ class Login extends CActiveRecord
     protected function fijarDescripciones(): array
     {
         return array(
-            "cod_categoria" => "Código de la categoría",
-            "descripcion" => "Descripción de la categoría"
+            "cod_producto"  => "Código identificador del producto",
+            "nombre"        => "Nombre del producto",
+            "cod_categoría" => "Código de la categoría del producto",
+            "fabricante"    => "Empresa o marca fabricante",
+            "fecha_alta"    => "Fecha de alta del producto en el sistema",
+            "unidades"      => "Cantidad de unidades disponibles",
+            "precio_base"   => "Precio del producto sin impuestos",
+            "iva"           => "Porcentaje de IVA aplicado",
+            "precio_iva"    => "Importe del IVA",
+            "precio_venta"  => "Precio final con IVA incluido",
+            "foto"          => "Imagen del producto",
+            "borrado"       => "Indica si el producto está marcado como borrado"
         );
     }
 
@@ -38,7 +48,7 @@ class Login extends CActiveRecord
         return
             array(
                 array(
-                    "ATRI" => "cod_categoria,descripcion",
+                    "ATRI" => "cod_producto,nombre,cod_categoria",
                     "TIPO" => "REQUERIDO"
                 ),
                 array(
