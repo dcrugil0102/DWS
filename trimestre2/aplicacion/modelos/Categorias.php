@@ -1,6 +1,6 @@
 <?php
 
-class Login extends CActiveRecord
+class Categorias extends CActiveRecord
 {
     protected function fijarNombre(): string
     {
@@ -44,21 +44,25 @@ class Login extends CActiveRecord
             );
     }
 
-    public function dameCategorias($cod){
+    public function dameCategorias($cod)
+    {
 
-        $sentencia = "select descripcion from categorias";
-        $consulta = Sistema::app()->BD()->crearConsulta($sentencia);
-        $categorias = $consulta->filas();
+        $categoria = new Categorias();
+        $filas = $categoria->buscarTodos([
+            "select" => "cod_categoria, descripcion",
+            "order" => "cod_categoria"
+        ]);
 
+        $categorias = [];
 
-        if (is_null($cod)) {
-            return $categorias;
-        } else {
-            if (isset($categorias[$cod]))
-                return $categorias[$cod];
-
-            else
-                return false;
+        foreach ($filas as $fila) {
+            $categorias[$fila['cod_categoria']] = $fila["descripcion"];
         }
+
+        if ($cod === null) {
+            return $categorias;
+        }
+
+        return $categorias[$cod] ?? false;
     }
 }

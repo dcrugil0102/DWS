@@ -15,10 +15,102 @@ final class productosControlador extends CControlador
 
 		session_start();
 	}
-    public function accionIndex(){
-        $this->barraUbi = $this->menu;
+	public function accionIndex()
+	{
+		$this->barraUbi = $this->menu;
 		$this->actual = $this->menu["productos"];
 
-        $this->dibujaVista("index", [], "Productos");
-    }
+		$producto = new Productos();
+
+		$pag = intval($_GET['pag'] ?? 1);
+		$reg_pag = intval($_GET['reg_pag'] ?? 5);
+		$inicio = ($pag - 1) * $reg_pag;
+
+		$opciones = ["limit" => $reg_pag, "offset" => $inicio];
+		$filas = $producto->buscarTodos($opciones);
+
+		foreach ($filas as $clave => $valor) {
+			$filas[$clave]['fecha_alta'] = CGeneral::fechaMysqlANormal(
+				$filas[$clave]["fecha_alta"]
+			);
+
+			$filas[$clave]['borrado'] = $filas[$clave]['borrado'] ? "SI" : "NO";
+
+			// BOTONES **************
+
+			$cadena = CHTML::link(
+				CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-eye"]) . CHTML::dibujaEtiquetaCierre("i"),
+				Sistema::app()->generaURL(
+					array("productos", "consultar"),
+					array("id" => $filas[$clave]["cod_producto"])
+				)
+			);
+			$cadena .= CHTML::link(
+				CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-pen-to-square"]) . CHTML::dibujaEtiquetaCierre("i"),
+				Sistema::app()->generaURL(
+					array("productos", "modificar"),
+					array("id" => $filas[$clave]["cod_producto"])
+				)
+			);
+			$cadena .= CHTML::link(
+				CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-trash"]) . CHTML::dibujaEtiquetaCierre("i"),
+				Sistema::app()->generaURL(
+					array("productos", "borrar"),
+					array("id" => $filas[$clave]["cod_producto"])
+				),
+				array(
+					"onclick" => "return
+						confirm('&iquest;Esta seguro de borrar el producto?');"
+				)
+			);
+
+			$filas[$clave]["opciones"] = $cadena;
+		}
+
+
+
+		$cabecera = array(
+			array("CAMPO" => "nombre", "ETIQUETA" => "Nombre", "ALINEA" => "cen"),
+			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría", "ALINEA" => "cen"),
+			array("CAMPO" => "fabricante", "ETIQUETA" => "Fabricante", "ALINEA" => "cen"),
+			array("CAMPO" => "fecha_alta", "ETIQUETA" => "Fecha de alta", "ALINEA" => "cen"),
+			array("CAMPO" => "unidades", "ETIQUETA" => "Unidades", "ALINEA" => "cen"),
+			array("CAMPO" => "precio_base", "ETIQUETA" => "Precio base", "ALINEA" => "cen"),
+			array("CAMPO" => "iva", "ETIQUETA" => "IVA (%)", "ALINEA" => "cen"),
+			array("CAMPO" => "precio_iva", "ETIQUETA" => "Importe IVA", "ALINEA" => "cen"),
+			array("CAMPO" => "precio_venta", "ETIQUETA" => "Precio final", "ALINEA" => "cen"),
+			array("CAMPO" => "foto", "ETIQUETA" => "Foto", "ALINEA" => "cen"),
+			array("CAMPO" => "borrado", "ETIQUETA" => "Borrado", "ALINEA" => "cen"),
+			array("CAMPO" => "opciones", "ETIQUETA" => " Operaciones", "ALINEA" => "cen")
+		);
+
+		// CPAJAS ****************
+
+		$opcPaginador = array(
+			"URL" => Sistema::app()->generaURL(array("productos", "indice")),
+			"TOTAL_REGISTROS" => count($filas),
+			"PAGINA_ACTUAL" => $pag,
+			"REGISTROS_PAGINA" => $reg_pag,
+			"TAMANIOS_PAGINA" => array(
+				5 => "5",
+				10 => "10",
+				20 => "20",
+				30 => "30",
+				40 => "40",
+				50 => "50"
+			),
+			"MOSTRAR_TAMANIOS" => true,
+			"PAGINAS_MOSTRADAS" => 7,
+		);
+
+		$this->dibujaVista(
+			"indice",
+			array(
+				"filas" => $filas,
+				"cabe" => $cabecera,
+				"opcPag" => $opcPaginador
+			),
+			"Lista de Productos"
+		);
+	}
 }

@@ -514,26 +514,48 @@
 	 * propio
 	 */
     table.tabla1 {
-        background-color: #b6c7cd;
+        width: 100%;
         border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        background-color: #fdfdfd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .tabla1 a {
+        color: black;
+        padding: 0 0.5vh;
+        display: none;
     }
 
     table.tabla1 th {
-        background-color: blue;
-        color: white;
+        background: linear-gradient(90deg, #4b79a1, #283e51);
+        color: #fff;
+        text-align: left;
+        padding: 10px 15px;
     }
 
     table.tabla1 tr.par {
-        background-color: #edd8d8;
-        color: black;
-    }
-    table.tabla1 tr.impar {
-        background-color: #f8f0d6;
-        color: black;
+        background-color: #ffffff;
     }
 
-    table.tabla1 tr td {
-        padding: 2px;
+    table.tabla1 tr.impar {
+        background-color: #f6f8fa;
+    }
+
+    table.tabla1 tr:hover {
+        background-color: #e0e7ff;
+        transition: background-color 0.2s ease;
+    }
+
+    table.tabla1 tr:hover a {
+        display: inline;
+    }
+
+    table.tabla1 td {
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
     }
 
     /*

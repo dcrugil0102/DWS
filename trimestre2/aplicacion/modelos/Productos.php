@@ -1,10 +1,14 @@
 <?php
 
-class Login extends CActiveRecord
+class Productos extends CActiveRecord
 {
+    protected function fijarTabla(): string
+    {
+        return "productos";
+    }
     protected function fijarNombre(): string
     {
-        return 'Productos';
+        return "productos";
     }
 
     protected function fijarAtributos(): array
@@ -13,7 +17,7 @@ class Login extends CActiveRecord
             "cod_producto",
             "nombre",
             "cod_categoría",
-            "descripcion_categoria",    
+            "descripcion_categoria",
             "fabricante",
             "fecha_alta",
             "unidades",
@@ -115,7 +119,7 @@ class Login extends CActiveRecord
                 array(
                     "ATRI" => "borrado",
                     "TIPO" => "RANGO",
-                    "RANGO" => [0,1]
+                    "RANGO" => [0, 1]
                 ),
 
             );
@@ -124,15 +128,19 @@ class Login extends CActiveRecord
     public function afterCreate(): void
     {
         $this->fecha_alta = new DateTime();
-        $this->precio_iva = ($this->precio_base * $this->iva) / 100;
-        $this->precio_venta = $this->precio_base + $this->precio_iva;
+
+        $precioBase = (float) $this->precio_base;
+        $iva = (float) $this->iva;
+
+        $this->precio_iva = ($precioBase * $iva) / 100;
+        $this->precio_venta = $precioBase + $this->precio_iva;
     }
 
-    public function validaCodCategoria(){
+    public function validaCodCategoria()
+    {
         $categoria = new Categorias();
-        if(!$categoria->buscarPorId($this->cod_categoria)){
+        if (!$categoria->buscarPorId($this->cod_categoria)) {
             $this->setError("cod_categoria", "Categoría no válida");
         }
     }
-
 }
