@@ -26,8 +26,12 @@ final class productosControlador extends CControlador
 		$reg_pag = intval($_GET['reg_pag'] ?? 5);
 		$inicio = ($pag - 1) * $reg_pag;
 
-		$opciones = ["limit" => $reg_pag, "offset" => $inicio];
+		echo $inicio;
+
+		$opciones = ["where" => "cod_producto > $inicio", "limit" => $reg_pag];
 		$filas = $producto->buscarTodos($opciones);
+
+		$total_reg = count(Sistema::app()->BD()->crearConsulta("select * from productos")->filas());
 
 		foreach ($filas as $clave => $valor) {
 			$filas[$clave]['fecha_alta'] = CGeneral::fechaMysqlANormal(
@@ -70,8 +74,8 @@ final class productosControlador extends CControlador
 
 
 		$cabecera = array(
-			array("CAMPO" => "nombre", "ETIQUETA" => "Nombre", "ALINEA" => "cen"),
-			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría", "ALINEA" => "cen"),
+			array("CAMPO" => "nombre", "ETIQUETA" => "Nombre" . CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-sort"]) . CHTML::dibujaEtiquetaCierre("i"), "ALINEA" => "cen"),
+			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría"  . CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-sort"]) . CHTML::dibujaEtiquetaCierre("i"), "ALINEA" => "cen"),
 			array("CAMPO" => "fabricante", "ETIQUETA" => "Fabricante", "ALINEA" => "cen"),
 			array("CAMPO" => "fecha_alta", "ETIQUETA" => "Fecha de alta", "ALINEA" => "cen"),
 			array("CAMPO" => "unidades", "ETIQUETA" => "Unidades", "ALINEA" => "cen"),
@@ -80,15 +84,15 @@ final class productosControlador extends CControlador
 			array("CAMPO" => "precio_iva", "ETIQUETA" => "Importe IVA", "ALINEA" => "cen"),
 			array("CAMPO" => "precio_venta", "ETIQUETA" => "Precio final", "ALINEA" => "cen"),
 			array("CAMPO" => "foto", "ETIQUETA" => "Foto", "ALINEA" => "cen"),
-			array("CAMPO" => "borrado", "ETIQUETA" => "Borrado", "ALINEA" => "cen"),
+			array("CAMPO" => "borrado", "ETIQUETA" => "Borrado"  . CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-sort"]) . CHTML::dibujaEtiquetaCierre("i"), "ALINEA" => "cen"),
 			array("CAMPO" => "opciones", "ETIQUETA" => " Operaciones", "ALINEA" => "cen")
 		);
 
 		// CPAJAS ****************
 
 		$opcPaginador = array(
-			"URL" => Sistema::app()->generaURL(array("productos", "indice")),
-			"TOTAL_REGISTROS" => count($filas),
+			"URL" => Sistema::app()->generaURL(array("productos", "index")),
+			"TOTAL_REGISTROS" => $total_reg,
 			"PAGINA_ACTUAL" => $pag,
 			"REGISTROS_PAGINA" => $reg_pag,
 			"TAMANIOS_PAGINA" => array(
