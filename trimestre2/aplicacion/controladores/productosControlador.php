@@ -26,9 +26,17 @@ final class productosControlador extends CControlador
 		$reg_pag = intval($_GET['reg_pag'] ?? 5);
 		$inicio = ($pag - 1) * $reg_pag;
 
-		echo $inicio;
-
 		$opciones = ["where" => "cod_producto > $inicio", "limit" => $reg_pag];
+
+		$order = "";
+
+		if (!empty($_GET["orden"])) {
+			$dir = ($_GET["dir"] ?? "asc") === "desc" ? "desc" : "asc";
+			$order = $_GET["orden"] . " " . $dir;
+		}
+
+		$opciones["order"] = $order;
+
 		$filas = $producto->buscarTodos($opciones);
 
 		$total_reg = count(Sistema::app()->BD()->crearConsulta("select * from productos")->filas());
@@ -74,8 +82,20 @@ final class productosControlador extends CControlador
 
 
 		$cabecera = array(
-			array("CAMPO" => "nombre", "ETIQUETA" => "Nombre" . CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-sort"]) . CHTML::dibujaEtiquetaCierre("i"), "ALINEA" => "cen"),
-			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría"  . CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-sort"]) . CHTML::dibujaEtiquetaCierre("i"), "ALINEA" => "cen"),
+			array("CAMPO" => "nombre", "ETIQUETA" => "Nombre" . CHTML::link(
+				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
+				Sistema::app()->generaURL(
+					["productos", "index"],
+					["orden" => "nombre", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
+				)
+			), "ALINEA" => "cen"),
+			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría"  . CHTML::link(
+				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
+				Sistema::app()->generaURL(
+					["productos", "index"],
+					["orden" => "descripcion_categoria", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
+				)
+			), "ALINEA" => "cen"),
 			array("CAMPO" => "fabricante", "ETIQUETA" => "Fabricante", "ALINEA" => "cen"),
 			array("CAMPO" => "fecha_alta", "ETIQUETA" => "Fecha de alta", "ALINEA" => "cen"),
 			array("CAMPO" => "unidades", "ETIQUETA" => "Unidades", "ALINEA" => "cen"),
@@ -84,7 +104,13 @@ final class productosControlador extends CControlador
 			array("CAMPO" => "precio_iva", "ETIQUETA" => "Importe IVA", "ALINEA" => "cen"),
 			array("CAMPO" => "precio_venta", "ETIQUETA" => "Precio final", "ALINEA" => "cen"),
 			array("CAMPO" => "foto", "ETIQUETA" => "Foto", "ALINEA" => "cen"),
-			array("CAMPO" => "borrado", "ETIQUETA" => "Borrado"  . CHTML::dibujaEtiqueta("i", ['class' => "fa-solid fa-sort"]) . CHTML::dibujaEtiquetaCierre("i"), "ALINEA" => "cen"),
+			array("CAMPO" => "borrado", "ETIQUETA" => "Borrado"  . CHTML::link(
+				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
+				Sistema::app()->generaURL(
+					["productos", "index"],
+					["orden" => "borrado", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
+				)
+			), "ALINEA" => "cen"),
 			array("CAMPO" => "opciones", "ETIQUETA" => " Operaciones", "ALINEA" => "cen")
 		);
 

@@ -443,33 +443,60 @@
         background-color: blue;
         color: white;
     }
-
     .pager {
-        background-color: white;
-        color: black;
+        background-color: #f8f9fa;
+        color: #333;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 10px 0;
+        font-size: 14px;
     }
 
     .pager .izq {
         float: left;
-        /*width: 40%;*/
         padding-left: 5px;
-        color: green;
+        color: #555;
+    }
+
+    .pager .izq select {
+        padding: 4px 6px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        font-size: 13px;
     }
 
     .pager .der {
         float: right;
-        /*width: 58%;*/
         text-align: right;
         padding-right: 5px;
     }
 
     .pager .der a {
         text-decoration: none;
-        color: green;
+        color: #0d6efd;
+        padding: 3px 7px;
+        margin: 0 2px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        transition: all 0.15s ease;
     }
+
     .pager .der a:hover {
-        text-decoration: none;
-        color: red;
+        background-color: #e9f2ff;
+        border-color: #0d6efd;
+        color: #0a58ca;
+    }
+
+    .pager .der i {
+        vertical-align: middle;
+        opacity: 0.8;
+        color: #092e4e;
+    }
+
+    .pager .der i:hover {
+        opacity: 1;
     }
 
     .pager .final {
@@ -523,17 +550,32 @@
         overflow: hidden;
     }
 
-    .tabla1 a {
+    .tabla1 td a {
         color: black;
         padding: 0 0.5vh;
         display: none;
     }
 
+    table.tabla1 thead {
+        background: linear-gradient(135deg, #4b6cb7, #182848);
+    }
+
     table.tabla1 th {
-        background: linear-gradient(90deg, #4b79a1, #283e51);
+        position: relative;
+        background: linear-gradient(135deg, #4b6cb7, #182848);
         color: #fff;
         text-align: left;
-        padding: 10px 15px;
+        padding: 10px 28px 10px 15px;
+        white-space: nowrap;
+    }
+
+    table.tabla1 th i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.85em;
+        cursor: pointer;
     }
 
     table.tabla1 tr.par {
@@ -549,8 +591,12 @@
         transition: background-color 0.2s ease;
     }
 
-    table.tabla1 tr:hover a {
+    table.tabla1 tr:hover td a {
         display: inline;
+    }
+
+    table.tabla1 th a {
+        color: white;
     }
 
     table.tabla1 td {

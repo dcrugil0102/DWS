@@ -1,5 +1,7 @@
 <?php
 
+echo CPager::requisitos();
+
 $pagi = new CPager($opcPag, array());
 
 $tabla = new CGrid(
