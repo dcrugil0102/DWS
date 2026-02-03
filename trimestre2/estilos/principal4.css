@@ -542,18 +542,30 @@
 	 */
     table.tabla1 {
         width: 100%;
+        max-width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
         font-family: Arial, sans-serif;
+        font-size: 12px;
         background-color: #fdfdfd;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         overflow: hidden;
     }
 
+    .tabla1 th,
+    .tabla1 td {
+        padding: 8px 10px;
+        border-bottom: 1px solid #ddd;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
     .tabla1 td a {
         color: black;
-        padding: 0 0.5vh;
+        padding: 0 0.4vh;
         display: none;
+        font-size: 12px;
     }
 
     table.tabla1 thead {
@@ -565,16 +577,16 @@
         background: linear-gradient(135deg, #4b6cb7, #182848);
         color: #fff;
         text-align: left;
-        padding: 10px 28px 10px 15px;
-        white-space: nowrap;
+        padding: 8px 26px 8px 10px;
+        font-weight: 600;
     }
 
     table.tabla1 th i {
         position: absolute;
-        right: 10px;
+        right: 8px;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 0.85em;
+        font-size: 0.75em;
         cursor: pointer;
     }
 
@@ -597,11 +609,6 @@
 
     table.tabla1 th a {
         color: white;
-    }
-
-    table.tabla1 td {
-        padding: 10px 15px;
-        border-bottom: 1px solid #ddd;
     }
 
     /*
