@@ -9,6 +9,7 @@ class CAplicacion
 {
 	private $_controlDefecto = "inicial";
 	private $_BD;
+	// private CSesion $_sesion;
 	private $_URL_AMIGABLES = false;
 
 	private $_prop = array();
@@ -63,6 +64,11 @@ class CAplicacion
 				$config["BD"]["contra"],
 				$config["BD"]["basedatos"]
 			);
+		}
+		// $this->_sesion = new CSesion();
+
+		if (isset($config["sesion"]) && $config["sesion"]["controlAutomatico"] === true) {
+			$this->_sesion->crearSesion();
 		}
 	}
 

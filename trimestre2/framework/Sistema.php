@@ -18,7 +18,8 @@ class Sistema
 		"CCommand" => "/bd/CCommand.php",
 		"CWidget" => "/widget/CWidget.php",
 		"CGrid" => "/widget/CGrid.php",
-		"CPager" => "/widget/CPager.php"
+		"CPager" => "/widget/CPager.php",
+		"CSesion" => "/widget/CSesion.php"
 	);
 	static private $_rutasInclude = array();
 	static private $_app;

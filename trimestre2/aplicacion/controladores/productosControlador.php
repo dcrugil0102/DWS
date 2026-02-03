@@ -86,7 +86,7 @@ final class productosControlador extends CControlador
 				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
 				Sistema::app()->generaURL(
 					["productos", "index"],
-					["orden" => "nombre", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
+					["orden" => "nombre", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : "", "pag" => $pag, "reg_pag" => $reg_pag]
 				)
 			), "ALINEA" => "cen"),
 			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría"  . CHTML::link(
