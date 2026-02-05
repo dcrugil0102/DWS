@@ -22,6 +22,49 @@ final class productosControlador extends CControlador
 
 		$producto = new Productos();
 
+		$where="";
+        // controlar el formulario de la vista
+        if (isset($_POST["filtrar"])) {
+
+            $condiciones = [];
+
+            if (!empty($_POST["nombre"])) {
+                $condiciones[] = "nombre_producto = '" . CGeneral::addSlashes($_POST["nombre"]) . "'";
+            }
+
+            if (!empty($_POST["categoria"])) {
+                $condiciones[] = "nombre_categoria = '" . CGeneral::addSlashes($_POST["categoria"]) . "'";
+            }
+
+            isset($_POST["borrado"]) ? $condiciones[] = "borrado = 1" : null;
+
+            $where = "";
+            if (!empty($condiciones)) {
+                $where = implode(" AND ", $condiciones);
+            }
+
+        }
+
+		// sacamos todos los productos para luego pasarlo al cgrid
+        $filas=[];
+
+        // controlar descargar la vista
+        if (isset($_POST["descargar"])) {
+            $contenido = "";
+            $filas = $producto->buscarTodos(["where" => $where]);
+        
+            foreach ($filas as $fila) {
+                $contenido .= implode(" | ", $fila) . "\n";
+            }
+
+            header("Content-Type: text/plain");
+            header("Content-Disposition: attachment; filename=productos.txt");
+            header("Content-Length: " . mb_strlen($contenido));
+
+            echo $contenido;
+            return;
+        }
+
 		$pag = intval($_GET['pag'] ?? 1);
 		$reg_pag = intval($_GET['reg_pag'] ?? 5);
 		$inicio = ($pag - 1) * $reg_pag;
@@ -86,14 +129,14 @@ final class productosControlador extends CControlador
 				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
 				Sistema::app()->generaURL(
 					["productos", "index"],
-					["orden" => "nombre", "dir" => (isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""), "pag" => $pag, "reg_pag" => $reg_pag]
+					["reg_pag" => $reg_pag, "pag" => $pag, "orden" => "nombre", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
 				)
 			), "ALINEA" => "cen"),
 			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría"  . CHTML::link(
 				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
 				Sistema::app()->generaURL(
 					["productos", "index"],
-					["orden" => "descripcion_categoria", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
+					["reg_pag" => $reg_pag, "pag" => $pag, "orden" => "descripcion_categoria", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
 				)
 			), "ALINEA" => "cen"),
 			array("CAMPO" => "fabricante", "ETIQUETA" => "Fabricante", "ALINEA" => "cen"),
@@ -108,7 +151,7 @@ final class productosControlador extends CControlador
 				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
 				Sistema::app()->generaURL(
 					["productos", "index"],
-					["orden" => "borrado", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
+					["reg_pag" => $reg_pag, "pag" => $pag, "orden" => "borrado", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
 				)
 			), "ALINEA" => "cen"),
 			array("CAMPO" => "opciones", "ETIQUETA" => " Operaciones", "ALINEA" => "cen")
