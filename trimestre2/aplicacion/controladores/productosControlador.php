@@ -29,7 +29,7 @@ final class productosControlador extends CControlador
             $condiciones = [];
 
             if (!empty($_POST["nombre"])) {
-                $condiciones[] = "nombre = '" . CGeneral::addSlashes($_POST["nombre"]) . "'";
+                $condiciones[] = "nombre = '%" . CGeneral::addSlashes($_POST["nombre"]) . "%'";
             }
 
             if (!empty($_POST["categoria"])) {
@@ -133,44 +133,24 @@ final class productosControlador extends CControlador
 		// elementos para la paginacion
         $total=$producto->buscarTodosNRegistros(["where"=>$where]);
 
-		// $pag = intval($_GET['pag'] ?? 1);
-		// $reg_pag = intval($_GET['reg_pag'] ?? 5);
-		// $inicio = ($pag - 1) * $reg_pag;
+		$regPag = intval($_GET['reg_pag'] ?? 5);
 
-		        $regPag = 5;
-        if (isset($_GET["reg_pag"])) {
-            $regPag = intval($_GET["reg_pag"]);
-        }
         $paginas=($total/$regPag);
         if ($total%$regPag >0)
             $paginas++;
 
-        $pag = 1;
-        if (isset($_GET["pag"])) {
-            $pag = intval($_GET["pag"]);
-        }
+        $pag = intval($_GET['pag'] ?? 1);
 
         if ($pag<0 || $pag>$paginas)
             $pag=0;
 
         // esto calcula los elementos que se van a mostrar en cada pagina
-        $primero=($pag-1)*$regPag-1;
+        $primero=($pag-1)*$regPag;
         if ($primero<0)
             $primero=0;
         $limit="$primero,$regPag";
 
-		$filas = $producto->buscarTodos(["where" => $where,"limit"=>$limit, "order"=>"nombre_producto"]);
-
-		$order = "";
-
-		if (!empty($_GET["orden"])) {
-			$dir = ($_GET["dir"] ?? "asc") === "desc" ? "desc" : "asc";
-			$order = $_GET["orden"] . " " . $dir;
-		}
-
-		$filas = $producto->buscarTodos($opciones);
-
-		$total_reg = count(Sistema::app()->BD()->crearConsulta("select * from productos")->filas());
+		$filas = $producto->buscarTodos(["where" => $where,"limit"=>$limit, "order"=>"nombre"]);
 
 		foreach ($filas as $clave => $valor) {
 			$filas[$clave]['fecha_alta'] = CGeneral::fechaMysqlANormal(
@@ -213,21 +193,21 @@ final class productosControlador extends CControlador
 		// CPAJAS ****************
 
 		$opcPaginador = array(
-			"URL" => Sistema::app()->generaURL(array("productos", "index")),
-			"TOTAL_REGISTROS" => $total_reg,
-			"PAGINA_ACTUAL" => $pag,
-			"REGISTROS_PAGINA" => $reg_pag,
-			"TAMANIOS_PAGINA" => array(
-				5 => "5",
-				10 => "10",
-				20 => "20",
-				30 => "30",
-				40 => "40",
-				50 => "50"
-			),
-			"MOSTRAR_TAMANIOS" => true,
-			"PAGINAS_MOSTRADAS" => 7,
-		);
+            "URL" => Sistema::app()->generaURL(array("productos", "index")),
+            "TOTAL_REGISTROS" => $total,
+            "PAGINA_ACTUAL" => $pag,
+            "REGISTROS_PAGINA" => $regPag,
+            "TAMANIOS_PAGINA" => array(
+                5 => "5",
+                10 => "10",
+                20 => "20",
+                30 => "30",
+                40 => "40",
+                50 => "50"
+            ),
+            "MOSTRAR_TAMANIOS" => true,
+            "PAGINAS_MOSTRADAS" => 7,
+        );
 
 		$this->dibujaVista(
 			"indice",
