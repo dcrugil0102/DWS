@@ -29,7 +29,7 @@ final class productosControlador extends CControlador
             $condiciones = [];
 
             if (!empty($_POST["nombre"])) {
-                $condiciones[] = "nombre = '%" . CGeneral::addSlashes($_POST["nombre"]) . "%'";
+                $condiciones[] = "nombre LIKE '%" . CGeneral::addSlashes($_POST["nombre"]) . "%'";
             }
 
             if (!empty($_POST["categoria"])) {
