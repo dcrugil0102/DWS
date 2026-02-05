@@ -65,6 +65,71 @@ final class productosControlador extends CControlador
             return;
         }
 
+		// Cabecera del CGrid
+
+		$cabecera = [
+			[
+				"CAMPO" => "nombre",
+				"ETIQUETA" => "Nombre",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "descripcion_categoria",
+				"ETIQUETA" => "Categoría",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "fabricante",
+				"ETIQUETA" => "Fabricante",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "fecha_alta",
+				"ETIQUETA" => "Fecha de alta",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "unidades",
+				"ETIQUETA" => "Unidades",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "precio_base",
+				"ETIQUETA" => "Precio base",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "iva",
+				"ETIQUETA" => "IVA (%)",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "precio_iva",
+				"ETIQUETA" => "Importe IVA",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "precio_venta",
+				"ETIQUETA" => "Precio final",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "foto",
+				"ETIQUETA" => "Foto",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "borrado",
+				"ETIQUETA" => "Borrado",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "opciones",
+				"ETIQUETA" => "Operaciones",
+				"ALINEA" => "cen"
+			]
+		];
+
 		$pag = intval($_GET['pag'] ?? 1);
 		$reg_pag = intval($_GET['reg_pag'] ?? 5);
 		$inicio = ($pag - 1) * $reg_pag;
@@ -121,41 +186,6 @@ final class productosControlador extends CControlador
 
 			$filas[$clave]["opciones"] = $cadena;
 		}
-
-
-
-		$cabecera = array(
-			array("CAMPO" => "nombre", "ETIQUETA" => "Nombre" . CHTML::link(
-				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
-				Sistema::app()->generaURL(
-					["productos", "index"],
-					["reg_pag" => $reg_pag, "pag" => $pag, "orden" => "nombre", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
-				)
-			), "ALINEA" => "cen"),
-			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría"  . CHTML::link(
-				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
-				Sistema::app()->generaURL(
-					["productos", "index"],
-					["reg_pag" => $reg_pag, "pag" => $pag, "orden" => "descripcion_categoria", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
-				)
-			), "ALINEA" => "cen"),
-			array("CAMPO" => "fabricante", "ETIQUETA" => "Fabricante", "ALINEA" => "cen"),
-			array("CAMPO" => "fecha_alta", "ETIQUETA" => "Fecha de alta", "ALINEA" => "cen"),
-			array("CAMPO" => "unidades", "ETIQUETA" => "Unidades", "ALINEA" => "cen"),
-			array("CAMPO" => "precio_base", "ETIQUETA" => "Precio base", "ALINEA" => "cen"),
-			array("CAMPO" => "iva", "ETIQUETA" => "IVA (%)", "ALINEA" => "cen"),
-			array("CAMPO" => "precio_iva", "ETIQUETA" => "Importe IVA", "ALINEA" => "cen"),
-			array("CAMPO" => "precio_venta", "ETIQUETA" => "Precio final", "ALINEA" => "cen"),
-			array("CAMPO" => "foto", "ETIQUETA" => "Foto", "ALINEA" => "cen"),
-			array("CAMPO" => "borrado", "ETIQUETA" => "Borrado"  . CHTML::link(
-				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
-				Sistema::app()->generaURL(
-					["productos", "index"],
-					["reg_pag" => $reg_pag, "pag" => $pag, "orden" => "borrado", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
-				)
-			), "ALINEA" => "cen"),
-			array("CAMPO" => "opciones", "ETIQUETA" => " Operaciones", "ALINEA" => "cen")
-		);
 
 		// CPAJAS ****************
 
