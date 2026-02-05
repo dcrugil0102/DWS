@@ -29,7 +29,7 @@ final class productosControlador extends CControlador
             $condiciones = [];
 
             if (!empty($_POST["nombre"])) {
-                $condiciones[] = "nombre_producto = '" . CGeneral::addSlashes($_POST["nombre"]) . "'";
+                $condiciones[] = "nombre = '" . CGeneral::addSlashes($_POST["nombre"]) . "'";
             }
 
             if (!empty($_POST["categoria"])) {
@@ -130,11 +130,36 @@ final class productosControlador extends CControlador
 			]
 		];
 
-		$pag = intval($_GET['pag'] ?? 1);
-		$reg_pag = intval($_GET['reg_pag'] ?? 5);
-		$inicio = ($pag - 1) * $reg_pag;
+		// elementos para la paginacion
+        $total=$producto->buscarTodosNRegistros(["where"=>$where]);
 
-		$opciones = ["where" => "cod_producto > $inicio", "limit" => $reg_pag];
+		// $pag = intval($_GET['pag'] ?? 1);
+		// $reg_pag = intval($_GET['reg_pag'] ?? 5);
+		// $inicio = ($pag - 1) * $reg_pag;
+
+		        $regPag = 5;
+        if (isset($_GET["reg_pag"])) {
+            $regPag = intval($_GET["reg_pag"]);
+        }
+        $paginas=($total/$regPag);
+        if ($total%$regPag >0)
+            $paginas++;
+
+        $pag = 1;
+        if (isset($_GET["pag"])) {
+            $pag = intval($_GET["pag"]);
+        }
+
+        if ($pag<0 || $pag>$paginas)
+            $pag=0;
+
+        // esto calcula los elementos que se van a mostrar en cada pagina
+        $primero=($pag-1)*$regPag-1;
+        if ($primero<0)
+            $primero=0;
+        $limit="$primero,$regPag";
+
+		$filas = $producto->buscarTodos(["where" => $where,"limit"=>$limit, "order"=>"nombre_producto"]);
 
 		$order = "";
 
@@ -142,8 +167,6 @@ final class productosControlador extends CControlador
 			$dir = ($_GET["dir"] ?? "asc") === "desc" ? "desc" : "asc";
 			$order = $_GET["orden"] . " " . $dir;
 		}
-
-		$opciones["order"] = $order;
 
 		$filas = $producto->buscarTodos($opciones);
 
