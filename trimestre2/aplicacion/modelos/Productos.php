@@ -134,6 +134,7 @@ class Productos extends CActiveRecord
 
         $this->precio_iva = ($precioBase * $iva) / 100;
         $this->precio_venta = $precioBase + $this->precio_iva;
+        $this->borrado = 0;
     }
 
     public function validaCodCategoria()
