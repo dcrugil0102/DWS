@@ -22,24 +22,135 @@ final class productosControlador extends CControlador
 
 		$producto = new Productos();
 
-		$pag = intval($_GET['pag'] ?? 1);
-		$reg_pag = intval($_GET['reg_pag'] ?? 5);
-		$inicio = ($pag - 1) * $reg_pag;
+		$where="";
+        // controlar el formulario de la vista
+        if (isset($_POST["filtrar"])) {
 
-		$opciones = ["where" => "cod_producto > $inicio", "limit" => $reg_pag];
+            $condiciones = [];
 
-		$order = "";
+            if (!empty($_POST["nombre"])) {
+                $condiciones[] = "nombre LIKE '%" . CGeneral::addSlashes($_POST["nombre"]) . "%'";
+            }
 
-		if (!empty($_GET["orden"])) {
-			$dir = ($_GET["dir"] ?? "asc") === "desc" ? "desc" : "asc";
-			$order = $_GET["orden"] . " " . $dir;
-		}
+            if (!empty($_POST["categoria"])) {
+                $condiciones[] = "nombre_categoria = '" . CGeneral::addSlashes($_POST["categoria"]) . "'";
+            }
 
-		$opciones["order"] = $order;
+            isset($_POST["borrado"]) ? $condiciones[] = "borrado = 1" : null;
 
-		$filas = $producto->buscarTodos($opciones);
+            $where = "";
+            if (!empty($condiciones)) {
+                $where = implode(" AND ", $condiciones);
+            }
 
-		$total_reg = count(Sistema::app()->BD()->crearConsulta("select * from productos")->filas());
+        }
+
+		// sacamos todos los productos para luego pasarlo al cgrid
+        $filas=[];
+
+        // controlar descargar la vista
+        if (isset($_POST["descargar"])) {
+            $contenido = "";
+            $filas = $producto->buscarTodos(["where" => $where]);
+        
+            foreach ($filas as $fila) {
+                $contenido .= implode(" | ", $fila) . "\n";
+            }
+
+            header("Content-Type: text/plain");
+            header("Content-Disposition: attachment; filename=productos.txt");
+            header("Content-Length: " . mb_strlen($contenido));
+
+            echo $contenido;
+            return;
+        }
+
+		// Cabecera del CGrid
+
+		$cabecera = [
+			[
+				"CAMPO" => "nombre",
+				"ETIQUETA" => "Nombre",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "descripcion_categoria",
+				"ETIQUETA" => "Categoría",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "fabricante",
+				"ETIQUETA" => "Fabricante",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "fecha_alta",
+				"ETIQUETA" => "Fecha de alta",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "unidades",
+				"ETIQUETA" => "Unidades",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "precio_base",
+				"ETIQUETA" => "Precio base",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "iva",
+				"ETIQUETA" => "IVA (%)",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "precio_iva",
+				"ETIQUETA" => "Importe IVA",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "precio_venta",
+				"ETIQUETA" => "Precio final",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "foto",
+				"ETIQUETA" => "Foto",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "borrado",
+				"ETIQUETA" => "Borrado",
+				"ALINEA" => "cen"
+			],
+			[
+				"CAMPO" => "opciones",
+				"ETIQUETA" => "Operaciones",
+				"ALINEA" => "cen"
+			]
+		];
+
+		// elementos para la paginacion
+        $total=$producto->buscarTodosNRegistros(["where"=>$where]);
+
+		$regPag = intval($_GET['reg_pag'] ?? 5);
+
+        $paginas=($total/$regPag);
+        if ($total%$regPag >0)
+            $paginas++;
+
+        $pag = intval($_GET['pag'] ?? 1);
+
+        if ($pag<0 || $pag>$paginas)
+            $pag=0;
+
+        // esto calcula los elementos que se van a mostrar en cada pagina
+        $primero=($pag-1)*$regPag;
+        if ($primero<0)
+            $primero=0;
+        $limit="$primero,$regPag";
+
+		$filas = $producto->buscarTodos(["where" => $where,"limit"=>$limit, "order"=>"nombre"]);
 
 		foreach ($filas as $clave => $valor) {
 			$filas[$clave]['fecha_alta'] = CGeneral::fechaMysqlANormal(
@@ -79,59 +190,24 @@ final class productosControlador extends CControlador
 			$filas[$clave]["opciones"] = $cadena;
 		}
 
-
-
-		$cabecera = array(
-			array("CAMPO" => "nombre", "ETIQUETA" => "Nombre" . CHTML::link(
-				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
-				Sistema::app()->generaURL(
-					["productos", "index"],
-					["orden" => "nombre", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : "", "pag" => $pag, "reg_pag" => $reg_pag]
-				)
-			), "ALINEA" => "cen"),
-			array("CAMPO" => "descripcion_categoria", "ETIQUETA" => "Categoría"  . CHTML::link(
-				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
-				Sistema::app()->generaURL(
-					["productos", "index"],
-					["orden" => "descripcion_categoria", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
-				)
-			), "ALINEA" => "cen"),
-			array("CAMPO" => "fabricante", "ETIQUETA" => "Fabricante", "ALINEA" => "cen"),
-			array("CAMPO" => "fecha_alta", "ETIQUETA" => "Fecha de alta", "ALINEA" => "cen"),
-			array("CAMPO" => "unidades", "ETIQUETA" => "Unidades", "ALINEA" => "cen"),
-			array("CAMPO" => "precio_base", "ETIQUETA" => "Precio base", "ALINEA" => "cen"),
-			array("CAMPO" => "iva", "ETIQUETA" => "IVA (%)", "ALINEA" => "cen"),
-			array("CAMPO" => "precio_iva", "ETIQUETA" => "Importe IVA", "ALINEA" => "cen"),
-			array("CAMPO" => "precio_venta", "ETIQUETA" => "Precio final", "ALINEA" => "cen"),
-			array("CAMPO" => "foto", "ETIQUETA" => "Foto", "ALINEA" => "cen"),
-			array("CAMPO" => "borrado", "ETIQUETA" => "Borrado"  . CHTML::link(
-				CHTML::dibujaEtiqueta("i", ["class" => "fa fa-sort"]),
-				Sistema::app()->generaURL(
-					["productos", "index"],
-					["orden" => "borrado", "dir" => isset($dir) ? ($dir !== "asc" ? "asc" : "desc") : ""]
-				)
-			), "ALINEA" => "cen"),
-			array("CAMPO" => "opciones", "ETIQUETA" => " Operaciones", "ALINEA" => "cen")
-		);
-
 		// CPAJAS ****************
 
 		$opcPaginador = array(
-			"URL" => Sistema::app()->generaURL(array("productos", "index")),
-			"TOTAL_REGISTROS" => $total_reg,
-			"PAGINA_ACTUAL" => $pag,
-			"REGISTROS_PAGINA" => $reg_pag,
-			"TAMANIOS_PAGINA" => array(
-				5 => "5",
-				10 => "10",
-				20 => "20",
-				30 => "30",
-				40 => "40",
-				50 => "50"
-			),
-			"MOSTRAR_TAMANIOS" => true,
-			"PAGINAS_MOSTRADAS" => 7,
-		);
+            "URL" => Sistema::app()->generaURL(array("productos", "index")),
+            "TOTAL_REGISTROS" => $total,
+            "PAGINA_ACTUAL" => $pag,
+            "REGISTROS_PAGINA" => $regPag,
+            "TAMANIOS_PAGINA" => array(
+                5 => "5",
+                10 => "10",
+                20 => "20",
+                30 => "30",
+                40 => "40",
+                50 => "50"
+            ),
+            "MOSTRAR_TAMANIOS" => true,
+            "PAGINAS_MOSTRADAS" => 7,
+        );
 
 		$this->dibujaVista(
 			"indice",

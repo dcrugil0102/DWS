@@ -65,17 +65,6 @@ return [
         ]
     ],
 
-    // "registro" => [
-    //     "texto" => "Registro",
-    //     "enlace" => ["registro", "index"],
-    //     "hijos" => [
-    //         "productos" => [
-    //             "texto" => "Inicio",
-    //             "enlace" => ["productos", "index"]
-    //         ]
-    //     ]
-    // ],
-
     "productos" => [
         "texto" => "Productos",
         "enlace" => ["productos", "index"],
