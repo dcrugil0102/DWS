@@ -1,5 +1,7 @@
 <?php
 
+use Vtiful\Kernel\Format;
+
 class Pueblo extends CActiveRecord
 {
     protected function fijarNombre(): string
@@ -120,7 +122,7 @@ class Pueblo extends CActiveRecord
         if (!array_key_exists($this->cod_tipo_elemento, $codigos)) {
             $this->setError("cod_tipo_elemento", "El código del tipo de elemento no existe!");
             $this->cod_tipo_elemento = 0;
-        }
+        } 
     }
 
     public function validaFecha() {

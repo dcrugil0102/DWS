@@ -1,6 +1,8 @@
 <?php
 
-echo CHTML::dibujaEtiqueta("div");
+echo CHTML::dibujaEtiqueta("br");
+
+echo CHTML::dibujaEtiqueta("div", ["class" => "card-pueblo"]);
 
 echo CHTML::dibujaEtiqueta("h3", [], $pueblo->nombre);
 echo CHTML::dibujaEtiquetaCierre("h3");

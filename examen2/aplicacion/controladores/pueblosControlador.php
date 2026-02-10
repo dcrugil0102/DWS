@@ -87,19 +87,46 @@ class pueblosControlador extends CControlador
                         }
                     }
                 }
-                // foreach ($this->_MisPueblos as $part) {
-                //     if ($part->crupier === $_GET["crupi"]) {
-                //         $_MisPueblosCrupi[] = $part;
-                //     }
-                // }
             }
         }
-        // foreach ($this->_MisPueblos as $partida) {
-        //     if (!in_array($partida->crupier, $crupiers)) {
-        //         $crupiers[$partida->crupier] = $partida->crupier;
-        //     }
-        // }
         $this->dibujaVista("puebloInicial", ["pueblos" => $pueblos], "Pueblo Inicial");
+    }
+
+        public function accionNuevo()
+    {
+           $this->actual = [
+            "texto" => "Nuevo pueblo",
+            "enlace" => ["pueblos", "nuevo"]
+        ];
+
+
+        $pueblo = new Pueblo();
+
+        $nombre = $pueblo->getNombre();
+
+        if (isset($_POST[$nombre])) {
+
+            $pueblo->setValores($_POST[$nombre]);
+
+            if ($pueblo->validar()) {
+
+                Sistema::app()->irAPagina(["pueblos", "puebloInicial"]);
+            } else {
+                $this->dibujaVista(
+                    "pueblo",
+                    array("modelo" => $pueblo),
+                    "Nuevo pueblo"
+                );
+                exit;
+            }
+        }
+
+        $this->dibujaVista(
+            "pueblo",
+            array("modelo" => $pueblo),
+            "Nuevo pueblo"
+        );
+        
     }
 
     public function accionDescargar()
@@ -136,21 +163,5 @@ class pueblosControlador extends CControlador
         echo $contenido;
         exit;
     }
-    public function accionNueva()
-    {
-        $this->menuizq = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
-        ];
-        $this->menuhead = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
-        ];
-        $this->dibujaVista("nueva", [], "Nueva Partida");
-        echo $_GET["cod_baraja"];
-    }
+
 }

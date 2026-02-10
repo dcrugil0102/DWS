@@ -680,3 +680,15 @@
     display: flex;
     gap: 10px;
 }
+
+.card-pueblo {
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 40px;
+    width: fit-content;
+    padding: 5vh;
+}
+
+.card-pueblo p {
+    padding: 3px 0;
+}
