@@ -68,15 +68,33 @@ class pueblosControlador extends CControlador
         // $crupiers = [];
         // $_MisPueblosCrupi = [];
 
-        // if ($_SERVER["REQUEST_METHOD"] === "GET") {
-        //     if (isset($_GET["crupi"])) {
-        //         foreach ($this->_MisPueblos as $part) {
-        //             if ($part->crupier === $_GET["crupi"]) {
-        //                 $_MisPueblosCrupi[] = $part;
-        //             }
-        //         }
-        //     }
-        // }
+        if ($_SERVER["REQUEST_METHOD"] === "GET") {
+            if (isset($_GET["unesco"])) {
+
+                if ($_GET['unesco'] == 1) {
+                    
+                    foreach ($this->_MisPueblos as $key => $pueblo) {
+                        
+                        if ($pueblo->reconocido_unesco == 1) {
+                            $this->dibujaVistaParcial("pueblo", ["pueblo" => $pueblo]);   
+                        }
+                    }
+
+                } else {
+                    foreach ($this->_MisPueblos as $key => $pueblo) {
+                        
+                        if ($pueblo->reconocido_unesco == 0) {
+                            $this->dibujaVistaParcial("pueblo", ["pueblo" => $pueblo]);   
+                        }
+                    }
+                }
+                // foreach ($this->_MisPueblos as $part) {
+                //     if ($part->crupier === $_GET["crupi"]) {
+                //         $_MisPueblosCrupi[] = $part;
+                //     }
+                // }
+            }
+        }
         // foreach ($this->_MisPueblos as $partida) {
         //     if (!in_array($partida->crupier, $crupiers)) {
         //         $crupiers[$partida->crupier] = $partida->crupier;
