@@ -17,6 +17,7 @@ class pueblosControlador extends CControlador
         $pueblo1 = new Pueblo();
         $pueblo1->nombre = "Antequera";
         $pueblo1->cod_tipo_elemento = 1;
+        $pueblo1->asignarDescripcion();
         $pueblo1->elemento = "Elemento-Antequera";
         $pueblo1->reconocido_unesco = 0;
         $pueblo1->fecha_reconocimiento = "2026-02-09";
@@ -24,6 +25,7 @@ class pueblosControlador extends CControlador
         $pueblo2 = new Pueblo();
         $pueblo2->nombre = "Cartaojal";
         $pueblo2->cod_tipo_elemento = 4;
+        $pueblo2->asignarDescripcion();
         $pueblo2->elemento = "Elemento-Cartaojal";
         $pueblo2->reconocido_unesco = 1;
         $pueblo2->fecha_reconocimiento = "2025-05-17";
@@ -145,20 +147,26 @@ class pueblosControlador extends CControlador
     public function accionDescargar()
     {
 
+        if (!Sistema::app()->acceso()->puedePermiso(5)) {
+            Sistema::app()->paginaError(500, "No tienes permisos para entrar en esta pagina");
+            return;
+        }
 
         $id = $_GET["id"] ?? null;
         if ($id === null || !isset($this->_MisPueblos[$id])) {
-            echo "Pueblo no encontrado";
+            Sistema::app()->paginaError(500, "Pueblo no encontrado");
             return;
         }
         $pueblo = $this->_MisPueblos[$id];
 
-        $contenido = "<nombre>" . $pueblo->nombre . "<nombre>\n";
-        $contenido .= "<cod_tipo_elemento>" . $pueblo->cod_tipo_elemento . "<cod_tipo_elemento>\n";
-        $contenido .= "<descripcion_tipo>" . $pueblo->descripcion_tipo . "<descripcion_tipo>\n";
-        $contenido .= "<elemento>" . $pueblo->elemento . "<elemento>\n";
-        $contenido .= "<reconocido_unesco>" . $pueblo->reconocido_unesco . "<reconocido_unesco>\n";
-        $contenido .= "<fecha_reconocimiento>" . $pueblo->fecha_reconocimiento . "<fecha_reconocimiento>\n";
+        $contenido = "<pueblo>\n";
+        $contenido .= "\t<nombre>" . $pueblo->nombre . "<nombre>\n";
+        $contenido .= "\t<cod_tipo_elemento>" . $pueblo->cod_tipo_elemento . "<cod_tipo_elemento>\n";
+        $contenido .= "\t<descripcion_tipo>" . $pueblo->descripcion_tipo . "<descripcion_tipo>\n";
+        $contenido .= "\t<elemento>" . $pueblo->elemento . "<elemento>\n";
+        $contenido .= "\t<reconocido_unesco>" . $pueblo->reconocido_unesco . "<reconocido_unesco>\n";
+        $contenido .= "\t<fecha_reconocimiento>" . $pueblo->fecha_reconocimiento . "<fecha_reconocimiento>\n";
+        $contenido .= "<pueblo>";
 
 
         header("Content-Type: text/plain");
