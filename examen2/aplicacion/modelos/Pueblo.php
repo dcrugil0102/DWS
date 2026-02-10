@@ -81,6 +81,7 @@ class Pueblo extends CActiveRecord
                 array(
                     "ATRI" => "fecha_reconocimiento",
                     "TIPO" => "FECHA",
+                    "DEFECTO" => new DateTime("15/07/1958")
                 ),
                 array(
                     "ATRI" => "fecha_reconocimiento",
@@ -93,17 +94,16 @@ class Pueblo extends CActiveRecord
 
     public function afterCreate(): void
     {
-        // $fechaHoy = new DateTime();
-        // $this->fecha = $fechaHoy->modify("+1 day");
-
-        // $barajas = Listas::listaTiposBarajas(true);
-
-        // $this->cod_baraja = floor(count($barajas) / 2);
-        // $codigo = array_keys($barajas);
-        // $this->nombre_baraja = $barajas[$codigo[$this->cod_baraja]]['nombre'];
-        // $this->jugadores = $barajas[$codigo[$this->cod_baraja]]['min_juga'];
         $this->nombre = "Pueblo";
         $this->cod_tipo_elemento = 0;
+
+        $tipos = [0 => "No indicado"];
+        $tipos[] = Listas::listaTiposElemento(null, false);
+
+        $this->descripcion_tipo = $tipos[$this->cod_tipo_elemento];
+        $this->elemento = "Ele-";
+        $this->reconocido_unesco = 0;
+        $this->fecha_reconocimiento = new DateTime("15/07/1958");
     }
 
     public function validaNombre(){
@@ -123,28 +123,21 @@ class Pueblo extends CActiveRecord
         }
     }
 
-    public function validaFecha()
-    {
+    public function validaFecha() {
 
         $fechaHoy = new DateTime();
+        $fechaAntigua = new DateTime("01/01/1973");
 
-        if ($this->fecha < $fechaHoy) {
-            $this->setError("fecha", "La fecha no puede ser anterior al dia de hoy");
-        }
-    }
-
-    public function validaJugadores()
-    {
-        $baraja = Listas::listaTiposBarajas(true, $this->cod_baraja);
-
-        if ($this->jugadores < $baraja['min_juga'] & $this->jugadores > $baraja['max_juga']) {
-            $this->setError("jugadores", "Número de jugadores inválido!");
-        }
-    }
-    public function validaCrupier()
-    {
-        if (mb_substr($this->crupier, 0, 4) !== "Cru-") {
-            $this->setError("crupier", "Nombre de crupier inválido! Debe empezar por Cru-");
+        if ($this->reconocido_unesco === 1) {
+            if ($this->fecha_reconocimiento < $fechaAntigua || $this->fecha_reconocimiento > $fechaHoy) {
+                $this->setError("fecha_reconocimiento", "Fecha inválida");
+                $this->fecha_reconocimiento = new DateTime("15/07/1958");
+            }
+        } else{
+            if ($this->fecha_reconocimiento > $fechaHoy) {
+                $this->setError("fecha_reconocimiento", "La fecha no puede ser anterior al dia de hoy");
+                $this->fecha_reconocimiento = new DateTime("15/07/1958");
+            }
         }
     }
 }

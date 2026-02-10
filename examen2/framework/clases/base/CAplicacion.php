@@ -7,13 +7,13 @@
  */
 class CAplicacion
 {
-	private $_controlDefecto = "partida";
+	private $_controlDefecto = "pueblos";
 	private $_BD;
 	private $_URL_AMIGABLES = false;
 
 	private $_prop = array();
 	private $_sesion;
-	private $N_Partidas = 0;
+	private $N_Pueblos = 0;
 	private $N_partHoy = 0;
 	private $_Acceso;
 	private $_ACL;
@@ -83,9 +83,9 @@ class CAplicacion
 	{
 		return $this->_BD;
 	}
-	public function añadirPartida()
+	public function anadirPueblo()
 	{
-		return $this->N_Partidas++;
+		$this->N_Pueblos++;
 	}
 	public function numeroPartidas()
 	{
