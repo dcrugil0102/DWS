@@ -21,10 +21,6 @@ class Sistema
 		"CPager" => "/widget/CPager.php",
 		"CSesion" => "/base/CSesion.php",
 		"CAcceso" => "/acceso/CAcceso.php",
-		"Listas" => "/acceso/Listas.php"
-
-
-
 	);
 	static private $_rutasInclude = array();
 	static private $_app;

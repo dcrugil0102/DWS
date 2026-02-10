@@ -81,7 +81,7 @@ class Pueblo extends CActiveRecord
                 array(
                     "ATRI" => "fecha_reconocimiento",
                     "TIPO" => "FECHA",
-                    "DEFECTO" => new DateTime("15/07/1958")
+                    "DEFECTO" => new DateTime("1958-07-15")
                 ),
                 array(
                     "ATRI" => "fecha_reconocimiento",
@@ -103,7 +103,7 @@ class Pueblo extends CActiveRecord
         $this->descripcion_tipo = $tipos[$this->cod_tipo_elemento];
         $this->elemento = "Ele-";
         $this->reconocido_unesco = 0;
-        $this->fecha_reconocimiento = new DateTime("15/07/1958");
+        $this->fecha_reconocimiento = new DateTime("1958-07-15");
     }
 
     public function validaNombre(){
@@ -131,12 +131,12 @@ class Pueblo extends CActiveRecord
         if ($this->reconocido_unesco === 1) {
             if ($this->fecha_reconocimiento < $fechaAntigua || $this->fecha_reconocimiento > $fechaHoy) {
                 $this->setError("fecha_reconocimiento", "Fecha inválida");
-                $this->fecha_reconocimiento = new DateTime("15/07/1958");
+                $this->fecha_reconocimiento = new DateTime("1958-07-15");
             }
         } else{
             if ($this->fecha_reconocimiento > $fechaHoy) {
                 $this->setError("fecha_reconocimiento", "La fecha no puede ser anterior al dia de hoy");
-                $this->fecha_reconocimiento = new DateTime("15/07/1958");
+                $this->fecha_reconocimiento = new DateTime("1958-07-15");
             }
         }
     }

@@ -18,14 +18,6 @@ return [
                 "texto" => "Inicio",
                 "enlace" => ["pueblos", "puebloInicial"]
             ],
-            "conectar" => [
-                "texto" => "Inicio",
-                "enlace" => ["pueblos", "puebloInicial"]
-            ],
-            "desconectar" => [
-                "texto" => "Inicio",
-                "enlace" => ["pueblos", "puebloInicial"]
-            ],
 
         ]
     ]

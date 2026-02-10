@@ -665,9 +665,18 @@
     }
 }
 
-/* chicote */
+/* pueblos */
 
-#chicote {
-    width: 25%;
-    display: block;
+#pueblos {
+    background-color: green;
+    color: white;
+    padding: 2vh;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+#pueblos div {
+    width: fit-content;
+    display: flex;
+    gap: 10px;
 }
