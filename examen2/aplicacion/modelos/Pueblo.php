@@ -69,6 +69,11 @@ class Pueblo extends CActiveRecord
                     "DEFECTO" => "No indicado"
                 ),
                 array(
+                    "ATRI" => "descripcion_tipo",
+                    "TIPO" => "FUNCION",
+                    "FUNCION" => "asignarDescripcion"
+                ),
+                array(
                     "ATRI" => "elemento",
                     "TIPO" => "CADENA",
                     "TAMANIO" => 35,
@@ -142,5 +147,12 @@ class Pueblo extends CActiveRecord
                 $this->fecha_reconocimiento = new DateTime("1958-07-15");
             }
         } 
+    }
+
+    public function asignarDescripcion(){
+        $tipos = Listas::listaTiposElemento(null, false);
+        $tipos[0] = "No indicado";
+
+        $this->descripcion_tipo = $tipos[$this->cod_tipo_elemento];
     }
 }

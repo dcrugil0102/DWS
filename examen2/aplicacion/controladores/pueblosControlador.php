@@ -31,7 +31,14 @@ class pueblosControlador extends CControlador
         $this->_MisPueblos[] = $pueblo1;
         $this->_MisPueblos[] = $pueblo2;
 
-        foreach ($this->_MisPueblos as $pueblo) {
+        if (isset($_SESSION['pueblos'])) {
+            foreach ($_SESSION['pueblos'] as $key => $pueblo) {
+                $this->_MisPueblos[] = $pueblo;
+            }
+        } 
+        
+
+        foreach ($this->_MisPueblos as $id => $pueblo) {
             if ($pueblo->reconocido_unesco) {
                 $this->N_PueblosUnesco++;
                 Sistema::app()->anadirPuebloUnesco();
@@ -113,6 +120,8 @@ class pueblosControlador extends CControlador
             $pueblo->setValores($_POST[$nombre]);
 
             if ($pueblo->validar()) {
+                $pueblo->
+                $_SESSION['pueblos'][] = $pueblo;
 
                 Sistema::app()->irAPagina(["pueblos", "puebloInicial"]);
             } else {
@@ -136,23 +145,24 @@ class pueblosControlador extends CControlador
     public function accionDescargar()
     {
 
-        $cod = $_GET["cod"] ?? null;
-        if ($cod === null || !isset($this->_MisPueblos[$cod])) {
-            echo "Partida no encontrada";
+
+        $id = $_GET["id"] ?? null;
+        if ($id === null || !isset($this->_MisPueblos[$id])) {
+            echo "Pueblo no encontrado";
             return;
         }
-        $partida = $this->_MisPueblos[$cod];
+        $pueblo = $this->_MisPueblos[$id];
 
-        $contenido = "Codigo de Partida: " . $partida->cod_partida . "\n";
-        $contenido .= "Numero de Mesa: " . $partida->mesa . "\n";
-        $contenido .= "Fecha de la Partida: " . $partida->fecha . "\n";
-        $contenido .= "Codigo de Baraja: " . $partida->cod_baraja . "\n";
-        $contenido .= "Numero de Jugadores: " . $partida->jugadores . "\n";
-        $contenido .= "Crupier de la Partida: " . $partida->crupier . "\n";
+        $contenido = "<nombre>" . $pueblo->nombre . "<nombre>\n";
+        $contenido .= "<cod_tipo_elemento>" . $pueblo->cod_tipo_elemento . "<cod_tipo_elemento>\n";
+        $contenido .= "<descripcion_tipo>" . $pueblo->descripcion_tipo . "<descripcion_tipo>\n";
+        $contenido .= "<elemento>" . $pueblo->elemento . "<elemento>\n";
+        $contenido .= "<reconocido_unesco>" . $pueblo->reconocido_unesco . "<reconocido_unesco>\n";
+        $contenido .= "<fecha_reconocimiento>" . $pueblo->fecha_reconocimiento . "<fecha_reconocimiento>\n";
 
 
         header("Content-Type: text/plain");
-        header("Content-Disposition: attachment; filename=partida_{$partida->cod_partida}.txt");
+        header("Content-Disposition: attachment; filename=pueblo_{$pueblo->nombre}.xml");
         echo $contenido;
         exit;
     }

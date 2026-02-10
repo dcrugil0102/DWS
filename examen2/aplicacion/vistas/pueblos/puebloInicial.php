@@ -24,7 +24,7 @@ echo CHTML::finalizarForm();
 
 
 if (isset($pueblos)) {
-    foreach ($pueblos as $key => $pueblo) {
-        $this->dibujaVistaParcial("pueblo", ["pueblo" => $pueblo]);
+    foreach ($pueblos as $id => $pueblo) {
+        $this->dibujaVistaParcial("pueblo", ["pueblo" => $pueblo, "id" => $id]);
     }
 } 
