@@ -106,6 +106,10 @@ class pueblosControlador extends CControlador
 
         if (isset($_POST[$nombre])) {
 
+            if (mb_strlen($pueblo->nombre) < 5 || !str_contains("-", $pueblo->nombre)) {
+                $pueblo->setError("nombre", "Nombre inválido");
+            }
+
             $pueblo->setValores($_POST[$nombre]);
 
             if ($pueblo->validar()) {
@@ -131,18 +135,7 @@ class pueblosControlador extends CControlador
 
     public function accionDescargar()
     {
-        $this->menuizq = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
-        ];
-        $this->menuhead = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
-        ];
+
         $cod = $_GET["cod"] ?? null;
         if ($cod === null || !isset($this->_MisPueblos[$cod])) {
             echo "Partida no encontrada";

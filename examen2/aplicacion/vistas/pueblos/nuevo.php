@@ -18,7 +18,7 @@ echo CHTML::modeloListaDropDown(
     $modelo,
     "cod_tipo_elemento",
     Listas::listaTiposElemento(null, false),
-    array("linea" => false)
+    array("linea" => "Sin indicar")
 );
 echo CHTML::modeloError($modelo, "cod_tipo_elemento");
 

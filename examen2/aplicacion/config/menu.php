@@ -18,6 +18,10 @@ return [
                 "texto" => "Inicio",
                 "enlace" => ["pueblos", "puebloInicial"]
             ],
+            "nuevo" => [
+                "texto" => "Nuevo pueblo",
+                "enlace" => ["pueblos", "nuevo"]
+            ],
 
         ]
     ]

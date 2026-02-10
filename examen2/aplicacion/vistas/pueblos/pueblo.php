@@ -19,4 +19,7 @@ echo CHTML::dibujaEtiquetaCierre("p");
 echo CHTML::dibujaEtiqueta("p", [], "Fecha de reconocimiento: " . $pueblo->fecha_reconocimiento);
 echo CHTML::dibujaEtiquetaCierre("p");
 
+echo CHTML::link(CHTML::imagen("/imagenes/16x16/guardar.png") . " DESCARGAR", Sistema::app()->generaURL(["pueblos", "decargar"], ["pueblo" => $pueblo->nombre]));
+
+
 echo CHTML::dibujaEtiquetaCierre("div");
