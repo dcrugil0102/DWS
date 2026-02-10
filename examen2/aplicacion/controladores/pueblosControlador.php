@@ -2,13 +2,16 @@
 
 class pueblosControlador extends CControlador
 {
+    public array $menu = [];
+    public array $barraUbi = [];
     public array $menuizq = [];
-    public array $menuhead = [];
+    public array $actual = [];
     private array $_MisPueblos = [];
     public int $N_PueblosUnesco = 0;
 
     public function __construct()
     {
+        $this->menu = require __DIR__ . "/../config/menu.php";
 
         $pueblo1 = new Pueblo();
         $pueblo1->nombre = "Antequera";
@@ -30,88 +33,87 @@ class pueblosControlador extends CControlador
         foreach ($this->_MisPueblos as $pueblo) {
             if ($pueblo->reconocido_unesco) {
                 $this->N_PueblosUnesco++;
+                Sistema::app()->anadirPuebloUnesco();
             }
-            Sistema::app()->añadirPartida();
+            Sistema::app()->anadirPueblo();
         }
     }
 
-    public function accionVer()
-    {
-        $this->menuizq = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["partida"]
-            ]
+    public function accionConectar() {
+        // $this->menuizq = [
+        //     [
+        //         "texto" => "Inicio",
+        //         "enlace" => ["ver"]
+        //     ]
+        // ];
+        $this->actual = [
+            "texto" => "Conectar",
+            "enlace" => ["pueblos", "conectar"]
         ];
-        $this->menuhead = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["partida"]
-            ]
-        ];
-        $crupiers = [];
-        $_MisPueblosCrupi = [];
 
-        if ($_SERVER["REQUEST_METHOD"] === "GET") {
-            if (isset($_GET["crupi"])) {
-                foreach ($this->_MisPueblos as $part) {
-                    if ($part->crupier === $_GET["crupi"]) {
-                        $_MisPueblosCrupi[] = $part;
-                    }
-                }
-            }
+        $rand = rand(1, 1000) % 6;
+
+        if ($rand % 2 === 0) {
+            Sistema::app()->Acceso()->registrarUsuario("pueblo", "pueblo", [5 => true]);
         }
-        foreach ($this->_MisPueblos as $partida) {
-            if (!in_array($partida->crupier, $crupiers)) {
-                $crupiers[$partida->crupier] = $partida->crupier;
-            }
-        }
-        $this->dibujaVista("ver", ["crupiers" => $crupiers, "_MisPueblosCrupi" => $_MisPueblosCrupi, "crupierSelect" => $_GET["crupi"] ?? ""], "Contenido de Partida");
+        
+        // Sistema::app()->irAPagina(["partida", "ver"]);
     }
-    public function accionLogin()
+    public function accionDesconectar()
     {
-        $this->menuizq = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
-        ];
-        $this->menuhead = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
+        // $this->menuizq = [
+        //     [
+        //         "texto" => "Inicio",
+        //         "enlace" => ["ver"]
+        //     ]
+        // ];
+        $this->actual = [
+            "texto" => "Desconectar",
+            "enlace" => ["pueblos", "desconectar"]
         ];
 
-        if ($this->N__MisPueblosHoy >= 1) {
-            Sistema::app()->Acceso()->registrarUsuario("Pablog", "Pablo Granados", [2 => true, 4 => true, 6 => true]);
-        } else {
-            Sistema::app()->paginaError(404, "No puedes logearte porque no tienes ninguna partida hoy");
-        }
-        Sistema::app()->irAPagina(["partida", "ver"]);
-    }
-    public function accionlogout()
-    {
-        $this->menuizq = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
-        ];
-        $this->menuhead = [
-            [
-                "texto" => "Inicio",
-                "enlace" => ["ver"]
-            ]
-        ];
-
-        if (Sistema::app()->numero_MisPueblos() >= 2) {
+        if (Sistema::app()->Acceso()->hayUsuario()) {
             Sistema::app()->Acceso()->quitarRegistroUsuario();
         } else {
             Sistema::app()->paginaError(404, "No puedes hacer el logout porque o no tienes usuario iniciado o no tienes el numero de _MisPueblos necesario");
         }
-        Sistema::app()->irAPagina(["partida", "ver"]);
+        // Sistema::app()->irAPagina(["partida", "ver"]);
     }
+
+    // public function accionVer()
+    // {
+    //     $this->menuizq = [
+    //         [
+    //             "texto" => "Inicio",
+    //             "enlace" => ["partida"]
+    //         ]
+    //     ];
+    //     $this->menuhead = [
+    //         [
+    //             "texto" => "Inicio",
+    //             "enlace" => ["partida"]
+    //         ]
+    //     ];
+    //     $crupiers = [];
+    //     $_MisPueblosCrupi = [];
+
+    //     if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    //         if (isset($_GET["crupi"])) {
+    //             foreach ($this->_MisPueblos as $part) {
+    //                 if ($part->crupier === $_GET["crupi"]) {
+    //                     $_MisPueblosCrupi[] = $part;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     foreach ($this->_MisPueblos as $partida) {
+    //         if (!in_array($partida->crupier, $crupiers)) {
+    //             $crupiers[$partida->crupier] = $partida->crupier;
+    //         }
+    //     }
+    //     $this->dibujaVista("ver", ["crupiers" => $crupiers, "_MisPueblosCrupi" => $_MisPueblosCrupi, "crupierSelect" => $_GET["crupi"] ?? ""], "Contenido de Partida");
+    // }
+
     public function accionDescargar()
     {
         $this->menuizq = [

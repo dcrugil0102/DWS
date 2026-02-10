@@ -121,7 +121,7 @@
 			<article>
 				<?php echo $contenido; ?>
 			</article><!-- #content -->
-
+			
 		</div>
 		<footer>
 			<h2><span>Copyright:</span> <?php echo Sistema::app()->autor ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h2>

@@ -14,7 +14,7 @@ class CAplicacion
 	private $_prop = array();
 	private $_sesion;
 	private $N_Pueblos = 0;
-	private $N_partHoy = 0;
+	private $N_PueblosUnesco = 0;
 	private $_Acceso;
 	private $_ACL;
 
@@ -87,18 +87,19 @@ class CAplicacion
 	{
 		$this->N_Pueblos++;
 	}
-	public function numeroPartidas()
+	public function numeroPueblos()
 	{
-		return $this->N_Partidas;
+		return $this->N_Pueblos;
 	}
-	public function añadirPartidaHoy()
+	public function anadirPuebloUnesco()
 	{
-		return $this->N_partHoy++;
+		$this->N_PueblosUnesco++;
 	}
-	public function numeroPartidasHoy()
+	public function numeroPueblosUnesco()
 	{
-		return $this->N_partHoy;
+		return $this->N_PueblosUnesco;
 	}
+
 	public function Acceso(): CAcceso
 	{
 		return $this->_Acceso;

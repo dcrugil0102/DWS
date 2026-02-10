@@ -133,6 +133,34 @@
 				<?php echo $contenido; ?>
 			</article><!-- #content -->
 
+			<p>Pueblos: <?= Sistema::app()->numeroPueblos() ?></p>
+			<p>Reconocidos por la Unesco: <?= Sistema::app()->numeroPueblosUnesco() ?></p>
+
+			<?php
+			if (Sistema::app()->Acceso()->hayUsuario()) {
+				echo CHTML::dibujaEtiqueta("p");
+				echo "Usuario: " . Sistema::app()->Acceso()->getNombre();
+				echo CHTML::dibujaEtiquetaCierre("p");
+			} else {
+				echo CHTML::dibujaEtiqueta("p");
+				echo "No hay usuario conectado";
+				echo CHTML::dibujaEtiquetaCierre("p");
+			}
+			?>
+
+			<div>
+				<?php
+				if (Sistema::app()->Acceso()->hayUsuario()) {
+				?>
+					<button><?php echo CHTML::link("Desconectar", Sistema::app()->generaURL(["pueblos", "desconectar"])) ?></button>
+				<?php
+				} else {
+				?>
+					<button><?php echo CHTML::link("Conectar", Sistema::app()->generaURL(["pueblos", "conectar"])) ?></button>
+				<?php
+				}
+				?>
+			</div>
 		</div>
 		<footer>
 			<h2><span>Copyright:</span> <?php echo Sistema::app()->autor ?> &copy;</h2>
