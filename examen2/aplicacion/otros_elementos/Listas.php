@@ -11,20 +11,14 @@ class Listas
             4 => "Costumbre"
         ];
 
-        // Si se pasa código de tipo
-        if ($cod_tipo !== null) {
-            if (!isset($tipos[$cod_tipo])) {
-                return false;
+        if ($soloCodigo) {
+            return array_keys($tipos);
+        } else{
+            if ($cod_tipo === null) {
+                return $tipos;
+            } else{
+                return isset($tipos[$cod_tipo]);
             }
-            return $soloCodigo ? $tipos[$cod_tipo] : $tipos[$cod_tipo]["nombre"];
         }
-
-        // Si no se pasa código
-        $resultado = [];
-        foreach ($tipos as $codigo => $datos) {
-            $resultado[$codigo] = $soloCodigo ? $datos : $datos["nombre"];
-        }
-
-        return $resultado;
     }
 }
