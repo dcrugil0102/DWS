@@ -97,8 +97,8 @@ class Pueblo extends CActiveRecord
         $this->nombre = "Pueblo";
         $this->cod_tipo_elemento = 0;
 
-        $tipos = [0 => "No indicado"];
-        $tipos[] = Listas::listaTiposElemento(null, false);
+        $tipos = Listas::listaTiposElemento(null, false);
+        $tipos[0] = "No indicado";
 
         $this->descripcion_tipo = $tipos[$this->cod_tipo_elemento];
         $this->elemento = "Ele-";

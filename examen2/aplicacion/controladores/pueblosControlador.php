@@ -17,14 +17,14 @@ class pueblosControlador extends CControlador
         $pueblo1 = new Pueblo();
         $pueblo1->nombre = "Antequera";
         $pueblo1->cod_tipo_elemento = 1;
-        $pueblo1->elemento = "Elemento";
+        $pueblo1->elemento = "Elemento-Antequera";
         $pueblo1->reconocido_unesco = 0;
         $pueblo1->fecha_reconocimiento = "2026-02-09";
 
         $pueblo2 = new Pueblo();
         $pueblo2->nombre = "Cartaojal";
         $pueblo2->cod_tipo_elemento = 4;
-        $pueblo2->elemento = "Elemento";
+        $pueblo2->elemento = "Elemento-Cartaojal";
         $pueblo2->reconocido_unesco = 1;
         $pueblo2->fecha_reconocimiento = "2025-05-17";
 
@@ -65,8 +65,7 @@ class pueblosControlador extends CControlador
         $this->barraUbi = $this->menu;
 		$this->actual = $this->menu["pueblos"];
 
-        // $crupiers = [];
-        // $_MisPueblosCrupi = [];
+        $pueblos = [];
 
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             if (isset($_GET["unesco"])) {
@@ -76,7 +75,7 @@ class pueblosControlador extends CControlador
                     foreach ($this->_MisPueblos as $key => $pueblo) {
                         
                         if ($pueblo->reconocido_unesco == 1) {
-                            $this->dibujaVistaParcial("pueblo", ["pueblo" => $pueblo]);   
+                            $pueblos[] = $pueblo;  
                         }
                     }
 
@@ -84,7 +83,7 @@ class pueblosControlador extends CControlador
                     foreach ($this->_MisPueblos as $key => $pueblo) {
                         
                         if ($pueblo->reconocido_unesco == 0) {
-                            $this->dibujaVistaParcial("pueblo", ["pueblo" => $pueblo]);   
+                            $pueblos[] = $pueblo;    
                         }
                     }
                 }
@@ -100,7 +99,7 @@ class pueblosControlador extends CControlador
         //         $crupiers[$partida->crupier] = $partida->crupier;
         //     }
         // }
-        $this->dibujaVista("puebloInicial", [], "Pueblo Inicial");
+        $this->dibujaVista("puebloInicial", ["pueblos" => $pueblos], "Pueblo Inicial");
     }
 
     public function accionDescargar()
