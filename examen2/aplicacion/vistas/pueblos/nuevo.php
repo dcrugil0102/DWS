@@ -1,9 +1,9 @@
 <?php
 
-echo CHTML::dibujaEtiqueta("h1", [], "Nuevo pueblo");
+echo CHTML::dibujaEtiqueta("h2", [], "Nuevo pueblo");
 echo CHTML::dibujaEtiquetaCierre("h1");
 
-echo CHTML::iniciarForm();
+echo CHTML::iniciarForm(atributosHTML: ["class" => "form-login"]);
 
 // *** CAMPO NOMBRE ** //
 
@@ -13,44 +13,48 @@ echo CHTML::modeloError($modelo, "nombre");
 
 // *** CAMPO COD_TIPO_ELEMENTO ** //
 
-echo CHTML::modeloLabel($modelo, "estado");
+echo CHTML::modeloLabel($modelo, "cod_tipo_elemento");
 echo CHTML::modeloListaDropDown(
     $modelo,
-    "estado",
-    DatosRegistro::dameEstados(null),
+    "cod_tipo_elemento",
+    Listas::listaTiposElemento(null, false),
     array("linea" => false)
 );
-echo CHTML::modeloError($modelo, "estado");
+echo CHTML::modeloError($modelo, "cod_tipo_elemento");
 
 // *** CAMPO ELEMENTO ** //
 
-echo CHTML::modeloLabel($modelo, "fecha_nacimiento");
+echo CHTML::modeloLabel($modelo, "elemento");
 echo CHTML::modeloText(
     $modelo,
-    "fecha_nacimiento",
-    array("maxlength" => 10,)
+    "elemento",
+    array("maxlenght" => 35)
 );
-echo CHTML::modeloError($modelo, "fecha_nacimiento");
+echo CHTML::modeloError($modelo, "elemento");
 
 // ** CAMPO RECONOCIDO_UNESCO ** //
 
-echo CHTML::modeloLabel($modelo, "provincia");
-echo CHTML::modeloText(
+echo CHTML::dibujaEtiqueta("div");
+echo CHTML::modeloLabel($modelo, "reconocido_unesco");
+echo CHTML::modeloRadioButton(
     $modelo,
-    "provincia",
-    array("maxlength" => 30, "size" => 31)
+    "reconocido_unesco",
+    
 );
-echo CHTML::modeloError($modelo, "provincia");
+echo CHTML::modeloError($modelo, "reconocido_unesco");
+echo CHTML::dibujaEtiquetaCierre("div");
+
+echo CHTML::dibujaEtiqueta("br");
 
 // ** CAMPO FECHA_RECONOCIMIENTO ** //
 
-echo CHTML::modeloLabel($modelo, "nif");
+echo CHTML::modeloLabel($modelo, "fecha_reconocimiento");
 echo CHTML::modeloText(
     $modelo,
-    "nif",
+    "fecha_reconocimiento",
     array("maxlength" => 10, "placeholder" => "12345678A")
 );
-echo CHTML::modeloError($modelo, "nif");
+echo CHTML::modeloError($modelo, "fecha_reconocimiento");
 
 echo CHTML::campoBotonSubmit("Crear");
 

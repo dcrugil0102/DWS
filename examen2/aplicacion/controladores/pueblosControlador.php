@@ -113,7 +113,7 @@ class pueblosControlador extends CControlador
                 Sistema::app()->irAPagina(["pueblos", "puebloInicial"]);
             } else {
                 $this->dibujaVista(
-                    "pueblo",
+                    "nuevo",
                     array("modelo" => $pueblo),
                     "Nuevo pueblo"
                 );
@@ -122,7 +122,7 @@ class pueblosControlador extends CControlador
         }
 
         $this->dibujaVista(
-            "pueblo",
+            "nuevo",
             array("modelo" => $pueblo),
             "Nuevo pueblo"
         );

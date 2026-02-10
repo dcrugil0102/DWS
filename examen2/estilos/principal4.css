@@ -377,6 +377,10 @@
         transition: border-color 0.2s;
     }
 
+    .form-login input[type="radio"] {
+        display: inline-block;
+    }
+
     .form-login input[type="text"]:focus,
     .form-login input[type="email"]:focus,
     .form-login input[type="password"]:focus {
